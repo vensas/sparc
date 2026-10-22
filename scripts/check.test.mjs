@@ -4,7 +4,7 @@ import { cpSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync, appendFile
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { check, lockAdr, longSentences, isSparcProject } from './check.mjs';
+import { check, lockAdr, longSentences, isSparcProject, compareVersions } from './check.mjs';
 
 const TEMPLATE = new URL('../templates/project', import.meta.url).pathname;
 const CHECK = new URL('./check.mjs', import.meta.url).pathname;
@@ -137,4 +137,74 @@ test('hook mode warns without blocking, once for the same findings, and respects
   assert.match(run({ cwd: dir, hook_event_name: 'Stop' }).stdout, /## Goal\W+is missing/);
   assert.equal(run({ cwd: dir, stop_hook_active: true }).stdout, '');
   assert.equal(run({ cwd: tmpdir() }).stdout, '');
+});
+
+const CHANGELOG = (releases) => `# Changelog\n\n## [Unreleased]\n\n${releases}`;
+
+test('changelog: missing file and missing Unreleased section are reported', () => {
+  const dir = project();
+  assert.ok(!messages(dir).some((m) => m.startsWith('CHANGELOG.md')));
+  write(dir, 'CHANGELOG.md', '# Changelog\n\n## [1.0.0] - 2026-10-22\n');
+  assert.ok(has(dir, '"## [Unreleased]" is missing or not the first section'));
+  const empty = mkdtempSync(join(tmpdir(), 'sparc-'));
+  assert.ok(messages(empty).includes('CHANGELOG.md: file is missing'));
+});
+
+test('changelog: release headings, order and types of change are checked', () => {
+  const dir = project();
+  write(dir, 'CHANGELOG.md', CHANGELOG('## [1.0] - 2026-10-22\n\n## [0.2.0] - 2026-10-01\n\n### Improved\n\n## [0.3.0] - 2026-09-01\n\n### Fixed\n'));
+  assert.ok(has(dir, 'release heading "## [1.0] - 2026-10-22" is not'));
+  assert.ok(has(dir, 'release 0.3.0 is not lower than the release 0.2.0 above it'));
+  assert.ok(has(dir, 'type of change "### Improved" is not one of'));
+  assert.ok(!has(dir, '"### Fixed"'));
+});
+
+test('changelog: a valid changelog has no findings', () => {
+  const dir = project();
+  write(dir, 'CHANGELOG.md', CHANGELOG('### Added\n\n- New.\n\n## [1.0.0] - 2026-10-22\n\n### Fixed\n\n- Bug.\n\n## [0.1.0-rc.1] - 2026-10-01 [YANKED]\n'));
+  assert.ok(!messages(dir).some((m) => m.startsWith('CHANGELOG.md')));
+});
+
+test('version: compareVersions orders by major, minor and patch', () => {
+  assert.ok(compareVersions('1.0.0', '0.9.9') > 0);
+  assert.ok(compareVersions('0.10.0', '0.9.0') > 0);
+  assert.equal(compareVersions('1.2.3', '1.2.3-rc.1'), 0);
+});
+
+test('version: manifest version must equal the latest release', () => {
+  const dir = project();
+  mkdirSync(join(dir, '.claude-plugin'));
+  write(dir, '.claude-plugin/plugin.json', '{"name":"x","version":"0.2.0"}');
+  assert.ok(!has(dir, 'is not equal to the latest changelog release'));
+  write(dir, 'CHANGELOG.md', CHANGELOG('## [0.1.0] - 2026-10-22\n'));
+  assert.ok(has(dir, '.claude-plugin/plugin.json: version 0.2.0 is not equal to the latest changelog release 0.1.0'));
+  write(dir, '.claude-plugin/plugin.json', '{"name":"x","version":"0.1.0"}');
+  assert.ok(!has(dir, 'is not equal to the latest changelog release'));
+});
+
+function repo() {
+  const dir = project();
+  const git = (...a) => spawnSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd: dir });
+  git('init', '-q', '-b', 'main');
+  git('add', '.');
+  git('commit', '-qm', 'chore: Initial commit');
+  return { dir, git };
+}
+
+test('git: commits on the work branch need a Conventional Commits header', () => {
+  const { dir, git } = repo();
+  git('switch', '-q', '-c', 'feat/x');
+  git('commit', '-q', '--allow-empty', '-m', 'updated stuff');
+  git('commit', '-q', '--allow-empty', '-m', 'feat(check): Add changelog check');
+  assert.ok(has(dir, '"updated stuff" does not have a Conventional Commits header'));
+  assert.ok(!has(dir, 'Add changelog check'));
+});
+
+test('git: changes on the default branch are reported', () => {
+  const { dir, git } = repo();
+  assert.ok(!has(dir, 'files changed on the default branch'));
+  appendFileSync(join(dir, 'docs/backlog.md'), '\n');
+  assert.ok(has(dir, 'files changed on the default branch "main"'));
+  git('switch', '-q', '-c', 'feat/x');
+  assert.ok(!has(dir, 'files changed on the default branch'));
 });

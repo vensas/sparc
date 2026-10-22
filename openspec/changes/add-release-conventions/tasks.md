@@ -8,7 +8,7 @@
 
 ## 2. Check
 
-- [ ] 2.1 Add changelog, version, commit and branch checks to `scripts/check.mjs` with tests for each scenario. Verify: `node --test 'scripts/*.test.mjs'` passes.
+- [x] 2.1 Add changelog, version, commit and branch checks to `scripts/check.mjs` with tests for each scenario. Verify: `node --test 'scripts/*.test.mjs'` passes.
 
 ## 3. Skills
 
