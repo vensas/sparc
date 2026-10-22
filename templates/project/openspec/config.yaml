@@ -1,0 +1,31 @@
+# sparc: this project uses the sparc harness (https://github.com/vensas/sparc).
+schema: spec-driven
+
+context: |
+  This project uses sparc. Write all English text in ASD-STE100 Simplified Technical English.
+  Write only what you know. Get evidence from files, tests or the user. Do not invent facts.
+  Keep it simple and DRY. Link to the home of a fact. Do not copy it.
+  Documents: README.md, AGENTS.md, docs/backlog.md, docs/architecture/c4.md,
+  docs/architecture/canvas.md, docs/adr/ (MADR), docs/mockups/.
+
+rules:
+  proposal:
+    - Link the proposal to its item in docs/backlog.md. Add the item if it does not exist.
+    - State what is out of scope.
+  design:
+    - List each ADR that this change adds, amends or supersedes, with its path in docs/adr/.
+    - State the C4 impact. Name each actor, external system, container or relation that the change adds, changes or removes. Write "No C4 impact" if there is none.
+    - If the change has a user interface, link the mockups in docs/mockups/<change>/.
+    - Write open questions also in the canvas section "Core Risks and Missing Information".
+  tasks:
+    - Each task names its verification (a test or a command) and the documents that it changes.
+    - Prefer the smallest task set that delivers value (MVP).
+
+operations:
+  apply:
+    guidance:
+      - Write tests that test behavior through a public interface. Run them before you check a task.
+      - After each task, look for refactoring and simplification. Do only small refactors.
+  archive:
+    guidance:
+      - Check the backlog item, accept the ADRs and sync README, C4, canvas and AGENTS.md.
