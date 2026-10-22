@@ -15,7 +15,8 @@ This skill makes planning documents only. Do not change project code.
 
 1. Run `openspec list --json` and `openspec list --specs`. Read `docs/backlog.md`.
 2. Choose a kebab-case change id that names the work (for example `add-csv-export`). If a backlog item matches, use it.
-3. Run `openspec new change <id>`.
+3. Make the branch `<type>/<id>` from the default branch (for example `feat/add-csv-export`). Obey ${CLAUDE_PLUGIN_ROOT}/rules/release.md.
+4. Run `openspec new change <id>`.
 
 ## 2. Requirements: `sparc:product-owner`
 
@@ -33,6 +34,7 @@ Give the agent the change id. Tell it to write `design.md`, the ADRs with the st
 
 1. Run `openspec validate <id>`. If it fails, give the errors to the owner agent of the file and repeat.
 2. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. Fix the findings that this change caused.
+3. Commit the planning documents: `docs(openspec): Propose <id>`.
 
 ## 6. Get approval
 

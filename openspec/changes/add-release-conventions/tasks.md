@@ -12,8 +12,8 @@
 
 ## 3. Skills
 
-- [ ] 3.1 Update `propose`, `apply`, `archive` and `init` for branches, commits, changelog entries and pull requests. Verify: `claude plugin validate .` passes.
-- [ ] 3.2 Add the skill `release`. Verify: `claude plugin validate .` passes and the README lists it.
+- [x] 3.1 Update `propose`, `apply`, `archive` and `init` for branches, commits, changelog entries and pull requests. Verify: `claude plugin validate .` passes.
+- [x] 3.2 Add the skill `release`. Verify: `claude plugin validate .` passes and the README lists it.
 
 ## 4. sparc repository
 
