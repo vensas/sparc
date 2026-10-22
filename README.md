@@ -9,8 +9,9 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 ## Key Features
 
 - Four agents: product owner, architect, UX designer and software engineer (start 1 to n in parallel).
-- Six skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync` and `/sparc:adr`.
-- A document set with one home for each fact: README, AGENTS.md, backlog, C4 diagrams (Mermaid), architecture canvas and ADRs (MADR).
+- Seven skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr` and `/sparc:release`.
+- A document set with one home for each fact: README, AGENTS.md, backlog, changelog, C4 diagrams (Mermaid), architecture canvas and ADRs (MADR).
+- Release conventions: Keep a Changelog, Semantic Versioning, Conventional Commits and a pull request for each change.
 - ADR status rules with a lock. The check finds each change to the body of a decided ADR.
 - A check without an LLM (`scripts/check.mjs`). A Stop hook runs it and warns about document drift.
 - Shared rules for all agents: ASD-STE100 writing, evidence before claims, simplicity, DRY, SOLID and good tests.
@@ -28,6 +29,7 @@ Prerequisites: Claude Code, Node.js 20 or later, git and OpenSpec (`npm install 
 2. Install the plugin: `/plugin install sparc@sparc`.
 3. Open your project and run `/sparc:init <short idea>`.
 4. Start a change: `/sparc:propose <idea>`. Approve it, then run `/sparc:apply <change-id>` and `/sparc:archive <change-id>`.
+5. Merge the pull request. Run `/sparc:release` to make a release.
 
 To work on sparc itself, load the plugin from the folder and run the tests:
 

@@ -17,4 +17,4 @@
 
 ## 4. sparc repository
 
-- [ ] 4.1 Add `CHANGELOG.md` with release 0.1.0 and the Unreleased entries of this change. Update README, AGENTS.md, C4 and backlog. Verify: `node scripts/check.mjs` reports no findings.
+- [x] 4.1 Add `CHANGELOG.md` with release 0.1.0 and the Unreleased entries of this change. Update README, AGENTS.md, C4 and backlog. Verify: `node scripts/check.mjs` reports no findings.

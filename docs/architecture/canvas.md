@@ -16,7 +16,8 @@
 
 *Links to the capabilities in `openspec/specs/`.*
 
-No capabilities are in `openspec/specs/` yet. The functions are the [skills](../../skills/): init, propose, apply, archive, sync and adr.
+- [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and pull request rules.
+- The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr and release.
 
 ## Key Stakeholder 🧑‍🧑‍🧒
 
