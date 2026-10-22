@@ -15,6 +15,6 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [ ] Test the full workflow on a sample project (init, propose, apply, archive)
 - [x] Choose a license (MIT)
 - [ ] Publish to GitHub as vensas/sparc and test the installation from the marketplace
-- [ ] Optional arc42 module (open: which "arc42-agentic" source to use)
+- [ ] Decide if sparc adds [arc42agentic](https://github.com/matthiasnissen/arc42agentic) as an optional module
 - [x] Release conventions: changelog, SemVer, Conventional Commits and pull requests (change: add-release-conventions)
 - [ ] Write the specs of sparc as OpenSpec capabilities
