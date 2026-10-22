@@ -46,6 +46,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0003](../adr/0003-use-mermaid-for-c4-diagrams.md): Use Mermaid for C4 diagrams.
 - [ADR-0004](../adr/0004-lock-decided-adrs-with-a-body-hash.md): Lock decided ADRs with a body hash.
 - [ADR-0005](../adr/0005-hook-warns-and-does-not-block.md): The hook warns and does not block. It warns one time for the same findings (amended).
+- [ADR-0006](../adr/0006-use-keep-a-changelog-semver-and-conventional-commits.md): Use Keep a Changelog, SemVer and Conventional Commits with pull requests.
 
 ## Technologies 🛠️
 

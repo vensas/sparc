@@ -14,6 +14,7 @@ Before you start, read these rules and obey them:
 - ${CLAUDE_PLUGIN_ROOT}/rules/evidence.md
 - ${CLAUDE_PLUGIN_ROOT}/rules/engineering.md
 - ${CLAUDE_PLUGIN_ROOT}/rules/docs.md
+- ${CLAUDE_PLUGIN_ROOT}/rules/release.md
 
 ## How you work
 

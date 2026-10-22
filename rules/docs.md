@@ -11,6 +11,7 @@ A sparc project has these documents. Each fact has one home. Other documents lin
 | Canvas | `docs/architecture/canvas.md` | architect | Architecture Communication Canvas, open risks and missing information |
 | ADRs | `docs/adr/NNNN-*.md` | architect | Decisions, see `adr.md` |
 | Mockups | `docs/mockups/<change>/` | UX designer | Static HTML/CSS mockups |
+| Changelog | `CHANGELOG.md` | product owner | Released and unreleased changes, see `release.md` |
 | Specs | `openspec/specs/` | product owner | Required behavior (OpenSpec) |
 | Changes | `openspec/changes/` | product owner | Proposals, deltas, designs, tasks (OpenSpec) |
 
@@ -53,7 +54,7 @@ A sparc project has these documents. Each fact has one home. Other documents lin
 | Change proposed | Backlog (add or link item), ADRs (`proposed`) |
 | Design adds or removes an actor, external system, container or relation | C4 diagrams, canvas |
 | Task done | Only documents that the task changed |
-| Change archived | Backlog (check item), README key features, ADRs (`accepted`), canvas, AGENTS.md if commands or structure changed |
+| Change archived | Changelog (Unreleased), backlog (check item), README key features, ADRs (`accepted`), canvas, AGENTS.md if commands or structure changed |
 | Setup or commands change | README "Get started", AGENTS.md |
 | New risk or open question | Canvas "Core Risks and Missing Information" |
 
