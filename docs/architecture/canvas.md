@@ -68,7 +68,7 @@ See the [container diagram](c4.md#containers).
 
 - A live test (Claude Code 2.1.308) showed that the agent gets the hook warning and replies one time. The hook warns again only when the findings change.
 - The full workflow (init, propose, apply, archive) was not tested on a sample project.
-- "arc42-agentic": the source is not known. A web search found no project with this name.
+- [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.
 - The STE check finds long sentences only. It does not check the STE dictionary.
 - The OpenSpec schema commands are experimental. sparc does not use them now.
 - It is not tested that a plugin agent can preload skills or that a skill can name a plugin agent in its `agent` field. sparc does not use these features now.
