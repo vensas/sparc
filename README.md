@@ -27,9 +27,20 @@ Prerequisites: Claude Code, Node.js 20 or later, git and OpenSpec (`npm install 
 
 1. Add the marketplace in Claude Code: `/plugin marketplace add vensas/sparc`.
 2. Install the plugin: `/plugin install sparc@sparc`.
-3. Open your project and run `/sparc:init <short idea>`.
-4. Start a change: `/sparc:propose <idea>`. Approve it, then run `/sparc:apply <change-id>` and `/sparc:archive <change-id>`.
-5. Merge the pull request. Run `/sparc:release` to make a release.
+3. Open the folder of your project (new or existing) and run `/sparc:init <project idea>`.
+4. Answer the questions of the product owner: goal, stakeholders and quality requirements.
+5. For each feature or fix, run `/sparc:propose <feature>`. Approve the change.
+6. Run `/sparc:apply <change-id>`, then `/sparc:archive <change-id>`.
+7. Merge the pull request. Run `/sparc:release` to make a release.
+
+Tell the project idea one time, in `/sparc:init`. Tell each feature in `/sparc:propose`:
+
+| You tell | Skill | sparc writes it to |
+|---|---|---|
+| The project idea and its goal | `/sparc:init` | Backlog goal, README introduction, canvas "Value Proposition" |
+| One feature or fix | `/sparc:propose` | OpenSpec change, backlog item |
+
+For an existing code base, `/sparc:init` also documents what the architect finds in the code.
 
 To work on sparc itself, load the plugin from the folder and run the tests:
 
