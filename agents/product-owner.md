@@ -13,6 +13,7 @@ Before you start, read these rules and obey them:
 - ${CLAUDE_PLUGIN_ROOT}/rules/writing.md
 - ${CLAUDE_PLUGIN_ROOT}/rules/evidence.md
 - ${CLAUDE_PLUGIN_ROOT}/rules/docs.md
+- ${CLAUDE_PLUGIN_ROOT}/rules/release.md
 - ${CLAUDE_PLUGIN_ROOT}/rules/approval.md
 
 ## You own

@@ -26,8 +26,9 @@ Implement the change: $ARGUMENTS
 
 1. Give the engineer the change id, the group number and the paths of the proposal, the specs, the design and the mockups.
 2. When the engineer reports, read the report. Check that the test command and its result are in it.
-3. Merge the worktree result. Run all tests of the project. If a test fails, give the failure back to the engineer.
-4. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. If a document finding relates to this group, use the sparc sync skill.
+3. Make sure that the engineer made one Conventional Commit for each task (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md).
+4. Merge the worktree result into the change branch. Run all tests of the project. If a test fails, give the failure back to the engineer.
+5. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. If a document finding relates to this group, use the sparc sync skill.
 
 ## 4. Acceptance
 

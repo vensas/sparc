@@ -16,6 +16,7 @@ Obey ${CLAUDE_PLUGIN_ROOT}/rules/evidence.md and ${CLAUDE_PLUGIN_ROOT}/rules/wri
 1. Run `git rev-parse --show-toplevel`. If this is not a git repository, ask the user if you can run `git init`.
 2. Run `openspec --version`. If OpenSpec is not installed, stop. Tell the user to install it: `npm install -g @fission-ai/openspec`.
 3. Run `node --version`. sparc needs Node.js 20 or later.
+4. If the repository has commits, make the branch `chore/sparc-init` (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md). In a new repository, the first commit can be on the default branch.
 
 ## 2. Install the files
 
@@ -49,4 +50,5 @@ Use the `sparc:architect` agent to write `docs/adr/0001-use-sparc-for-spec-drive
 
 1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`.
 2. Fix each finding. A `TODO(sparc)` placeholder can stay only if the user cannot give the information now. Then write the open point in the canvas.
-3. Report the files that you created and the open points. Tell the user the next step: `/sparc:propose <idea>`.
+3. Commit with the message `chore: Add sparc harness`. If the branch is not the default branch, open a pull request (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md).
+4. Report the files that you created and the open points. Tell the user the next step: `/sparc:propose <idea>`.

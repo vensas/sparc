@@ -22,6 +22,7 @@ const DOCS = {
   backlog: 'docs/backlog.md',
   c4: 'docs/architecture/c4.md',
   canvas: 'docs/architecture/canvas.md',
+  changelog: 'CHANGELOG.md',
   openspec: 'openspec/config.yaml',
 };
 const README_SECTIONS = ['Overview', 'Key Features', 'Architecture', 'Get Started'];
@@ -29,6 +30,11 @@ const CANVAS_SECTIONS = [
   'Value Proposition', 'Core Functions', 'Key Stakeholder', 'Quality Requirements', 'Business Context',
   'Core Decisions', 'Technologies', 'Components / Modules', 'Core Risks and Missing Information',
 ];
+const CHANGE_TYPES = ['Added', 'Changed', 'Deprecated', 'Removed', 'Fixed', 'Security'];
+const SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[\da-zA-Z.-]+)?(?:\+[\da-zA-Z.-]+)?$/;
+const RELEASE = /^\[(.+?)\] - \d{4}-\d{2}-\d{2}( \[YANKED\])?$/;
+const CONVENTIONAL = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([\w./-]+\))?!?: \S/;
+const MANIFESTS = ['package.json', '.claude-plugin/plugin.json'];
 const APPROVER = /^Approved by: *\[@([\w-]+)\]\(https:\/\/github\.com\/\1\)/m;
 const STATUS = /^(proposed|accepted|rejected|deprecated|amended|superseded by ADR-(\d{4}))$/;
 
@@ -167,18 +173,78 @@ function checkSentences(dir, files, add) {
   }
 }
 
-function checkUntouchedDocs(dir, add) {
-  let status;
-  try {
-    status = execFileSync('git', ['status', '--porcelain'], { cwd: dir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-  } catch {
-    return;
+// Returns the latest release version, or null if there is no release.
+function checkChangelog(md, add) {
+  const sections = h2(md);
+  if (sections[0] !== '[Unreleased]') add(DOCS.changelog, 'section "## [Unreleased]" is missing or not the first section');
+  const versions = [];
+  for (const heading of sections.filter((h) => h !== '[Unreleased]')) {
+    const m = RELEASE.exec(heading);
+    if (!m || !SEMVER.test(m[1])) add(DOCS.changelog, `release heading "## ${heading}" is not "## [X.Y.Z] - YYYY-MM-DD"`);
+    else versions.push(m[1]);
   }
+  versions.forEach((v, i) => {
+    if (i && compareVersions(versions[i - 1], v) <= 0) add(DOCS.changelog, `release ${v} is not lower than the release ${versions[i - 1]} above it`);
+  });
+  for (const [, type] of md.matchAll(/^### +(.+?)\s*$/gm)) {
+    if (!CHANGE_TYPES.includes(type)) add(DOCS.changelog, `type of change "### ${type}" is not one of ${CHANGE_TYPES.join(', ')}`);
+  }
+  return versions[0] ?? null;
+}
+
+// Compares the numeric parts only. Pre-release versions sort as their release.
+export function compareVersions(a, b) {
+  const [x, y] = [a, b].map((v) => v.split(/[-+]/)[0].split('.').map(Number));
+  return x[0] - y[0] || x[1] - y[1] || x[2] - y[2];
+}
+
+function checkManifestVersion(dir, latest, add) {
+  if (!latest) return;
+  for (const rel of MANIFESTS) {
+    let version;
+    try {
+      ({ version } = JSON.parse(read(dir, rel) ?? '{}'));
+    } catch {
+      add(rel, 'is not valid JSON');
+      continue;
+    }
+    if (version && version !== latest) add(rel, `version ${version} is not equal to the latest changelog release ${latest}`);
+  }
+}
+
+const git = (dir, ...args) => {
+  try {
+    return execFileSync('git', args, { cwd: dir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trimEnd();
+  } catch {
+    return null;
+  }
+};
+
+function defaultBranch(dir) {
+  const remote = git(dir, 'symbolic-ref', '--quiet', 'refs/remotes/origin/HEAD');
+  if (remote) return { ref: remote.replace('refs/remotes/', ''), name: remote.replace('refs/remotes/origin/', '') };
+  const local = ['main', 'master'].find((b) => git(dir, 'rev-parse', '--verify', '--quiet', `refs/heads/${b}`) !== null);
+  return local ? { ref: local, name: local } : null;
+}
+
+function checkGit(dir, add) {
+  const status = git(dir, 'status', '--porcelain');
+  if (status === null) return;
   const paths = status.split('\n').filter(Boolean).map((l) => l.slice(3).split(' -> ').pop());
   const isDoc = (p) => Object.values(DOCS).includes(p) || p.startsWith('docs/') || p.startsWith('openspec/');
   const code = paths.filter((p) => !isDoc(p));
   if (code.length && !paths.some(isDoc)) {
     add('(git)', `${code.length} file(s) changed but no document changed: run /sparc:sync or confirm there is no document impact`);
+  }
+  const base = defaultBranch(dir);
+  if (!base) return;
+  if (git(dir, 'branch', '--show-current') === base.name) {
+    if (paths.length) add('(git)', `files changed on the default branch "${base.name}": work on a branch and merge through a pull request`);
+    return;
+  }
+  const log = git(dir, 'log', '--format=%h%x09%s', `${base.ref}..HEAD`) ?? '';
+  for (const [hash, subject] of log.split('\n').filter(Boolean).map((l) => l.split('\t'))) {
+    if (!CONVENTIONAL.test(subject)) add('(git)', `commit ${hash} "${subject}" does not have a Conventional Commits header`);
   }
 }
 
@@ -191,11 +257,12 @@ export function check(dir) {
   if (md('c4')) checkC4(md('c4'), add);
   if (md('canvas')) checkCanvas(md('canvas'), add);
   if (md('backlog')) checkBacklog(dir, md('backlog'), add);
+  if (md('changelog')) checkManifestVersion(dir, checkChangelog(md('changelog'), add), add);
   const adrs = checkAdrs(dir, add);
-  const prose = [DOCS.readme, DOCS.agents, DOCS.backlog, DOCS.c4, DOCS.canvas, ...adrs];
+  const prose = [DOCS.readme, DOCS.agents, DOCS.backlog, DOCS.c4, DOCS.canvas, DOCS.changelog, ...adrs];
   checkPlaceholders(dir, prose, add);
   checkSentences(dir, prose.filter((f) => f !== DOCS.c4), add);
-  checkUntouchedDocs(dir, add);
+  checkGit(dir, add);
   return findings;
 }
 
@@ -236,4 +303,4 @@ function main(args) {
   process.exitCode = findings.length ? 1 : 0;
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) main(process.argv.slice(2));
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main(process.argv.slice(2));
