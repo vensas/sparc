@@ -5,6 +5,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Added
+
+- The agent `sparc:qa-engineer` proves the spec scenarios of a change with integration and end-to-end tests, automation first ([add-qa-engineer](openspec/changes/archive/2026-10-23-add-qa-engineer/proposal.md)).
+- The file `qa.md` in each change holds the result of each scenario and the manual checks.
+
+### Changed
+
+- `/sparc:apply` runs the QA engineer after the task groups. The product owner accepts from `qa.md` and does only the manual checks.
+- `/sparc:propose` names the integration or end-to-end test tool of the project, or proposes an ADR for it.
+- `/sparc:archive` runs the test commands in `AGENTS.md`.
+
 ## [0.2.0] - 2026-10-22
 
 ### Added

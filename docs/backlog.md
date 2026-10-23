@@ -18,3 +18,4 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [ ] Decide if sparc adds [arc42agentic](https://github.com/matthiasnissen/arc42agentic) as an optional module
 - [x] Release conventions: changelog, SemVer, Conventional Commits and pull requests (change: add-release-conventions)
 - [ ] Write the specs of sparc as OpenSpec capabilities
+- [x] QA engineer for integration and end-to-end tests, automation first (change: add-qa-engineer)

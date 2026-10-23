@@ -16,7 +16,7 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | Path | Content |
 |---|---|
 | `.claude-plugin/` | Plugin manifest and marketplace manifest |
-| `agents/` | Agent definitions: product owner, architect, UX designer, software engineer |
+| `agents/` | Agent definitions: product owner, architect, UX designer, software engineer, QA engineer |
 | `skills/` | Skills: init, propose, apply, archive, sync, adr, release |
 | `rules/` | Shared rules. Agents and skills link to them. Do not copy rule text. |
 | `templates/project/` | Files that `/sparc:init` copies into a project |

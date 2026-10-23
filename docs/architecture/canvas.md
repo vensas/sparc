@@ -17,6 +17,7 @@
 *Links to the capabilities in `openspec/specs/`.*
 
 - [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and pull request rules.
+- [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer, automation first, scenario report and acceptance from the QA report.
 - The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr and release.
 
 ## Key Stakeholder 🧑‍🧑‍🧒
@@ -48,6 +49,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0004](../adr/0004-lock-decided-adrs-with-a-body-hash.md): Lock decided ADRs with a body hash.
 - [ADR-0005](../adr/0005-hook-warns-and-does-not-block.md): The hook warns and does not block. It warns one time for the same findings (amended).
 - [ADR-0006](../adr/0006-use-keep-a-changelog-semver-and-conventional-commits.md): Use Keep a Changelog, SemVer and Conventional Commits with pull requests.
+- [ADR-0007](../adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md): Prove spec scenarios with a QA engineer after implementation.
 
 ## Technologies 🛠️
 
@@ -67,7 +69,8 @@ See the [container diagram](c4.md#containers).
 *Risks, open questions and missing information. What stops the team from faster delivery of value?*
 
 - A live test (Claude Code 2.1.308) showed that the agent gets the hook warning and replies one time. The hook warns again only when the findings change.
-- The full workflow (init, propose, apply, archive) was not tested on a sample project.
+- Propose, apply and archive were tested with the sparc agents on sparc itself (change add-qa-engineer). `/sparc:init` was not tested on a sample project.
+- In auto mode, the Write tool failed for the main session and for each subagent (no verdict from the classifier). Edit and Bash worked.
 - [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.
 - The STE check finds long sentences only. It does not check the STE dictionary.
 - The OpenSpec schema commands are experimental. sparc does not use them now.

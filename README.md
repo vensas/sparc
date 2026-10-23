@@ -8,7 +8,8 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 
 ## Key Features
 
-- Four agents: product owner, architect, UX designer and software engineer (start 1 to n in parallel).
+- Five agents: product owner, architect, UX designer, software engineer (start 1 to n in parallel) and QA engineer.
+- Automation first: the QA engineer proves each spec scenario with an integration or end-to-end test. The product owner accepts from its report.
 - Seven skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr` and `/sparc:release`.
 - A document set with one home for each fact: README, AGENTS.md, backlog, changelog, C4 diagrams (Mermaid), architecture canvas and ADRs (MADR).
 - Release conventions: Keep a Changelog, Semantic Versioning, Conventional Commits and a pull request for each change.
