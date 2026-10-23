@@ -4,7 +4,7 @@ import { cpSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync, appendFile
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { check, lockAdr, longSentences, isSparcProject, compareVersions } from './check.mjs';
+import { check, longSentences, isSparcProject, compareVersions } from './check.mjs';
 
 const TEMPLATE = new URL('../templates/project', import.meta.url).pathname;
 const CHECK = new URL('./check.mjs', import.meta.url).pathname;
@@ -63,44 +63,116 @@ test('backlog without goal is reported', () => {
   assert.ok(has(dir, '"## Goal" is missing or empty'));
 });
 
-test('ADR status must be valid and decided ADRs must be locked', () => {
+function adrRepo() {
   const dir = project();
-  write(dir, 'docs/adr/0001-a.md', ADR('ammended'));
-  write(dir, 'docs/adr/0002-b.md', ADR('accepted'));
-  write(dir, 'docs/adr/0003-c.md', ADR('proposed'));
-  assert.ok(has(dir, '0001-a.md: status "ammended" is not valid'));
-  assert.ok(has(dir, '0002-b.md: status is "accepted" but the ADR is not locked'));
-  assert.ok(!messages(dir).some((m) => m.includes('0003-c.md')));
+  const git = (...a) => spawnSync('git', ['-c', 'user.name=t', '-c', 'user.email=t@t', ...a], { cwd: dir, encoding: 'utf8' });
+  git('init', '-q', '-b', 'main');
+  const commit = (rel, text) => { write(dir, rel, text); git('add', '.'); git('commit', '-qm', 'docs: Update ADR'); };
+  return { dir, commit };
+}
+const AMEND = (body) => `\n## Amendments\n${body}`;
+const ENTRY = '\n### 2026-10-23: Add Y\n\nApproved by: [@octocat](https://github.com/octocat), chat\n\nY is also used.\n';
+
+test('Valid ADR status: Status is not valid / Status is valid', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('approved'));
+  commit('docs/adr/0002-b.md', ADR('accepted'));
+  assert.ok(has(dir, '0001-a.md: status "approved" is not valid'));
+  assert.ok(!messages(dir).some((m) => m.includes('0002-b.md')));
 });
 
-test('a locked ADR reports body changes but permits status changes and amendments', () => {
-  const dir = project();
-  const file = join(dir, 'docs/adr/0001-a.md');
-  writeFileSync(file, ADR('accepted', '\n## Amendments\n'));
-  lockAdr(file);
-  assert.ok(!messages(dir).some((m) => m.includes('0001-a.md')));
-
-  writeFileSync(file, readFileSync(file, 'utf8').replace('status: accepted', 'status: amended'));
-  assert.ok(has(dir, 'status is "amended" but "## Amendments" has no entry'));
-
-  appendFileSync(file, '\n### 2026-10-22: Add Y\n\nY is also used.\n');
-  assert.ok(has(dir, 'an amendment has no "Approved by: [@handle]'));
-
-  writeFileSync(file, readFileSync(file, 'utf8').replace('Y is also used.', 'Approved by: Someone, chat\n\nY is also used.'));
-  assert.ok(has(dir, 'an amendment has no "Approved by: [@handle]'));
-
-  writeFileSync(file, readFileSync(file, 'utf8').replace('Someone', '[@octocat](https://github.com/octocat)'));
-  assert.ok(!messages(dir).some((m) => m.includes('0001-a.md')));
-
-  writeFileSync(file, readFileSync(file, 'utf8').replace('We use X.', 'We use Z.'));
-  assert.ok(has(dir, 'body changed after the lock'));
+test('ADR date format: Date has a different format', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('accepted').replace('2026-10-22', '22.10.2026'));
+  assert.ok(has(dir, '0001-a.md: date is missing or not YYYY-MM-DD'));
 });
 
-test('superseded ADR must point to an existing other ADR', () => {
-  const dir = project();
-  write(dir, 'docs/adr/0001-a.md', ADR('superseded by ADR-0009'));
-  lockAdr(join(dir, 'docs/adr/0001-a.md'));
+test('Unique ADR numbers: Two ADRs have the same number', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0002-a.md', ADR('proposed'));
+  commit('docs/adr/0002-b.md', ADR('proposed'));
+  assert.ok(has(dir, 'two or more ADRs have the same number'));
+});
+
+test('Supersede target exists: Superseding ADR does not exist', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0002-a.md', ADR('superseded by ADR-0009'));
   assert.ok(has(dir, 'superseding ADR-0009 does not exist'));
+});
+
+test('MADR front matter only: Leftover lock field / Check leaves ADR files unchanged', () => {
+  const { dir, commit } = adrRepo();
+  const text = ADR('accepted').replace('date:', 'locked: 0f318fa664638002\ndate:');
+  commit('docs/adr/0001-a.md', text);
+  assert.ok(has(dir, '0001-a.md: front matter field "locked" is not a MADR field'));
+  assert.equal(readFileSync(join(dir, 'docs/adr/0001-a.md'), 'utf8'), text);
+});
+
+test('Amendments with an approver: Amended ADR has no entry / Entry has no approver', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('amended', AMEND('')));
+  commit('docs/adr/0002-b.md', ADR('amended', AMEND('\n### 2026-10-23: Add Y\n\nApproved by: Someone, chat\n')));
+  assert.ok(has(dir, '0001-a.md: status is "amended" but "## Amendments" has no entry'));
+  assert.ok(has(dir, '0002-b.md: an amendment has no "Approved by: [@handle]'));
+});
+
+test('Decided ADR is protected through git history: Body changed after the decision', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('accepted'));
+  write(dir, 'docs/adr/0001-a.md', ADR('accepted').replace('We use X.', 'We use Z.'));
+  assert.ok(has(dir, '0001-a.md: changed after the decision'));
+  commit('docs/adr/0001-a.md', ADR('accepted').replace('We use X.', 'We use Z.'));
+  assert.ok(has(dir, '0001-a.md: changed after the decision'), 'a committed change is also reported');
+});
+
+test('Decided ADR is protected through git history: Decision maker changed after the decision', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('accepted').replace('date:', 'decision-makers: [a]\ndate:'));
+  write(dir, 'docs/adr/0001-a.md', ADR('accepted').replace('date:', 'decision-makers: [b]\ndate:'));
+  assert.ok(has(dir, '0001-a.md: changed after the decision'));
+});
+
+test('Decided ADR is protected through git history: Status and date change', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('accepted'));
+  commit('docs/adr/0002-b.md', ADR('proposed'));
+  write(dir, 'docs/adr/0001-a.md', ADR('superseded by ADR-0002').replace('2026-10-22', '2026-10-23'));
+  assert.ok(!messages(dir).some((m) => m.includes('0001-a.md')));
+});
+
+test('Decided ADR is protected through git history: Changes while the ADR was proposed', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('proposed'));
+  commit('docs/adr/0001-a.md', ADR('proposed').replace('We use X.', 'We use Z.'));
+  commit('docs/adr/0001-a.md', ADR('accepted').replace('We use X.', 'We use Z.'));
+  assert.ok(!messages(dir).some((m) => m.includes('0001-a.md')));
+});
+
+test('Decided ADR is protected through git history: Decided ADR is not committed yet', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('proposed'));
+  write(dir, 'docs/adr/0001-a.md', ADR('accepted').replace('We use X.', 'We use Z.'));
+  assert.ok(!messages(dir).some((m) => m.includes('0001-a.md')));
+});
+
+test('Decided ADR is protected through git history: Project is not a git repository', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0001-a.md', ADR('accepted'));
+  write(dir, 'docs/adr/0002-b.md', ADR('accepted'));
+  assert.equal(messages(dir).filter((m) => m.includes('cannot protect decided ADRs')).length, 1);
+  write(dir, 'docs/adr/0002-b.md', ADR('proposed'));
+  write(dir, 'docs/adr/0001-a.md', ADR('proposed'));
+  assert.ok(!has(dir, 'cannot protect decided ADRs'));
+});
+
+test('Existing amendments are protected: New amendment entry / Committed amendment entry changed', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('accepted', AMEND('')));
+  commit('docs/adr/0001-a.md', ADR('amended', AMEND(ENTRY)));
+  write(dir, 'docs/adr/0001-a.md', ADR('amended', AMEND(ENTRY + ENTRY.replace('Add Y', 'Add W'))));
+  assert.ok(!messages(dir).some((m) => m.includes('0001-a.md')));
+  write(dir, 'docs/adr/0001-a.md', ADR('amended', AMEND(ENTRY.replace('Y is also used.', 'Y is used.'))));
+  assert.ok(has(dir, '0001-a.md: an existing amendment changed'));
 });
 
 test('long sentences are found outside code blocks and tables', () => {

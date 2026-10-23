@@ -45,4 +45,4 @@ Before you start, read these rules and obey them:
 ## Do not
 
 - Do not add a layer, a pattern or a dependency without a real need in a spec.
-- Do not change the body of a locked ADR.
+- Do not change a decided ADR. Amend it or supersede it.

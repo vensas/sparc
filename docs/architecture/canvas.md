@@ -17,6 +17,7 @@
 *Links to the capabilities in `openspec/specs/`.*
 
 - [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and pull request rules.
+- [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments and protection of decided ADRs through git history.
 - [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer, automation first, scenario report and acceptance from the QA report.
 - The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr and release.
 
@@ -46,10 +47,11 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0001](../adr/0001-extend-openspec-through-config-not-a-forked-schema.md): Extend OpenSpec through `config.yaml`, not through a forked schema.
 - [ADR-0002](../adr/0002-package-sparc-as-a-claude-code-plugin.md): Package sparc as a Claude Code plugin with its own marketplace.
 - [ADR-0003](../adr/0003-use-mermaid-for-c4-diagrams.md): Use Mermaid for C4 diagrams.
-- [ADR-0004](../adr/0004-lock-decided-adrs-with-a-body-hash.md): Lock decided ADRs with a body hash.
+- [ADR-0004](../adr/0004-lock-decided-adrs-with-a-body-hash.md): Lock decided ADRs with a body hash (superseded by ADR-0008).
 - [ADR-0005](../adr/0005-hook-warns-and-does-not-block.md): The hook warns and does not block. It warns one time for the same findings (amended).
 - [ADR-0006](../adr/0006-use-keep-a-changelog-semver-and-conventional-commits.md): Use Keep a Changelog, SemVer and Conventional Commits with pull requests.
 - [ADR-0007](../adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md): Prove spec scenarios with a QA engineer after implementation.
+- [ADR-0008](../adr/0008-protect-decided-adrs-through-git-history.md): Protect decided ADRs through git history.
 
 ## Technologies 🛠️
 

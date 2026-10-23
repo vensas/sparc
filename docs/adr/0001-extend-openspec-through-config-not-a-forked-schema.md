@@ -4,7 +4,6 @@ date: 2026-10-22
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
-locked: c25bcfa35abb6b14
 ---
 
 # Extend OpenSpec through config, not a forked schema

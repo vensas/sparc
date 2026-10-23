@@ -1,10 +1,9 @@
 ---
-status: accepted
+status: superseded by ADR-0008
 date: 2026-10-22
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
-locked: 91ce002afdb7babf
 ---
 
 # Lock decided ADRs with a body hash

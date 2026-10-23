@@ -20,5 +20,5 @@ The document set, the owners and the triggers are in ${CLAUDE_PLUGIN_ROOT}/rules
 Rules:
 
 - Do not copy a fact into a second document. Link to its home.
-- Do not change the body of a locked ADR. Use the sparc adr skill.
+- Do not change a decided ADR. Use the sparc adr skill.
 - If the drift comes from work that is not complete, do not change the documents. Report it.

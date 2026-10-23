@@ -52,4 +52,4 @@ Links and notes.
 
 ## Amendments
 
-<!-- Add approved additions here after the ADR is locked. See the sparc ADR rule. -->
+<!-- Add approved additions here after the decision. See the sparc ADR rule. -->

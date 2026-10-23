@@ -4,7 +4,6 @@ date: 2026-10-22
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
-locked: cb01505ea55169f5
 ---
 
 # Package sparc as a Claude Code plugin

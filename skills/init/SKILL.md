@@ -44,7 +44,7 @@ Then use the `sparc:product-owner` agent. Give it the idea from the user. Tell i
 
 ## 4. Record the first decision
 
-Use the `sparc:architect` agent to write `docs/adr/0001-use-sparc-for-spec-driven-development.md` with the status `proposed`. Ask the user for approval (see ${CLAUDE_PLUGIN_ROOT}/rules/approval.md). After approval, set the status to `accepted` and run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs --lock <file>`.
+Use the `sparc:architect` agent to write `docs/adr/0001-use-sparc-for-spec-driven-development.md` with the status `proposed`. Ask the user for approval (see ${CLAUDE_PLUGIN_ROOT}/rules/approval.md). After approval, set the status to `accepted` and commit the ADR.
 
 ## 5. Check
 

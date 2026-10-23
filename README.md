@@ -13,7 +13,7 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 - Seven skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr` and `/sparc:release`.
 - A document set with one home for each fact: README, AGENTS.md, backlog, changelog, C4 diagrams (Mermaid), architecture canvas and ADRs (MADR).
 - Release conventions: Keep a Changelog, Semantic Versioning, Conventional Commits and a pull request for each change.
-- ADR status rules with a lock. The check finds each change to the body of a decided ADR.
+- ADR status rules. The check uses git history to find each change to a decided ADR.
 - A check without an LLM (`scripts/check.mjs`). A Stop hook runs it and warns about document drift.
 - Shared rules for all agents: ASD-STE100 writing, evidence before claims, simplicity, DRY, SOLID and good tests.
 

@@ -14,7 +14,7 @@ Archive the change: $ARGUMENTS
 3. Run `openspec archive <id> --yes`. Read the output. Make sure that the main specs changed as the deltas say.
 4. In `docs/backlog.md`, check the item `(change: <id>)`.
 5. Use the `sparc:product-owner` agent to add the entries of the change to `## [Unreleased]` in `CHANGELOG.md` (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md).
-6. For each ADR of the change with the status `proposed`: if the user approved it, set `accepted` and run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs --lock <file>`. If the user rejected it, set `rejected` and lock it too.
+6. For each ADR of the change with the status `proposed`: if the user approved it, set `accepted`. If the user rejected it, set `rejected`. The archive commit protects the decision.
 7. Use the sparc sync skill for README key features, the canvas, the C4 diagrams and AGENTS.md.
 8. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. A finding can stay only with a reason that you tell the user.
 9. Commit: `docs(openspec): Archive <id>`.
