@@ -4,7 +4,6 @@ date: 2026-10-22
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
-locked: 9694df37b076577c
 ---
 
 # The hook warns and does not block

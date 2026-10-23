@@ -4,7 +4,6 @@ date: 2026-10-23
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
-locked: 5c8ca8290fdcb73c
 ---
 
 # Prove spec scenarios with a QA engineer after implementation

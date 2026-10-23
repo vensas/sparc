@@ -20,7 +20,7 @@ ADR-0004 protects a decided ADR with a body hash in the front matter field `lock
 
 ## Decision Outcome
 
-Chosen option: "Compare with the first committed version that has a decided status", because git already holds the data and the ADR files stay in the MADR format. The user chose this option.
+Chosen option: "Compare with the first committed version that has a decided status", because git already holds the data. The ADR files stay in the MADR format. The user chose this option.
 
 ### Consequences
 

@@ -4,7 +4,6 @@ date: 2026-10-22
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
-locked: ea45a4788c9064d7
 ---
 
 # Use Keep a Changelog, SemVer and Conventional Commits with pull requests

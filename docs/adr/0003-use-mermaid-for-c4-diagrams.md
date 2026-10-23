@@ -4,7 +4,6 @@ date: 2026-10-22
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
-locked: 0f318fa664638002
 ---
 
 # Use Mermaid for C4 diagrams
