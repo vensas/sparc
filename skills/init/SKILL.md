@@ -23,8 +23,10 @@ Obey ${CLAUDE_PLUGIN_ROOT}/rules/evidence.md and ${CLAUDE_PLUGIN_ROOT}/rules/wri
 1. If `openspec/` does not exist, run `openspec init --tools none --no-animation .`.
 2. Copy each file from `${CLAUDE_PLUGIN_ROOT}/templates/project/` into the project. Keep the relative paths.
 3. Do not overwrite a file that exists. For each existing file, show the user the difference and ask: keep, replace or merge.
-4. For `openspec/config.yaml`: if it exists, merge the sparc `context`, `rules` and `operations` into it. Keep the `# sparc` marker line at the top. The hook uses this line to find sparc projects.
-5. Do not create `CLAUDE.md`. Claude Code reads `AGENTS.md`. If the project has a `CLAUDE.md`, ask the user if you can move its text into `AGENTS.md` and delete it. Keep each instruction in one file.
+4. For `openspec/config.yaml`: if it exists, merge the sparc `context`, `rules` and `operations` into it, between the `# sparc:begin` and `# sparc:end` markers. Keep the `# sparc` marker line at the top. The hook uses this line to find sparc projects.
+5. Set `version` under `sparc:` in `openspec/config.yaml` to the installed sparc version (the `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`).
+6. Keep the `sparc:begin` and `sparc:end` markers in `AGENTS.md` and `openspec/config.yaml`. Tell the user that project rules go outside the markers, because `/sparc:update` replaces the text between them.
+7. Do not create `CLAUDE.md`. Claude Code reads `AGENTS.md`. If the project has a `CLAUDE.md`, ask the user if you can move its text into `AGENTS.md` and delete it. Keep each instruction in one file.
 
 ## 3. Fill the documents from evidence
 
