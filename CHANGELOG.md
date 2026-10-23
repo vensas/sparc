@@ -8,6 +8,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 ### Added
 
 - A logo in the README for the light and dark theme, and a plugin icon ([add-sparc-logo](openspec/changes/archive/2026-10-23-add-sparc-logo/proposal.md)).
+- Workflow `trunk`: a project can commit each change on the default branch, without a branch or a pull request. `/sparc:init` asks if you work alone or in a team and writes `sparc.workflow` ([trunk-based-workflow](openspec/changes/archive/2026-10-23-trunk-based-workflow/proposal.md)).
+- In the workflow `trunk`, the check tests the Conventional Commits headers since the last release tag.
 
 ### Changed
 

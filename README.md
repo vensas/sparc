@@ -14,7 +14,7 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 - Eight skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr`, `/sparc:release` and `/sparc:update`.
 - Update path: a project records its sparc version. `/sparc:update` applies the migration steps of the changelog and replaces only the marked sparc text.
 - A document set with one home for each fact: README, AGENTS.md, backlog, changelog, C4 diagrams (Mermaid), architecture canvas and ADRs (MADR).
-- Release conventions: Keep a Changelog, Semantic Versioning, Conventional Commits and a pull request for each change.
+- Release conventions: Keep a Changelog, Semantic Versioning and Conventional Commits. Each project chooses its workflow: trunk-based on the default branch, or a pull request for each change.
 - ADR status rules. The check uses git history to find each change to a decided ADR.
 - A check without an LLM (`scripts/check.mjs`). A Stop hook runs it and warns about document drift.
 - Shared rules for all roles: ASD-STE100 writing, evidence before claims, simplicity, DRY, SOLID and good tests.
@@ -34,7 +34,7 @@ Prerequisites: Claude Code, Node.js 20 or later, git and OpenSpec (`npm install 
 4. Answer the questions of the product owner: goal, stakeholders and quality requirements.
 5. For each feature or fix, run `/sparc:propose <feature>`. Read the summary.
 6. Run `/sparc:apply <change-id>`. This approves the change. Then run `/sparc:archive <change-id>`.
-7. Merge the pull request. With pull requests, the review or the merge is the approval. Run `/sparc:release` to make a release.
+7. In the workflow `pull-request`, merge the pull request. The review or the merge is the approval. In the workflow `trunk`, the archive commit is on the default branch. Run `/sparc:release` to make a release.
 
 To update a project that already uses sparc, run `/plugin update sparc@sparc`, then `/sparc:update` in the project.
 

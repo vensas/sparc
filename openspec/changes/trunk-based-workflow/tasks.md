@@ -10,4 +10,4 @@
 
 ## 3. sparc itself and documents
 
-- [ ] 3.1 Set `workflow: trunk` in `openspec/config.yaml` of sparc and change the branch rule in `AGENTS.md`. Update README and CHANGELOG. Add ADR-0012 to the canvas. Verify: `node scripts/check.mjs` passes on `main`. Documents: AGENTS.md, README.md, CHANGELOG.md, canvas.md.
+- [x] 3.1 Set `workflow: trunk` in `openspec/config.yaml` of sparc and change the branch rule in `AGENTS.md`. Update README and CHANGELOG. Add ADR-0012 to the canvas. Verify: `node scripts/check.mjs` passes on `main`. Documents: AGENTS.md, README.md, CHANGELOG.md, canvas.md.

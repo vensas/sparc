@@ -58,6 +58,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0009](../adr/0009-use-roles-as-rules-instead-of-subagents.md): Use roles as rules instead of subagents.
 - [ADR-0010](../adr/0010-record-the-sparc-version-and-mark-sparc-text-in-projects.md): Record the sparc version and mark sparc text in projects.
 - [ADR-0011](../adr/0011-use-apply-and-pull-requests-as-approval.md): Use apply and pull requests as approval.
+- [ADR-0012](../adr/0012-use-a-trunk-or-pull-request-workflow.md): Use a trunk or pull request workflow (proposed).
 
 ## Technologies 🛠️
 

@@ -1,6 +1,9 @@
 # sparc: this project uses the sparc harness (https://github.com/vensas/sparc).
 schema: spec-driven
 
+sparc:
+  workflow: trunk
+
 context: |
   This project uses sparc. Write all English text in ASD-STE100 Simplified Technical English.
   Write only what you know. Get evidence from files, tests or the user. Do not invent facts.

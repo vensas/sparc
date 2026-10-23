@@ -36,4 +36,4 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 - After each step, keep the documents in sync. Use `/sparc:sync`.
 - Do not change the body of an accepted ADR. Amend it or supersede it.
 - `scripts/check.mjs` has no dependencies. Keep it like that.
-- Work on a branch. Use Conventional Commits. Merge through a pull request. Keep `CHANGELOG.md` and the version in `.claude-plugin/plugin.json` equal.
+- Commit on `main` (workflow `trunk`, see `openspec/config.yaml`). Use Conventional Commits. Keep `CHANGELOG.md` and the version in `.claude-plugin/plugin.json` equal.
