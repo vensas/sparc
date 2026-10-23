@@ -27,9 +27,9 @@ Read ${CLAUDE_PLUGIN_ROOT}/rules/release.md and ${CLAUDE_PLUGIN_ROOT}/rules/appr
 
 ## 3. Write the release
 
-1. Make the branch `chore/release-<version>`.
+1. In the workflow `pull-request` only, make the branch `chore/release-<version>`.
 2. In `CHANGELOG.md`, rename `## [Unreleased]` to `## [<version>] - <today>`. Add a new empty `## [Unreleased]` above it.
 3. Set the same version in the manifest (`package.json` or `.claude-plugin/plugin.json`) and in each other version file of the project.
 4. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. It must report no finding.
 5. Commit: `chore(release): <version>`.
-6. Open a pull request as the release rule tells you. After the merge, tag the merge commit: `git tag v<version>` and `git push origin v<version>`. Ask the user before you push the tag.
+6. Complete the release as the workflow in the release rule tells. In the workflow `trunk`, tag the release commit. In the workflow `pull-request`, open a pull request and tag the merge commit after the merge. Use `git tag v<version>`. Ask the user before you push the tag.

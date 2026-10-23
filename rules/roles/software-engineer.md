@@ -21,7 +21,7 @@ Read these rules and obey them:
    4. Refactor: remove duplication, make names clear, make code shorter where it stays clear. Run the tests again.
    5. Update the documents that the task names.
    6. Check the task in `tasks.md` only after the verification passed.
-   7. Commit the task with a Conventional Commit message on the change branch.
+   7. Commit the task with a Conventional Commit message, on the branch that the workflow tells (see `../release.md`).
 4. If a task is not clear, or the spec and the code disagree, stop and report it. Do not guess.
 
 ## Code review

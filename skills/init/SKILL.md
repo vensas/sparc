@@ -16,7 +16,8 @@ Obey ${CLAUDE_PLUGIN_ROOT}/rules/evidence.md and ${CLAUDE_PLUGIN_ROOT}/rules/wri
 1. Run `git rev-parse --show-toplevel`. If this is not a git repository, ask the user if you can run `git init`.
 2. Run `openspec --version`. If OpenSpec is not installed, stop. Tell the user to install it: `npm install -g @fission-ai/openspec`.
 3. Run `node --version`. sparc needs Node.js 20 or later.
-4. If the repository has commits, make the branch `chore/sparc-init` (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md). In a new repository, the first commit can be on the default branch.
+4. Ask the user: "Do you work alone or in a team?" Suggest the workflow `trunk` for a solo user and `pull-request` for a team (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md). Use the answer in step 2.
+5. In the workflow `pull-request`, if the repository has commits, make the branch `chore/sparc-init`. In a new repository, the first commit can be on the default branch.
 
 ## 2. Install the files
 
@@ -24,7 +25,7 @@ Obey ${CLAUDE_PLUGIN_ROOT}/rules/evidence.md and ${CLAUDE_PLUGIN_ROOT}/rules/wri
 2. Copy each file from `${CLAUDE_PLUGIN_ROOT}/templates/project/` into the project. Keep the relative paths.
 3. Do not overwrite a file that exists. For each existing file, show the user the difference and ask: keep, replace or merge.
 4. For `openspec/config.yaml`: if it exists, merge the sparc `context`, `rules` and `operations` into it, between the `# sparc:begin` and `# sparc:end` markers. Keep the `# sparc` marker line at the top. The hook uses this line to find sparc projects.
-5. Set `version` under `sparc:` in `openspec/config.yaml` to the installed sparc version (the `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`).
+5. Set `workflow` under `sparc:` in `openspec/config.yaml` to the workflow from step 1. Set `version` under `sparc:` to the installed sparc version (the `version` in `${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json`).
 6. Keep the `sparc:begin` and `sparc:end` markers in `AGENTS.md` and `openspec/config.yaml`. Tell the user that project rules go outside the markers, because `/sparc:update` replaces the text between them.
 7. Do not create `CLAUDE.md`. Claude Code reads `AGENTS.md`. If the project has a `CLAUDE.md`, ask the user if you can move its text into `AGENTS.md` and delete it. Keep each instruction in one file.
 
@@ -52,5 +53,5 @@ As the architect role, write `docs/adr/0001-use-sparc-for-spec-driven-developmen
 
 1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`.
 2. Fix each finding. A `TODO(sparc)` placeholder can stay only if the user cannot give the information now. Then write the open point in the canvas.
-3. Commit with the message `chore: Add sparc harness`. If the branch is not the default branch, open a pull request (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md).
+3. Commit with the message `chore: Add sparc harness`. Complete the commit as the workflow in ${CLAUDE_PLUGIN_ROOT}/rules/release.md tells.
 4. Report the files that you created and the open points. Tell the user the next step: `/sparc:propose <idea>`.

@@ -3,6 +3,7 @@ schema: spec-driven
 
 sparc:
   version: 0.0.0
+  workflow: pull-request
 
 # sparc:begin
 context: |

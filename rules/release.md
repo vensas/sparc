@@ -1,4 +1,4 @@
-# Rule: Versions, changelog, commits and pull requests
+# Rule: Versions, changelog, commits and workflow
 
 ## Changelog
 
@@ -42,10 +42,21 @@ Write each commit message in the [Conventional Commits 1.0.0](https://www.conven
 - Make one commit for one logical step. The tests must pass after each commit.
 - Mark a breaking change with `!` after the type or scope and a `BREAKING CHANGE:` footer.
 
-## Branches and pull requests
+## Workflow
+
+The project chooses its workflow in `openspec/config.yaml`, as `workflow` under `sparc`: `trunk` or `pull-request`. Without the key, the workflow is `pull-request`.
+
+### Workflow `trunk`
+
+- Commit each step on the default branch. Do not make a branch. Do not open a pull request.
+- `/sparc:apply` approves the change (see `approval.md`). The archive commit on the default branch completes it.
+- Tag a release on the default branch after the release commit.
+
+### Workflow `pull-request`
 
 - Do not commit on the default branch. Exception: the first commit of a new repository.
 - Make a branch for each OpenSpec change: `<type>/<change-id>` (for example `feat/add-csv-export`).
 - Merge each branch through a pull request. The pull request title is a Conventional Commit header, because a squash merge uses it.
 - The pull request description links the OpenSpec change and lists the changelog entries.
 - If the repository has no remote, keep the branch. Tell the user that the pull request is open work.
+- Tag a release on the merge commit after the merge.

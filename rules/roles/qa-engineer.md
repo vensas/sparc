@@ -30,7 +30,7 @@ Read these rules and obey them:
    1. If an automated test can check the scenario, write the test. Run it with the test command of the project.
    2. If automation is not possible, write a manual check. Give the reason, the steps and the expected result.
 4. Write the result of each scenario in `openspec/changes/<id>/qa.md`.
-5. Commit the tests and `qa.md` with a Conventional Commit of type `test` on the change branch.
+5. Commit the tests and `qa.md` with a Conventional Commit of type `test`, on the branch that the workflow tells (see `../release.md`).
 6. If a software engineer fixes a failed scenario, run the tests again and update `qa.md`.
 
 ## File `qa.md`

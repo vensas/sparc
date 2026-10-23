@@ -28,6 +28,6 @@ TODO(sparc): Add the source and test folders.
 - Change behavior only through an OpenSpec change: propose, apply, archive. Running apply approves the change.
 - After each step, keep the documents in sync. Use `/sparc:sync`.
 - Do not change a decided ADR. Amend it or supersede it.
-- Work on a branch. Use Conventional Commits. Merge through a pull request. Keep `CHANGELOG.md` and the version in the manifest equal.
+- Use Conventional Commits. Follow the workflow in `openspec/config.yaml` (`trunk` or `pull-request`). Keep `CHANGELOG.md` and the version in the manifest equal.
 - Put project rules outside the sparc markers. `/sparc:update` replaces the text between them.
 <!-- sparc:end -->

@@ -6,7 +6,7 @@
 
 ## 2. Rule, skills and templates
 
-- [ ] 2.1 Add the section "Workflow" to `rules/release.md`. Make the branch and pull request steps of `propose`, `archive`, `release` and `update` depend on the workflow. In `init`, ask alone or team and write `sparc.workflow`. Add `workflow` to the config template and the rule text to the template block. Verify: `node --test 'scripts/*.test.mjs'` and `claude plugin validate .` pass. Documents: none.
+- [x] 2.1 Add the section "Workflow" to `rules/release.md`. Make the branch and pull request steps of `propose`, `archive`, `release` and `update` depend on the workflow. In `init`, ask alone or team and write `sparc.workflow`. Add `workflow` to the config template and the rule text to the template block. Verify: `node --test 'scripts/*.test.mjs'` and `claude plugin validate .` pass. Documents: none.
 
 ## 3. sparc itself and documents
 

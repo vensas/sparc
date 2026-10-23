@@ -15,7 +15,7 @@ This skill makes planning documents only. Do not change project code.
 
 1. Run `openspec list --json` and `openspec list --specs`. Read `docs/backlog.md`.
 2. Choose a kebab-case change id that names the work (for example `add-csv-export`). If a backlog item matches, use it.
-3. Make the branch `<type>/<id>` from the default branch (for example `feat/add-csv-export`). Obey ${CLAUDE_PLUGIN_ROOT}/rules/release.md.
+3. In the workflow `pull-request` only, make the branch `<type>/<id>` from the default branch (for example `feat/add-csv-export`). Obey ${CLAUDE_PLUGIN_ROOT}/rules/release.md.
 4. Run `openspec new change <id>`.
 
 ## 2. Requirements: product owner role

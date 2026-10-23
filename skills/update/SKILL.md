@@ -30,7 +30,7 @@ Show the user the two versions, the migration steps, the differences of the mark
 
 ## 4. Apply
 
-1. Make the branch `chore/sparc-update-<installed version>` from the default branch.
+1. In the workflow `pull-request` only, make the branch `chore/sparc-update-<installed version>` from the default branch.
 2. Do each migration step. Get evidence for each step (for example a `grep` that finds nothing).
 3. Replace the text between the markers with the template text. Do not change text outside the markers.
 4. If a file had no markers, add them around the sparc text, as the user confirmed.
@@ -42,5 +42,5 @@ Show the user the two versions, the migration steps, the differences of the mark
 
 1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. It must not report the version. Fix each finding that the update caused. Tell the user about other findings.
 2. Commit: `chore: Update sparc to <installed version>`.
-3. Open a pull request as the release rule tells.
+3. Complete the update as the workflow in the release rule tells.
 4. Report the steps that you did, with evidence, and the check result.
