@@ -1,6 +1,6 @@
 ---
 name: apply
-description: Implement an approved OpenSpec change in the current session. Follow the software engineer role for each task group and for the code review, the QA engineer role for QA, and the product owner role for acceptance.
+description: Implement an OpenSpec change in the current session. Running it approves the change. Follow the software engineer role for each task group and for the code review, the QA engineer role for QA, and the product owner role for acceptance.
 argument-hint: "<change-id> [fresh-context]"
 disable-model-invocation: true
 ---
@@ -14,7 +14,7 @@ The roles are in `${CLAUDE_PLUGIN_ROOT}/rules/roles/`. Read each role file when 
 ## 1. Check the start conditions
 
 1. Run `openspec status --change <id>` and `openspec validate <id>`. All planning artifacts must be complete and valid.
-2. Make sure the user approved the change (see ${CLAUDE_PLUGIN_ROOT}/rules/approval.md). If you cannot find the approval, ask for it. Do not continue without it.
+2. Running this skill approves the change and its `proposed` ADRs (see ${CLAUDE_PLUGIN_ROOT}/rules/approval.md). Do not ask for an approval.
 3. Run `openspec instructions apply --change <id>` and read `tasks.md`.
 
 ## 2. Task groups

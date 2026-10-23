@@ -1,6 +1,6 @@
 ---
 name: propose
-description: Turn an idea into an approved OpenSpec change with the sparc team. The product owner writes the proposal and specs, the architect writes the design, ADRs and tasks, the UX designer makes mockups if there is a user interface.
+description: Turn an idea into an OpenSpec change with the sparc team. The product owner writes the proposal and specs, the architect writes the design, ADRs and tasks, the UX designer makes mockups if there is a user interface.
 argument-hint: "<idea or change-id>"
 disable-model-invocation: true
 ---
@@ -38,9 +38,7 @@ Name the integration or end-to-end test tool of the project and its command in `
 2. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. Fix the findings that this change caused.
 3. Commit the planning documents: `docs(openspec): Propose <id>`.
 
-## 6. Get approval
+## 6. Summary and next step
 
 Show the user a summary: the scope, the out-of-scope items, the ADRs, the C4 impact, the mockups and the number of tasks.
-Get approval as ${CLAUDE_PLUGIN_ROOT}/rules/approval.md tells you. Approval of the change also approves its `proposed` ADRs, unless the user rejects one.
-
-After approval, tell the user the next step: `/sparc:apply <id>`. Do not start the implementation.
+Tell the user the next step: `/sparc:apply <id>`. When the user runs it, this approves the change, its `proposed` ADRs and its mockups (see ${CLAUDE_PLUGIN_ROOT}/rules/approval.md). Do not ask for an approval. Do not start the implementation.

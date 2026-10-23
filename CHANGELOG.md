@@ -9,6 +9,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 - A logo in the README for the light and dark theme, and a plugin icon ([add-sparc-logo](openspec/changes/archive/2026-10-23-add-sparc-logo/proposal.md)).
 
+### Changed
+
+- Running `/sparc:apply` approves the change, its proposed ADRs and its mockups. `/sparc:propose` and `/sparc:apply` do not ask for an approval message ([implicit-approval](openspec/changes/archive/2026-10-23-implicit-approval/proposal.md)).
+- With pull requests, a review with `APPROVED`, or the merge, approves the change. For a solo user, the merge counts.
+
+### Removed
+
+- **Breaking:** The label `sparc:approved` is no approval any more. A project that uses it must approve or merge the pull request instead. Run `/sparc:update` to get the new rule text in `AGENTS.md`.
+
 ## [0.3.0] - 2026-10-23
 
 ### Added

@@ -32,7 +32,7 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 - Write all English text in ASD-STE100 Simplified Technical English.
 - Write only what you know. Get evidence from files, tests or the user. Write open points in the canvas.
 - Keep it simple. Keep each fact in one place (DRY). Link to it from other places.
-- Change behavior only through an OpenSpec change: propose, approve, apply, archive.
+- Change behavior only through an OpenSpec change: propose, apply, archive. Running apply approves the change.
 - After each step, keep the documents in sync. Use `/sparc:sync`.
 - Do not change the body of an accepted ADR. Amend it or supersede it.
 - `scripts/check.mjs` has no dependencies. Keep it like that.

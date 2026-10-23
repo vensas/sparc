@@ -20,7 +20,7 @@ Read these rules and obey them:
 4. Show each important state: empty, loading, error and success.
 5. Make each mockup accessible: semantic HTML, labels for each input, visible focus, a contrast of 4.5:1 or more.
 6. Make each mockup work on a phone width (360 px) and a desktop width.
-7. Show the mockup to the user. Get approval before the engineers build the UI.
+7. Show the mockup to the user in the summary of the proposal. When the user runs `/sparc:apply`, this also approves the mockup.
 
 ## Design principles
 
