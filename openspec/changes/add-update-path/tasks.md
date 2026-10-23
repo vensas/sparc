@@ -7,7 +7,7 @@
 
 ## 2. Check
 
-- [ ] 2.1 Add the version finding to `scripts/check.mjs`: project version (default 0.1.0) against the plugin version, skipped in the plugin folder. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for each scenario of "Project records its sparc version" and "Check reports an outdated project". Documents: none.
+- [x] 2.1 Add the version finding to `scripts/check.mjs`: project version (default 0.1.0) against the plugin version, skipped in the plugin folder. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for each scenario of "Project records its sparc version" and "Check reports an outdated project". Documents: none.
 
 ## 3. Update skill
 

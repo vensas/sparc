@@ -4,7 +4,7 @@
 //   node check.mjs [dir]              print findings, exit 1 if there are findings
 //   node check.mjs --json [dir]       print findings as JSON
 //   node check.mjs --hook             Claude Code hook mode: read the event from stdin, warn, never block
-import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync, realpathSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createHash } from 'node:crypto';
@@ -12,6 +12,7 @@ import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
 export const MARKER = '# sparc';
+const PLUGIN_ROOT = new URL('..', import.meta.url).pathname;
 const PLACEHOLDER = 'TODO(sparc)';
 const MAX_WORDS = 25;
 const ADR_DIR = 'docs/adr';
@@ -83,6 +84,18 @@ function decidedVersion(dir, rel) {
     if (md && isDecided(md)) return md;
   }
   return null;
+}
+
+// A project without the key sparc.version counts as 0.1.0, the version before the key existed.
+export function projectVersion(config) {
+  return config.match(/^sparc:\n\s+version:\s*["']?([^\s"']+)/m)?.[1] ?? '0.1.0';
+}
+
+function checkVersion(dir, config, add) {
+  const installed = JSON.parse(readFileSync(join(PLUGIN_ROOT, '.claude-plugin/plugin.json'), 'utf8')).version;
+  if (realpathSync(dir) === realpathSync(PLUGIN_ROOT)) return;
+  const version = projectVersion(config);
+  if (version !== installed) add(DOCS.openspec, `project is at sparc ${version}, sparc ${installed} is installed: run /sparc:update`);
 }
 
 function checkRequired(dir, add) {
@@ -268,6 +281,7 @@ export function check(dir) {
   const add = (file, message) => findings.push({ file, message });
   checkRequired(dir, add);
   const md = (key) => read(dir, DOCS[key]);
+  if (md('openspec')) checkVersion(dir, md('openspec'), add);
   if (md('readme')) checkReadme(md('readme'), add);
   if (md('c4')) checkC4(md('c4'), add);
   if (md('canvas')) checkCanvas(md('canvas'), add);
