@@ -30,6 +30,8 @@ Only if the change has a user interface: give the agent the change id. Tell it t
 
 Give the agent the change id. Tell it to write `design.md`, the ADRs with the status `proposed`, the C4 updates and `tasks.md`.
 
+Tell the agent to name the integration or end-to-end test tool of the project and its command in `design.md`. If the project has no such tool, tell the agent to write a project ADR for the tool with the status `proposed`. The approval of the change also approves this ADR.
+
 ## 5. Validate
 
 1. Run `openspec validate <id>`. If it fails, give the errors to the owner agent of the file and repeat.
