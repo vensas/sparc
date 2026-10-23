@@ -23,7 +23,7 @@ Mutation check: with the trunk path in `checkGit` disabled, the tests "Changes t
 | Conventional commit messages: Trunk commit header is not conventional | passed | Test "Conventional commit messages: Trunk commit header is not conventional". `node --test 'scripts/*.test.mjs'`: passed. |
 | Changes through pull requests: Files change on the default branch | passed | Test "git: changes on the default branch are reported". `node --test 'scripts/*.test.mjs'`: passed. |
 | Changes through pull requests: Trunk-based change | passed | Test "Changes through pull requests: Trunk-based change". `node --test 'scripts/*.test.mjs'`: passed. |
-| Changes through pull requests: Archive in the workflow trunk | manual | See "Manual checks". |
+| Changes through pull requests: Archive in the workflow trunk | manual | See "Manual checks" (passed at archive). |
 
 ## Manual checks
 
@@ -32,7 +32,7 @@ Mutation check: with the trunk path in `checkGit` disabled, the tests "Changes t
 - Reason: The scenario is the behavior of the archive skill on the default branch. sparc uses the workflow `trunk` only after this change is on `main`.
 - Steps: Bring the commits of this change to `main`. Run `/sparc:archive trunk-based-workflow` on `main`.
 - Expected result: Archive commits on `main`. It makes no branch and no pull request.
-- Result: open. The product owner does this check at the archive of this change.
+- Result: passed. The commits of the change were brought to `main` with a fast-forward. `/sparc:archive trunk-based-workflow` ran on `main` with `workflow: trunk`. It made the archive commit on `main`, without a branch and without a pull request. The check on `main` reported no finding.
 
 ## Acceptance
 

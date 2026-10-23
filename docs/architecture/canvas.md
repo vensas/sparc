@@ -16,7 +16,7 @@
 
 *Links to the capabilities in `openspec/specs/`.*
 
-- [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and pull request rules.
+- [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and workflow (trunk or pull request) rules.
 - [approval](../../openspec/specs/approval/spec.md): apply and pull requests as approval, explicit approval for other decisions.
 - [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments and protection of decided ADRs through git history.
 - [project-update](../../openspec/specs/project-update/spec.md): project version, marked sparc text and the update skill.
@@ -52,13 +52,13 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0003](../adr/0003-use-mermaid-for-c4-diagrams.md): Use Mermaid for C4 diagrams.
 - [ADR-0004](../adr/0004-lock-decided-adrs-with-a-body-hash.md): Lock decided ADRs with a body hash (superseded by ADR-0008).
 - [ADR-0005](../adr/0005-hook-warns-and-does-not-block.md): The hook warns and does not block. It warns one time for the same findings (amended).
-- [ADR-0006](../adr/0006-use-keep-a-changelog-semver-and-conventional-commits.md): Use Keep a Changelog, SemVer and Conventional Commits with pull requests.
+- [ADR-0006](../adr/0006-use-keep-a-changelog-semver-and-conventional-commits.md): Use Keep a Changelog, SemVer and Conventional Commits with pull requests (superseded by ADR-0012).
 - [ADR-0007](../adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md): Prove spec scenarios with a QA engineer after implementation.
 - [ADR-0008](../adr/0008-protect-decided-adrs-through-git-history.md): Protect decided ADRs through git history.
 - [ADR-0009](../adr/0009-use-roles-as-rules-instead-of-subagents.md): Use roles as rules instead of subagents.
 - [ADR-0010](../adr/0010-record-the-sparc-version-and-mark-sparc-text-in-projects.md): Record the sparc version and mark sparc text in projects.
 - [ADR-0011](../adr/0011-use-apply-and-pull-requests-as-approval.md): Use apply and pull requests as approval.
-- [ADR-0012](../adr/0012-use-a-trunk-or-pull-request-workflow.md): Use a trunk or pull request workflow (proposed).
+- [ADR-0012](../adr/0012-use-a-trunk-or-pull-request-workflow.md): Use a trunk or pull request workflow.
 
 ## Technologies 🛠️
 

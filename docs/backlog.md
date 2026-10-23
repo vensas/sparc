@@ -25,4 +25,4 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] No STE sentence findings for decided ADRs (change: skip-ste-check-for-decided-adrs)
 - [x] Logo for README and plugin icon (change: add-sparc-logo)
 - [x] Approval through apply and pull requests (change: implicit-approval)
-- [ ] Trunk-based workflow on the default branch (change: trunk-based-workflow)
+- [x] Trunk-based workflow on the default branch (change: trunk-based-workflow)
