@@ -1,6 +1,10 @@
 # sparc: this project uses the sparc harness (https://github.com/vensas/sparc).
 schema: spec-driven
 
+sparc:
+  version: 0.0.0
+
+# sparc:begin
 context: |
   This project uses sparc. Write all English text in ASD-STE100 Simplified Technical English.
   Write only what you know. Get evidence from files, tests or the user. Do not invent facts.
@@ -29,3 +33,4 @@ operations:
   archive:
     guidance:
       - Check the backlog item, accept the ADRs and sync README, C4, canvas and AGENTS.md.
+# sparc:end

@@ -23,7 +23,7 @@ const ADR = (status, extra = '') => `---\nstatus: ${status}\ndate: 2026-10-22\n-
 test('template project is a sparc project with only placeholder findings', () => {
   const dir = project();
   assert.ok(isSparcProject(dir));
-  const other = messages(dir).filter((m) => !m.includes('placeholder'));
+  const other = messages(dir).filter((m) => !m.includes('placeholder') && !m.includes('run /sparc:update'));
   assert.deepEqual(other, []);
 });
 
@@ -279,4 +279,42 @@ test('git: changes on the default branch are reported', () => {
   assert.ok(has(dir, 'files changed on the default branch "main"'));
   git('switch', '-q', '-c', 'feat/x');
   assert.ok(!has(dir, 'files changed on the default branch'));
+});
+
+test('Marked sparc text: templates mark the sparc text and record the version', () => {
+  const agents = readFileSync(join(TEMPLATE, 'AGENTS.md'), 'utf8');
+  assert.match(agents, /<!-- sparc:begin -->\n## Rules\n[\s\S]+\n<!-- sparc:end -->/);
+  const config = readFileSync(join(TEMPLATE, 'openspec/config.yaml'), 'utf8');
+  assert.match(config, /^sparc:\n {2}version: \d+\.\d+\.\d+$/m);
+  assert.match(config, /^# sparc:begin\ncontext: \|[\s\S]+^rules:[\s\S]+^operations:[\s\S]+^# sparc:end$/m);
+});
+
+const INSTALLED = JSON.parse(readFileSync(new URL('../.claude-plugin/plugin.json', import.meta.url), 'utf8')).version;
+const setVersion = (dir, version) => {
+  const file = join(dir, 'openspec/config.yaml');
+  const config = readFileSync(file, 'utf8');
+  writeFileSync(file, version ? config.replace(/version: \S+/, `version: ${version}`) : config.replace(/^sparc:\n {2}version: \S+\n/m, ''));
+};
+
+test('Project records its sparc version: Project without a version', () => {
+  const dir = project();
+  setVersion(dir, null);
+  assert.ok(has(dir, `openspec/config.yaml: project is at sparc 0.1.0, sparc ${INSTALLED} is installed: run /sparc:update`));
+});
+
+test('Check reports an outdated project: Project is behind', () => {
+  const dir = project();
+  setVersion(dir, '0.0.1');
+  assert.ok(has(dir, `project is at sparc 0.0.1, sparc ${INSTALLED} is installed: run /sparc:update`));
+  assert.equal(messages(dir).filter((m) => m.includes('run /sparc:update')).length, 1);
+});
+
+test('Check reports an outdated project: Project is up to date', () => {
+  const dir = project();
+  setVersion(dir, INSTALLED);
+  assert.ok(!has(dir, 'run /sparc:update'));
+});
+
+test('Check reports an outdated project: no finding in the sparc repository itself', () => {
+  assert.ok(!check(new URL('..', import.meta.url).pathname).some((f) => f.message.includes('run /sparc:update')));
 });

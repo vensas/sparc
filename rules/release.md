@@ -9,6 +9,7 @@ Keep `CHANGELOG.md` in the [Keep a Changelog 1.1.0](https://keepachangelog.com/e
 - Use only these types of change as `###` headings: Added, Changed, Deprecated, Removed, Fixed, Security.
 - Write each entry for the users of the software, not for the developers. Link the OpenSpec change if there is one.
 - Write the entries of a change when the change is archived. The product owner owns the changelog.
+- Start each entry for a breaking change with `**Breaking:**`. Tell in the same entry what a project must do (for example "Remove `locked:` lines"). `/sparc:update` applies these steps.
 
 ## Version
 
