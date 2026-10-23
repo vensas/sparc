@@ -17,6 +17,7 @@
 *Links to the capabilities in `openspec/specs/`.*
 
 - [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and pull request rules.
+- [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments and protection of decided ADRs through git history.
 - [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer, automation first, scenario report and acceptance from the QA report.
 - The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr and release.
 
@@ -50,7 +51,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0005](../adr/0005-hook-warns-and-does-not-block.md): The hook warns and does not block. It warns one time for the same findings (amended).
 - [ADR-0006](../adr/0006-use-keep-a-changelog-semver-and-conventional-commits.md): Use Keep a Changelog, SemVer and Conventional Commits with pull requests.
 - [ADR-0007](../adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md): Prove spec scenarios with a QA engineer after implementation.
-- [ADR-0008](../adr/0008-protect-decided-adrs-through-git-history.md): Protect decided ADRs through git history (proposed).
+- [ADR-0008](../adr/0008-protect-decided-adrs-through-git-history.md): Protect decided ADRs through git history.
 
 ## Technologies 🛠️
 

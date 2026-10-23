@@ -19,4 +19,4 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] Release conventions: changelog, SemVer, Conventional Commits and pull requests (change: add-release-conventions)
 - [ ] Write the specs of sparc as OpenSpec capabilities
 - [x] QA engineer for integration and end-to-end tests, automation first (change: add-qa-engineer)
-- [ ] Protect decided ADRs through git history, not a lock hash (change: remove-adr-lock-hash)
+- [x] Protect decided ADRs through git history, not a lock hash (change: remove-adr-lock-hash)
