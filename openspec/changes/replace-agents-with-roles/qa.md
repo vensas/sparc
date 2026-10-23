@@ -34,9 +34,15 @@ Also checked without a finding: debug code, secrets, unused imports, spec match 
 - Reason: The review of this change found an issue. The scenario needs a change without an issue.
 - Steps: Review a small change without an issue as the software engineer role.
 - Expected result: `## Code review` gives the reviewed commit range and "No findings".
+- Product owner result: passed. In the fresh-context check, a general-purpose subagent reviewed commit 494071c with the checklist of `rules/roles/software-engineer.md` and wrote "Reviewed: `5c82e55..494071c`" and "No findings".
 
 ### Optional fresh-context check: User asks for a fresh-context check
 
 - Reason: The scenario is a live run of a general-purpose subagent.
 - Steps: Do the acceptance of this change in a general-purpose subagent that follows `rules/roles/product-owner.md`.
 - Expected result: The subagent reads the role file and `qa.md`, and reports an acceptance decision with evidence.
+- Product owner result: passed for acceptance. A general-purpose subagent followed `rules/roles/product-owner.md`, ran the tests (37 pass) and accepted the change. Limit: it took the QA results from this file and did not follow `rules/roles/qa-engineer.md`. A fresh-context run of QA is not shown yet.
+
+## Acceptance
+
+Accepted on 2026-10-23 by the product owner role in a fresh-context check (general-purpose subagent). No scenario is `failed`. The code review has no open finding. A copy of this file without `## Code review` was not accepted, as the role requires.
