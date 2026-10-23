@@ -12,9 +12,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ### Changed
 
+- **Breaking:** The check protects decided ADRs through git history. It compares each decided ADR with its first committed decided version ([remove-adr-lock-hash](openspec/changes/archive/2026-10-23-remove-adr-lock-hash/proposal.md)).
+- The check also protects `decision-makers`, `consulted`, `informed` and committed amendments of a decided ADR.
+- The check reports ADR front matter fields that are not in MADR, and decided ADRs in a project without git.
 - `/sparc:apply` runs the QA engineer after the task groups. The product owner accepts from `qa.md` and does only the manual checks.
 - `/sparc:propose` names the integration or end-to-end test tool of the project, or proposes an ADR for it.
 - `/sparc:archive` runs the test commands in `AGENTS.md`.
+
+### Removed
+
+- **Breaking:** The option `--lock` of `check.mjs` and the ADR front matter field `locked`. Remove `--lock` calls and `locked:` lines.
 
 ## [0.2.0] - 2026-10-22
 

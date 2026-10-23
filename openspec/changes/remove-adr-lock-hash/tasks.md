@@ -6,6 +6,6 @@
 
 ## 2. sparc ADRs and documents
 
-- [ ] 2.1 Remove the `locked:` lines from `docs/adr/`. Add ADR-0008 and set ADR-0004 to `superseded by ADR-0008`. Verify: `node scripts/check.mjs` reports no findings. Documents: ADRs, canvas.
-- [ ] 2.2 Remove the lock from `rules/adr.md`, `skills/adr/SKILL.md`, `skills/init/SKILL.md`, `skills/archive/SKILL.md`, `skills/sync/SKILL.md`, `agents/architect.md`, the ADR template and `README.md`. Verify: `grep -rn -- '--lock\|locked' rules skills agents templates README.md` finds nothing, and `claude plugin validate .` passes. Documents: README.md.
-- [ ] 2.3 Add the `CHANGELOG.md` Unreleased entries. Verify: `node scripts/check.mjs` passes. Documents: CHANGELOG.md.
+- [x] 2.1 Remove the `locked:` lines from `docs/adr/`. Add ADR-0008 and set ADR-0004 to `superseded by ADR-0008`. Verify: `node scripts/check.mjs` reports no findings. Documents: ADRs, canvas.
+- [x] 2.2 Remove the lock from `rules/adr.md`, `skills/adr/SKILL.md`, `skills/init/SKILL.md`, `skills/archive/SKILL.md`, `skills/sync/SKILL.md`, `agents/architect.md`, the ADR template and `README.md`. Verify: `grep -rn -- '--lock\|locked' rules skills agents templates README.md` finds nothing, and `claude plugin validate .` passes. Documents: README.md.
+- [x] 2.3 Add the `CHANGELOG.md` Unreleased entries. Verify: `node scripts/check.mjs` passes. Documents: CHANGELOG.md.
