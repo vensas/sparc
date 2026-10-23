@@ -1,6 +1,6 @@
 ---
 name: apply
-description: Implement an approved OpenSpec change with one or more sparc software engineers, keep the documents in sync after each task group, and let the product owner check acceptance.
+description: Implement an approved OpenSpec change with one or more sparc software engineers, keep the documents in sync after each task group, prove the spec scenarios with the QA engineer, and let the product owner check acceptance.
 argument-hint: "<change-id>"
 disable-model-invocation: true
 ---
@@ -30,10 +30,20 @@ Implement the change: $ARGUMENTS
 4. Merge the worktree result into the change branch. Run all tests of the project. If a test fails, give the failure back to the engineer.
 5. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. If a document finding relates to this group, use the sparc sync skill.
 
-## 4. Acceptance
+## 4. QA
 
-When all tasks are checked, use the `sparc:product-owner` agent. Tell it to check each spec scenario of the change and to report passed or failed with evidence. For each failed scenario, give the issue to an engineer and repeat.
+When all tasks are checked, use one `sparc:qa-engineer` agent on the change branch.
 
-## 5. Report
+1. Give the agent the change id and the paths of the proposal, the specs and the design.
+2. If the agent reports a missing test tool, stop. Tell the user that the tool needs an approved project ADR (see ${CLAUDE_PLUGIN_ROOT}/rules/adr.md).
+3. Make sure that the QA commits change only test files and `openspec/changes/<id>/qa.md`. If not, give the commits back to the agent.
+4. Read `qa.md`. For each scenario with the result `failed`, give the issue to one `sparc:software-engineer`. Then do steps 2 to 4 of section 3 again.
+5. If you gave an issue to an engineer, use the QA engineer again.
+
+## 5. Acceptance
+
+Use the `sparc:product-owner` agent. Tell it to accept the change from `openspec/changes/<id>/qa.md` and to do only the manual checks. Accept the change only when no scenario in `qa.md` has the result `failed`. For each failed manual check, give the issue to one engineer and repeat section 4.
+
+## 6. Report
 
 Report the completed tasks, the test results, the suggested refactoring and the open points. Tell the user the next step: `/sparc:archive <id>`.

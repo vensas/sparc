@@ -6,7 +6,7 @@
 
 ## 2. Skills and product owner (can run in parallel with group 1)
 
-- [ ] 2.1 In `skills/apply/SKILL.md`, add a QA step after the task groups: the failed-scenario loop, the missing-tool stop, the check that QA commits change only test files and `qa.md`, and acceptance from `qa.md`. Verify: `claude plugin validate .` passes. Documents: none.
+- [x] 2.1 In `skills/apply/SKILL.md`, add a QA step after the task groups: the failed-scenario loop, the missing-tool stop, the check that QA commits change only test files and `qa.md`, and acceptance from `qa.md`. Verify: `claude plugin validate .` passes. Documents: none.
 - [ ] 2.2 In `agents/product-owner.md`, change "Acceptance and issues": accept from `qa.md` and do only the manual checks. Verify: `claude plugin validate .` passes. Documents: none.
 - [ ] 2.3 In `skills/propose/SKILL.md`, tell the architect to name the integration or end-to-end test tool and its command in `design.md`, or to write a `proposed` project ADR. Verify: `claude plugin validate .` passes. Documents: none.
 - [ ] 2.4 In `skills/archive/SKILL.md` step 2, run the test commands in `AGENTS.md`. Verify: `claude plugin validate .` passes. Documents: none.
