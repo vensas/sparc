@@ -10,6 +10,7 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | Check the documents | `node scripts/check.mjs` |
 | Validate the plugin | `claude plugin validate .` |
 | Load the plugin for a test | `claude --plugin-dir .` |
+| Make the plugin icon after a change to `docs/assets/icon.svg` | `rsvg-convert -w 512 -h 512 docs/assets/icon.svg -o .claude-plugin/icon.png` |
 
 ## Structure
 

@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Added
+
+- A logo in the README for the light and dark theme, and a plugin icon ([add-sparc-logo](openspec/changes/archive/2026-10-23-add-sparc-logo/proposal.md)).
+
 ## [0.3.0] - 2026-10-23
 
 ### Added
