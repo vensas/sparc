@@ -15,7 +15,7 @@ Read the state of a pull request with `gh pr view <n> --json reviewDecision,stat
 
 These decisions need an explicit approval:
 
-- An ADR amendment, deprecation or supersede outside a change.
+- The acceptance, rejection, amendment, deprecation or supersede of an ADR outside a change (for example with `/sparc:adr`).
 - The release version of `/sparc:release`.
 - The update plan of `/sparc:update`.
 - ADR-0001 in `/sparc:init`.

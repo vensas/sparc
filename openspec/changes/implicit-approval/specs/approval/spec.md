@@ -37,7 +37,7 @@ If the project uses pull requests, a review with the state `APPROVED`, or the me
 - **THEN** the work goes back to `/sparc:apply`, and the ADRs of the change do not reach the default branch
 
 ### Requirement: Explicit approval for other decisions
-ADR amendments, deprecations and supersedes outside a change, the release version, the update plan and ADR-0001 in `/sparc:init` SHALL need an explicit approval: a clear "yes" in the chat, or an approved or merged pull request for the item.
+the acceptance, rejection, amendment, deprecation or supersede of an ADR outside a change, the release version, the update plan and ADR-0001 in `/sparc:init` SHALL need an explicit approval: a clear "yes" in the chat, or an approved or merged pull request for the item.
 
 #### Scenario: ADR amendment
 - **WHEN** a user wants to amend an accepted ADR with `/sparc:adr`
