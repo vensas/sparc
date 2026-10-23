@@ -13,9 +13,9 @@
 
 ## 3. Documents (after groups 1 and 2)
 
-- [ ] 3.1 Update README "Key Features" (five agents), the `AGENTS.md` structure and the `.claude-plugin/plugin.json` description. Verify: `node scripts/check.mjs` and `claude plugin validate .` pass. Documents: README.md, AGENTS.md.
-- [ ] 3.2 Add "QA engineer" to the C4 container "Agents" in `docs/architecture/c4.md`. Verify: `node scripts/check.mjs` passes. Documents: c4.md.
-- [ ] 3.3 Add `CHANGELOG.md` Unreleased entries: Added (QA engineer agent, `qa.md`) and Changed (apply, propose and archive skills, product owner acceptance). Verify: `node scripts/check.mjs` passes. Documents: CHANGELOG.md.
+- [x] 3.1 Update README "Key Features" (five agents), the `AGENTS.md` structure and the `.claude-plugin/plugin.json` description. Verify: `node scripts/check.mjs` and `claude plugin validate .` pass. Documents: README.md, AGENTS.md.
+- [x] 3.2 Add "QA engineer" to the C4 container "Agents" in `docs/architecture/c4.md`. Verify: `node scripts/check.mjs` passes. Documents: c4.md.
+- [x] 3.3 Add `CHANGELOG.md` Unreleased entries: Added (QA engineer agent, `qa.md`) and Changed (apply, propose and archive skills, product owner acceptance). Verify: `node scripts/check.mjs` passes. Documents: CHANGELOG.md.
 
 ## Workflow follow-up
 
