@@ -22,3 +22,4 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] Protect decided ADRs through git history, not a lock hash (change: remove-adr-lock-hash)
 - [x] Roles as rules instead of subagents, with code review by the software engineer (change: replace-agents-with-roles)
 - [x] Update path for projects that already use sparc (change: add-update-path)
+- [ ] No STE sentence findings for decided ADRs (change: skip-ste-check-for-decided-adrs)
