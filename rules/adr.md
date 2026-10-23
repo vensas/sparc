@@ -29,21 +29,15 @@ The template is `templates/project/docs/adr/0000-template.md`.
 
 `rejected`, `deprecated` and `superseded` are final.
 
-## Lock
+## Decided ADRs do not change
 
-When an ADR gets the status `accepted` or `rejected`, lock it:
-
-```sh
-node "<sparc>/scripts/check.mjs" --lock docs/adr/NNNN-title.md
-```
-
-The lock writes a hash of the ADR body into the front matter (`locked:`).
-After the lock, do not change the body. Only these changes are permitted:
+An ADR is decided when its status is not `proposed`. Commit the decision. After that commit, only these changes are permitted:
 
 - The front matter fields `status` and `date`.
-- New entries in the section `## Amendments` at the end of the ADR.
+- New entries at the end of the section `## Amendments`.
 
-`scripts/check.mjs` compares the body with the hash. It reports each change.
+Use only the MADR front matter fields: `status`, `date`, `decision-makers`, `consulted` and `informed`.
+`scripts/check.mjs` compares each decided ADR with its first committed decided version in git. It reports each other change.
 
 ## Amend or supersede
 

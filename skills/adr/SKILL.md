@@ -1,6 +1,6 @@
 ---
 name: adr
-description: Create or change an architecture decision record in MADR format. Actions are new, accept, reject, deprecate, amend and supersede. Enforces the sparc status rules and the lock.
+description: Create or change an architecture decision record in MADR format. Actions are new, accept, reject, deprecate, amend and supersede. Enforces the sparc status rules.
 argument-hint: "<new|accept|reject|deprecate|amend|supersede> [ADR number] [title or text]"
 ---
 
@@ -20,7 +20,7 @@ Read ${CLAUDE_PLUGIN_ROOT}/rules/adr.md and ${CLAUDE_PLUGIN_ROOT}/rules/approval
 
 1. Get approval from the user for this ADR.
 2. Set the status and the date.
-3. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs --lock <file>`.
+3. Commit the ADR. From this commit on, the check protects the decision.
 4. Add the ADR to the canvas section "Core Decisions" (for `accepted` only).
 
 ## deprecate
