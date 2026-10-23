@@ -4,7 +4,7 @@ sparc is a harness for spec-driven work with agents in Claude Code. The name com
 
 ## Overview
 
-Agents write code fast, but the specs, the architecture and the documents fall behind. sparc adds a small team of roles, a fixed document set and a check on top of [OpenSpec](https://openspec.dev). Each change goes through propose, approve, apply and archive. After each step, sparc keeps the documents in sync. For the goal and the plan, see the [backlog](docs/backlog.md).
+Agents write code fast, but the specs, the architecture and the documents fall behind. sparc adds a small team of roles, a fixed document set and a check on top of [OpenSpec](https://openspec.dev). Each change goes through propose, apply and archive. Running apply approves the change, so you do not type an approval. After each step, sparc keeps the documents in sync. For the goal and the plan, see the [backlog](docs/backlog.md).
 
 ## Key Features
 
@@ -32,9 +32,9 @@ Prerequisites: Claude Code, Node.js 20 or later, git and OpenSpec (`npm install 
 2. Install the plugin: `/plugin install sparc@sparc`.
 3. Open the folder of your project (new or existing) and run `/sparc:init <project idea>`.
 4. Answer the questions of the product owner: goal, stakeholders and quality requirements.
-5. For each feature or fix, run `/sparc:propose <feature>`. Approve the change.
-6. Run `/sparc:apply <change-id>`, then `/sparc:archive <change-id>`.
-7. Merge the pull request. Run `/sparc:release` to make a release.
+5. For each feature or fix, run `/sparc:propose <feature>`. Read the summary.
+6. Run `/sparc:apply <change-id>`. This approves the change. Then run `/sparc:archive <change-id>`.
+7. Merge the pull request. With pull requests, the review or the merge is the approval. Run `/sparc:release` to make a release.
 
 To update a project that already uses sparc, run `/plugin update sparc@sparc`, then `/sparc:update` in the project.
 

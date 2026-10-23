@@ -10,4 +10,4 @@
 
 ## 3. Documents
 
-- [ ] 3.1 Update `README.md`, `AGENTS.md`, the sparc block of `templates/project/AGENTS.md` and `CHANGELOG.md`. Verify: `node scripts/check.mjs` passes. Documents: README.md, AGENTS.md, CHANGELOG.md.
+- [x] 3.1 Update `README.md`, `AGENTS.md`, the sparc block of `templates/project/AGENTS.md` and `CHANGELOG.md`. Verify: `node scripts/check.mjs` passes. Documents: README.md, AGENTS.md, CHANGELOG.md.
