@@ -25,4 +25,5 @@ It does not apply to code identifiers, quotes and product names.
 ## Check
 
 - `scripts/check.mjs` finds sentences that are too long. It cannot check vocabulary.
+- The check skips decided ADRs, because they must not change. Write each ADR in STE before you decide it.
 - The full STE dictionary is not in this repository. Do not say that a text "complies with STE". Say that it "follows the STE rules in sparc".
