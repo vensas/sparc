@@ -11,16 +11,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 - The file `qa.md` in each change holds the result of each scenario and the manual checks.
 - Code review: the software engineer role reviews the full change before QA and records the result in `qa.md`. Acceptance needs a review without open findings ([replace-agents-with-roles](openspec/changes/archive/2026-10-23-replace-agents-with-roles/proposal.md)).
 - `/sparc:apply <id> fresh-context` runs QA and acceptance in a general-purpose subagent that follows the role files.
+- `/sparc:update` updates a project to the installed sparc version. It applies the project steps of the breaking changelog entries and replaces only the marked sparc text ([add-update-path](openspec/changes/archive/2026-10-23-add-update-path/proposal.md)).
+- A project records its sparc version in `openspec/config.yaml`. The check reports a project that is not at the installed version.
 
 ### Changed
 
-- **Breaking:** The check protects decided ADRs through git history. It compares each decided ADR with its first committed decided version ([remove-adr-lock-hash](openspec/changes/archive/2026-10-23-remove-adr-lock-hash/proposal.md)).
+- **Breaking:** The check protects decided ADRs through git history. It compares each decided ADR with its first committed decided version ([remove-adr-lock-hash](openspec/changes/archive/2026-10-23-remove-adr-lock-hash/proposal.md)). A project must commit each decided ADR.
 - The check also protects `decision-makers`, `consulted`, `informed` and committed amendments of a decided ADR.
 - The check reports ADR front matter fields that are not in MADR, and decided ADRs in a project without git.
 - `/sparc:apply` runs the QA engineer after the task groups. The product owner accepts from `qa.md` and does only the manual checks.
 - `/sparc:propose` names the integration or end-to-end test tool of the project, or proposes an ADR for it.
 - `/sparc:archive` runs the test commands in `AGENTS.md`.
-- **Breaking:** The five agents are now role files in `rules/roles/`. The skills follow them in the current session, without subagents and worktrees.
+- **Breaking:** The five agents are now role files in `rules/roles/`. The skills follow them in the current session, without subagents and worktrees. A project needs no step.
+- `/sparc:init` puts the sparc text of `AGENTS.md` and `openspec/config.yaml` between `sparc:begin` and `sparc:end` markers. Put project rules outside the markers.
 
 ### Removed
 
