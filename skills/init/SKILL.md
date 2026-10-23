@@ -28,14 +28,14 @@ Obey ${CLAUDE_PLUGIN_ROOT}/rules/evidence.md and ${CLAUDE_PLUGIN_ROOT}/rules/wri
 
 ## 3. Fill the documents from evidence
 
-For an existing code base, use the `sparc:architect` agent first. Tell it to read the code, the build files and the existing docs, and to fill:
+For an existing code base, follow the architect role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/architect.md`) first. Read the code, the build files and the existing docs, and fill:
 
 - `AGENTS.md`: commands (run each one), structure.
-- `docs/architecture/c4.md`: only actors, systems, containers and relations that it found in the code or the config.
+- `docs/architecture/c4.md`: only actors, systems, containers and relations that you found in the code or the config.
 - `docs/architecture/canvas.md`: technologies and components from the code. Each unknown goes into "Core Risks and Missing Information".
-- `README.md`: "Get Started" from the commands that it ran.
+- `README.md`: "Get Started" from the commands that you ran.
 
-Then use the `sparc:product-owner` agent. Give it the idea from the user. Tell it to:
+Then follow the product owner role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/product-owner.md`) with the idea from the user:
 
 1. Ask the user for the goal, the stakeholders and the quality requirements. Ask in one message.
 2. Write `docs/backlog.md`: the goal and the first items.
@@ -44,7 +44,7 @@ Then use the `sparc:product-owner` agent. Give it the idea from the user. Tell i
 
 ## 4. Record the first decision
 
-Use the `sparc:architect` agent to write `docs/adr/0001-use-sparc-for-spec-driven-development.md` with the status `proposed`. Ask the user for approval (see ${CLAUDE_PLUGIN_ROOT}/rules/approval.md). After approval, set the status to `accepted` and commit the ADR.
+As the architect role, write `docs/adr/0001-use-sparc-for-spec-driven-development.md` with the status `proposed`. Ask the user for approval (see ${CLAUDE_PLUGIN_ROOT}/rules/approval.md). After approval, set the status to `accepted` and commit the ADR.
 
 ## 5. Check
 

@@ -13,7 +13,7 @@ The document set, the owners and the triggers are in ${CLAUDE_PLUGIN_ROOT}/rules
 1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. Keep the list of findings.
 2. Find what changed: run `git status --porcelain` and `git diff --stat`. For a change id, read its proposal, design and tasks.
 3. For each trigger in the sync table that applies, find the document that must change.
-4. Give each document to its owner agent: `sparc:product-owner` for the backlog, `sparc:architect` for README, AGENTS.md, C4, canvas and ADRs. Give the agent the findings and the changes. Tell it to write only facts with evidence.
+4. Update each document as its owner role tells: the product owner role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/product-owner.md`) for the backlog and the changelog, the architect role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/architect.md`) for README, AGENTS.md, C4, canvas and ADRs. Write only facts with evidence.
 5. Run the check again. Repeat until there is no finding, or until each remaining finding has a reason.
 6. Report each document that changed, in one line for each.
 

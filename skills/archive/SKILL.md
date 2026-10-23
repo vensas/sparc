@@ -13,7 +13,7 @@ Archive the change: $ARGUMENTS
 2. Run the test commands in `AGENTS.md`. These include the QA tests. If a test fails, stop and report it.
 3. Run `openspec archive <id> --yes`. Read the output. Make sure that the main specs changed as the deltas say.
 4. In `docs/backlog.md`, check the item `(change: <id>)`.
-5. Use the `sparc:product-owner` agent to add the entries of the change to `## [Unreleased]` in `CHANGELOG.md` (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md).
+5. As the product owner role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/product-owner.md`), add the entries of the change to `## [Unreleased]` in `CHANGELOG.md` (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md).
 6. For each ADR of the change with the status `proposed`: if the user approved it, set `accepted`. If the user rejected it, set `rejected`. The archive commit protects the decision.
 7. Use the sparc sync skill for README key features, the canvas, the C4 diagrams and AGENTS.md.
 8. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. A finding can stay only with a reason that you tell the user.

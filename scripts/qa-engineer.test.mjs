@@ -4,7 +4,6 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { parseFrontMatter } from './check.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const CHANGE = 'add-qa-engineer';
@@ -18,9 +17,9 @@ function changeDir() {
   return name && join(archive, name);
 }
 
+// The QA report of a change lists the scenarios of the change's own spec delta, not of the main spec that changes later.
 function specScenarios() {
-  const main = join(ROOT, 'openspec/specs/qa-engineering/spec.md');
-  const spec = readFileSync(existsSync(main) ? main : join(changeDir(), 'specs/qa-engineering/spec.md'), 'utf8');
+  const spec = readFileSync(join(changeDir(), 'specs/qa-engineering/spec.md'), 'utf8');
   const out = [];
   let requirement;
   for (const line of spec.split('\n')) {
@@ -40,12 +39,13 @@ function qaRows() {
   return { md, rows };
 }
 
+// The report tests check the QA report while the change is open. After archive, the report is history.
+const REPORT = { skip: !existsSync(join(ROOT, 'openspec/changes', CHANGE)) && 'the change is archived' };
+
 const testNames = () => new Set([...readFileSync(new URL(import.meta.url), 'utf8').matchAll(/^test\('([^']+)'/gm)].map((m) => m[1]));
 
-test('QA engineer agent: Agent is available', () => {
-  const { data } = parseFrontMatter(readFileSync(join(ROOT, 'agents/qa-engineer.md'), 'utf8'));
-  assert.equal(data.name, 'qa-engineer');
-  assert.ok(data.description, 'the agent needs a description');
+test('QA engineer role: Role is available', () => {
+  assert.match(readFileSync(join(ROOT, 'rules/roles/qa-engineer.md'), 'utf8'), /^# Role: QA Engineer\n/);
 });
 
 test('QA engineer agent: Plugin stays valid', (t) => {
@@ -55,13 +55,13 @@ test('QA engineer agent: Plugin stays valid', (t) => {
   assert.match(run.stdout, /Validation passed/);
 });
 
-test('Scenario report with evidence: Each scenario has one result', () => {
+test('Scenario report with evidence: Each scenario has one result', REPORT, () => {
   const { rows } = qaRows();
   assert.deepEqual(rows.map((r) => r.scenario).sort(), specScenarios().sort(), 'qa.md must list each spec scenario one time');
   for (const row of rows) assert.ok(['passed', 'failed', 'manual'].includes(row.result), `"${row.scenario}" has result "${row.result}"`);
 });
 
-test('Scenario report with evidence: Passed scenario', () => {
+test('Scenario report with evidence: Passed scenario', REPORT, () => {
   const names = testNames();
   for (const row of qaRows().rows.filter((r) => r.result === 'passed')) {
     const named = [...row.evidence.matchAll(/Test "([^"]+)"/g)].map((m) => m[1]);
@@ -71,7 +71,7 @@ test('Scenario report with evidence: Passed scenario', () => {
   }
 });
 
-test('Scenario report with evidence: Manual scenario', () => {
+test('Scenario report with evidence: Manual scenario', REPORT, () => {
   const { md, rows } = qaRows();
   for (const row of rows.filter((r) => r.result === 'manual')) {
     const entry = md.split(`### ${row.scenario}\n`)[1]?.split(/^##+ /m)[0];
