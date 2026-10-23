@@ -30,6 +30,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 - **Breaking:** The option `--lock` of `check.mjs` and the ADR front matter field `locked`. Remove `--lock` calls and `locked:` lines.
 - **Breaking:** The agent types `sparc:product-owner`, `sparc:architect`, `sparc:ux-designer` and `sparc:software-engineer`. A project that starts them by name must use the skills.
 
+### Fixed
+
+- The check no longer reports long sentences in decided ADRs, because they must not change ([skip-ste-check-for-decided-adrs](openspec/changes/archive/2026-10-23-skip-ste-check-for-decided-adrs/proposal.md)).
+
 ## [0.2.0] - 2026-10-22
 
 ### Added
