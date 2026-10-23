@@ -318,3 +318,17 @@ test('Check reports an outdated project: Project is up to date', () => {
 test('Check reports an outdated project: no finding in the sparc repository itself', () => {
   assert.ok(!check(new URL('..', import.meta.url).pathname).some((f) => f.message.includes('run /sparc:update')));
 });
+
+const LONG = `${Array(30).fill('word').join(' ')}.`;
+
+test('Sentence check only for proposed ADRs: Long sentence in a decided ADR', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0001-a.md', ADR('accepted', `\n${LONG}\n`));
+  assert.ok(!has(dir, '0001-a.md: 1 sentence(s) with more than 25 words'));
+});
+
+test('Sentence check only for proposed ADRs: Long sentence in a proposed ADR', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0001-a.md', ADR('proposed', `\n${LONG}\n`));
+  assert.ok(has(dir, '0001-a.md: 1 sentence(s) with more than 25 words'));
+});

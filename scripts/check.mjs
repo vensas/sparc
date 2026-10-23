@@ -144,12 +144,12 @@ function checkBacklog(dir, md, add) {
 
 function checkAdrs(dir, add) {
   const root = join(dir, ADR_DIR);
-  if (!existsSync(root)) return [];
+  if (!existsSync(root)) return { all: [], decided: [] };
+  const decidedFiles = [];
   const files = readdirSync(root).filter((f) => /^\d{4}-.+\.md$/.test(f) && !f.startsWith('0000-'));
   const numbers = new Set(files.map((f) => f.slice(0, 4)));
   if (numbers.size < files.length) add(ADR_DIR, 'two or more ADRs have the same number');
   const repo = git(dir, 'rev-parse', '--is-inside-work-tree') === 'true';
-  let decided = false;
   for (const f of files) {
     const rel = `${ADR_DIR}/${f}`;
     const md = readFileSync(join(root, f), 'utf8');
@@ -160,7 +160,7 @@ function checkAdrs(dir, add) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date ?? '')) add(rel, 'date is missing or not YYYY-MM-DD');
     if (status[2] && (status[2] === f.slice(0, 4) || !numbers.has(status[2]))) add(rel, `superseding ADR-${status[2]} does not exist`);
     if (status[1] === 'proposed') continue;
-    decided = true;
+    decidedFiles.push(rel);
     if (repo) {
       const base = decidedVersion(dir, rel);
       if (base && decidedContent(base) !== decidedContent(md)) add(rel, 'changed after the decision: amend or supersede the ADR instead');
@@ -172,8 +172,8 @@ function checkAdrs(dir, add) {
     if (status[1] === 'amended' && !entries.length) add(rel, 'status is "amended" but "## Amendments" has no entry');
     if (entries.some((e) => !APPROVER.test(e))) add(rel, 'an amendment has no "Approved by: [@handle](https://github.com/handle)" line');
   }
-  if (decided && !repo) add(ADR_DIR, 'not a git repository: cannot protect decided ADRs');
-  return files.map((f) => `${ADR_DIR}/${f}`);
+  if (decidedFiles.length && !repo) add(ADR_DIR, 'not a git repository: cannot protect decided ADRs');
+  return { all: files.map((f) => `${ADR_DIR}/${f}`), decided: decidedFiles };
 }
 
 function checkPlaceholders(dir, files, add) {
@@ -288,9 +288,10 @@ export function check(dir) {
   if (md('backlog')) checkBacklog(dir, md('backlog'), add);
   if (md('changelog')) checkManifestVersion(dir, checkChangelog(md('changelog'), add), add);
   const adrs = checkAdrs(dir, add);
-  const prose = [DOCS.readme, DOCS.agents, DOCS.backlog, DOCS.c4, DOCS.canvas, DOCS.changelog, ...adrs];
+  const prose = [DOCS.readme, DOCS.agents, DOCS.backlog, DOCS.c4, DOCS.canvas, DOCS.changelog, ...adrs.all];
   checkPlaceholders(dir, prose, add);
-  checkSentences(dir, prose.filter((f) => f !== DOCS.c4), add);
+  // Decided ADRs must not change, so a sentence finding in them cannot be fixed.
+  checkSentences(dir, prose.filter((f) => f !== DOCS.c4 && !adrs.decided.includes(f)), add);
   checkGit(dir, add);
   return findings;
 }

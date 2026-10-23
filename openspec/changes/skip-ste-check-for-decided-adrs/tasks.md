@@ -2,7 +2,7 @@
 
 ## 1. Check
 
-- [ ] 1.1 Skip decided ADRs in the sentence check of `scripts/check.mjs`. Verify: `node --test 'scripts/*.test.mjs'` passes with a test for each scenario. Documents: none.
+- [x] 1.1 Skip decided ADRs in the sentence check of `scripts/check.mjs`. Verify: `node --test 'scripts/*.test.mjs'` passes with a test for each scenario. Documents: none.
 
 ## 2. Documents
 
