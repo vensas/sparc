@@ -280,3 +280,11 @@ test('git: changes on the default branch are reported', () => {
   git('switch', '-q', '-c', 'feat/x');
   assert.ok(!has(dir, 'files changed on the default branch'));
 });
+
+test('Marked sparc text: templates mark the sparc text and record the version', () => {
+  const agents = readFileSync(join(TEMPLATE, 'AGENTS.md'), 'utf8');
+  assert.match(agents, /<!-- sparc:begin -->\n## Rules\n[\s\S]+\n<!-- sparc:end -->/);
+  const config = readFileSync(join(TEMPLATE, 'openspec/config.yaml'), 'utf8');
+  assert.match(config, /^sparc:\n {2}version: \d+\.\d+\.\d+$/m);
+  assert.match(config, /^# sparc:begin\ncontext: \|[\s\S]+^rules:[\s\S]+^operations:[\s\S]+^# sparc:end$/m);
+});

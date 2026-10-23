@@ -2,7 +2,7 @@
 
 ## 1. Templates and init
 
-- [ ] 1.1 Add the markers to `templates/project/AGENTS.md` and `templates/project/openspec/config.yaml`, and the key `sparc:` with `version: 0.0.0` to the config template. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
+- [x] 1.1 Add the markers to `templates/project/AGENTS.md` and `templates/project/openspec/config.yaml`, and the key `sparc:` with `version: 0.0.0` to the config template. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
 - [ ] 1.2 In `skills/init/SKILL.md`, write the installed version into `sparc.version`. Verify: `claude plugin validate .` passes. Documents: none.
 
 ## 2. Check
