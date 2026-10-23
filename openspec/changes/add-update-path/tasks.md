@@ -12,7 +12,7 @@
 ## 3. Update skill
 
 - [x] 3.1 Add `skills/update/SKILL.md` as the design tells. Verify: `claude plugin validate .` passes. Documents: none.
-- [ ] 3.2 In `rules/release.md`, require a project step in each breaking changelog entry. Verify: `claude plugin validate .` passes. Documents: none.
+- [x] 3.2 In `rules/release.md`, require a project step in each breaking changelog entry. Verify: `claude plugin validate .` passes. Documents: none.
 
 ## 4. Documents
 
