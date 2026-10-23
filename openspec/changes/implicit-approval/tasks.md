@@ -2,11 +2,11 @@
 
 ## 1. Rule
 
-- [ ] 1.1 Rewrite `rules/approval.md`: apply approves a change, pull request approval or merge, explicit approval for other decisions, no label. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for the rule text. Documents: none.
+- [x] 1.1 Rewrite `rules/approval.md`: apply approves a change, pull request approval or merge, explicit approval for other decisions, no label. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for the rule text. Documents: none.
 
 ## 2. Skills and role
 
-- [ ] 2.1 Change `propose` (no question at the end), `apply` (no approval check), `archive` (ADRs to `accepted`, pull request is the approval) and the UX designer role (mockups approved with the change). Verify: `node --test 'scripts/*.test.mjs'` and `claude plugin validate .` pass. Documents: none.
+- [x] 2.1 Change `propose` (no question at the end), `apply` (no approval check), `archive` (ADRs to `accepted`, pull request is the approval) and the UX designer role (mockups approved with the change). Verify: `node --test 'scripts/*.test.mjs'` and `claude plugin validate .` pass. Documents: none.
 
 ## 3. Documents
 
