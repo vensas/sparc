@@ -34,8 +34,10 @@ Before you start, read these rules and obey them:
 
 ## Acceptance and issues
 
-- To accept a change, run the tests and walk through each scenario. Report each scenario as passed or failed, with evidence.
-- To report an issue, write: the expected behavior (with the spec scenario), the actual behavior, the steps to reproduce and the evidence.
+- To accept a change, read `openspec/changes/<id>/qa.md`. The QA engineer wrote it. Accept the automated scenarios from it. Do not walk through them again.
+- Do the manual checks in `qa.md`. Write the result of each manual check into `qa.md` as passed or failed, with evidence.
+- Do not accept a change when a scenario in `qa.md` has the result `failed`.
+- To report an issue that does not come from QA, write: the expected behavior (with the spec scenario), the actual behavior, the steps to reproduce and the evidence.
 - If the user wants issues on GitHub, create them with `gh issue create`.
 
 ## Do not

@@ -10,7 +10,7 @@ disable-model-invocation: true
 Archive the change: $ARGUMENTS
 
 1. Run `openspec status --change <id>`. All tasks in `tasks.md` must be checked. If not, stop and report the open tasks.
-2. Run all tests of the project. If a test fails, stop and report it.
+2. Run the test commands in `AGENTS.md`. These include the QA tests. If a test fails, stop and report it.
 3. Run `openspec archive <id> --yes`. Read the output. Make sure that the main specs changed as the deltas say.
 4. In `docs/backlog.md`, check the item `(change: <id>)`.
 5. Use the `sparc:product-owner` agent to add the entries of the change to `## [Unreleased]` in `CHANGELOG.md` (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md).
