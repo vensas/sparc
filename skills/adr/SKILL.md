@@ -14,7 +14,7 @@ Read ${CLAUDE_PLUGIN_ROOT}/rules/adr.md and ${CLAUDE_PLUGIN_ROOT}/rules/approval
 
 1. Find the next free number in `docs/adr/`.
 2. Copy `docs/adr/0000-template.md` (or `${CLAUDE_PLUGIN_ROOT}/templates/project/docs/adr/0000-template.md`) to `docs/adr/NNNN-<kebab-title>.md`.
-3. Use the `sparc:architect` agent to fill it. The status is `proposed`. The date is today.
+3. Fill it as the architect role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/architect.md`) tells. The status is `proposed`. The date is today.
 
 ## accept | reject
 

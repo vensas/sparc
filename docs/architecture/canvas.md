@@ -18,7 +18,8 @@
 
 - [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and pull request rules.
 - [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments and protection of decided ADRs through git history.
-- [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer, automation first, scenario report and acceptance from the QA report.
+- [team-roles](../../openspec/specs/team-roles/spec.md): roles as rule files, code review by the software engineer, optional fresh-context check.
+- [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer role, automation first, scenario report and acceptance from the QA report.
 - The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr and release.
 
 ## Key Stakeholder 🧑‍🧑‍🧒
@@ -33,7 +34,7 @@
 *Speed, scalability, reliability, usability, security, safety, capacity or similar.*
 
 - Simplicity: few files, no runtime dependencies in the check.
-- Correctness: agents write only facts with evidence.
+- Correctness: each role writes only facts with evidence.
 - Reusability: one plugin for all projects, updated through the marketplace.
 
 ## Business Context 🔗
@@ -52,12 +53,13 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0006](../adr/0006-use-keep-a-changelog-semver-and-conventional-commits.md): Use Keep a Changelog, SemVer and Conventional Commits with pull requests.
 - [ADR-0007](../adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md): Prove spec scenarios with a QA engineer after implementation.
 - [ADR-0008](../adr/0008-protect-decided-adrs-through-git-history.md): Protect decided ADRs through git history.
+- [ADR-0009](../adr/0009-use-roles-as-rules-instead-of-subagents.md): Use roles as rules instead of subagents.
 
 ## Technologies 🛠️
 
 *Important technologies for development and operation.*
 
-- Claude Code plugins: agents, skills, hooks.
+- Claude Code plugins: skills and hooks.
 - OpenSpec CLI 1.14.3 (tested version).
 - Node.js 20 or later for `scripts/check.mjs` (tested with 24.12.0).
 - Mermaid C4, MADR, ASD-STE100.
@@ -71,12 +73,12 @@ See the [container diagram](c4.md#containers).
 *Risks, open questions and missing information. What stops the team from faster delivery of value?*
 
 - A live test (Claude Code 2.1.308) showed that the agent gets the hook warning and replies one time. The hook warns again only when the findings change.
-- Propose, apply and archive were tested with the sparc agents on sparc itself (change add-qa-engineer). `/sparc:init` was not tested on a sample project.
+- Propose, apply and archive were tested on sparc itself (changes add-qa-engineer, remove-adr-lock-hash, replace-agents-with-roles). `/sparc:init` was not tested on a sample project.
+- A fresh-context run of QA (not only acceptance) is not shown yet.
 - In auto mode, the Write tool failed for the main session and for each subagent (no verdict from the classifier). Edit and Bash worked.
 - [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.
 - The STE check finds long sentences only. It does not check the STE dictionary.
 - The OpenSpec schema commands are experimental. sparc does not use them now.
-- It is not tested that a plugin agent can preload skills or that a skill can name a plugin agent in its `agent` field. sparc does not use these features now.
 
 ---
 

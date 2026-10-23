@@ -4,18 +4,19 @@ sparc is a harness for spec-driven work with agents in Claude Code. The name com
 
 ## Overview
 
-Agents write code fast, but the specs, the architecture and the documents fall behind. sparc adds a small team of agents, a fixed document set and a check on top of [OpenSpec](https://openspec.dev). Each change goes through propose, approve, apply and archive. After each step, sparc keeps the documents in sync. For the goal and the plan, see the [backlog](docs/backlog.md).
+Agents write code fast, but the specs, the architecture and the documents fall behind. sparc adds a small team of roles, a fixed document set and a check on top of [OpenSpec](https://openspec.dev). Each change goes through propose, approve, apply and archive. After each step, sparc keeps the documents in sync. For the goal and the plan, see the [backlog](docs/backlog.md).
 
 ## Key Features
 
-- Five agents: product owner, architect, UX designer, software engineer (start 1 to n in parallel) and QA engineer.
+- Five roles as plain rule files: product owner, architect, UX designer, software engineer and QA engineer. The skills follow them in the current session, without subagents.
+- Code review: the software engineer reviews the full change before QA. Acceptance needs a review without open findings.
 - Automation first: the QA engineer proves each spec scenario with an integration or end-to-end test. The product owner accepts from its report.
 - Seven skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr` and `/sparc:release`.
 - A document set with one home for each fact: README, AGENTS.md, backlog, changelog, C4 diagrams (Mermaid), architecture canvas and ADRs (MADR).
 - Release conventions: Keep a Changelog, Semantic Versioning, Conventional Commits and a pull request for each change.
 - ADR status rules. The check uses git history to find each change to a decided ADR.
 - A check without an LLM (`scripts/check.mjs`). A Stop hook runs it and warns about document drift.
-- Shared rules for all agents: ASD-STE100 writing, evidence before claims, simplicity, DRY, SOLID and good tests.
+- Shared rules for all roles: ASD-STE100 writing, evidence before claims, simplicity, DRY, SOLID and good tests.
 
 ## Architecture
 

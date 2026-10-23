@@ -9,6 +9,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 - The agent `sparc:qa-engineer` proves the spec scenarios of a change with integration and end-to-end tests, automation first ([add-qa-engineer](openspec/changes/archive/2026-10-23-add-qa-engineer/proposal.md)).
 - The file `qa.md` in each change holds the result of each scenario and the manual checks.
+- Code review: the software engineer role reviews the full change before QA and records the result in `qa.md`. Acceptance needs a review without open findings ([replace-agents-with-roles](openspec/changes/archive/2026-10-23-replace-agents-with-roles/proposal.md)).
+- `/sparc:apply <id> fresh-context` runs QA and acceptance in a general-purpose subagent that follows the role files.
 
 ### Changed
 
@@ -18,10 +20,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 - `/sparc:apply` runs the QA engineer after the task groups. The product owner accepts from `qa.md` and does only the manual checks.
 - `/sparc:propose` names the integration or end-to-end test tool of the project, or proposes an ADR for it.
 - `/sparc:archive` runs the test commands in `AGENTS.md`.
+- **Breaking:** The five agents are now role files in `rules/roles/`. The skills follow them in the current session, without subagents and worktrees.
 
 ### Removed
 
 - **Breaking:** The option `--lock` of `check.mjs` and the ADR front matter field `locked`. Remove `--lock` calls and `locked:` lines.
+- **Breaking:** The agent types `sparc:product-owner`, `sparc:architect`, `sparc:ux-designer`, `sparc:software-engineer` and `sparc:qa-engineer`. Use the skills.
 
 ## [0.2.0] - 2026-10-22
 
