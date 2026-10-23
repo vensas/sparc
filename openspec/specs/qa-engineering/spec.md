@@ -1,20 +1,9 @@
 # qa-engineering Specification
 
 ## Purpose
-Gives each sparc project a QA engineer agent that proves the spec scenarios of a change with automated integration tests and end-to-end tests.
+Gives each sparc project a QA engineer role that proves the spec scenarios of a change with automated integration tests and end-to-end tests.
 
 ## Requirements
-
-### Requirement: QA engineer agent
-The sparc plugin SHALL provide the agent `sparc:qa-engineer`. The agent SHALL be available in each project that has the sparc plugin installed.
-
-#### Scenario: Agent is available
-- **WHEN** a user loads the sparc plugin in Claude Code
-- **THEN** the agent type `sparc:qa-engineer` is in the list of available agents
-
-#### Scenario: Plugin stays valid
-- **WHEN** a user runs `claude plugin validate .` in the sparc repository
-- **THEN** the validation passes
 
 ### Requirement: Integration and end-to-end test scope
 The QA engineer SHALL write integration tests and end-to-end tests for the spec scenarios of a change. The QA engineer SHALL NOT write unit tests. Unit tests stay with the software engineers.
@@ -91,3 +80,14 @@ In `/sparc:apply`, the product owner SHALL accept a change from the QA report. T
 - **WHEN** the QA report gives a scenario as failed
 - **THEN** the product owner does not accept the change
 - **AND** the failed scenario goes to a software engineer as an issue
+
+### Requirement: QA engineer role
+The sparc plugin SHALL provide the role file `rules/roles/qa-engineer.md`. The skills SHALL follow it for QA.
+
+#### Scenario: Role is available
+- **WHEN** a user installs the sparc plugin
+- **THEN** the file `rules/roles/qa-engineer.md` exists and describes the QA engineer role
+
+#### Scenario: Plugin stays valid
+- **WHEN** a user runs `claude plugin validate .` in the sparc repository
+- **THEN** the validation passes
