@@ -6,4 +6,4 @@
 
 ## 2. README and changelog
 
-- [ ] 2.1 Show the logo at the top of `README.md` with `<picture>` for the light and dark theme. Add the `CHANGELOG.md` Unreleased entry. Verify: a test checks the README references, and `node scripts/check.mjs` passes. Documents: README.md, CHANGELOG.md.
+- [x] 2.1 Show the logo at the top of `README.md` with `<picture>` for the light and dark theme. Add the `CHANGELOG.md` Unreleased entry. Verify: a test checks the README references, and `node scripts/check.mjs` passes. Documents: README.md, CHANGELOG.md.

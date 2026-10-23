@@ -29,3 +29,10 @@ test('logo: plugin icon is a 512 x 512 PNG made from the icon SVG', () => {
   assert.equal(png.readUInt32BE(16), 512, 'width');
   assert.equal(png.readUInt32BE(20), 512, 'height');
 });
+
+test('logo: README shows the light or dark logo for the theme of the reader', () => {
+  const title = read('README.md').split('\n')[0];
+  assert.match(title, /^# <picture>/);
+  assert.match(title, /<source media="\(prefers-color-scheme: dark\)" srcset="docs\/assets\/logo-dark\.svg">/);
+  assert.match(title, /<img src="docs\/assets\/logo-light\.svg" alt="sparc"/);
+});
