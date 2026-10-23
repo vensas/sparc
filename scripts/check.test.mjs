@@ -332,3 +332,35 @@ test('Sentence check only for proposed ADRs: Long sentence in a proposed ADR', (
   write(dir, 'docs/adr/0001-a.md', ADR('proposed', `\n${LONG}\n`));
   assert.ok(has(dir, '0001-a.md: 1 sentence(s) with more than 25 words'));
 });
+
+const setWorkflow = (dir, workflow) => {
+  const file = join(dir, 'openspec/config.yaml');
+  const config = readFileSync(file, 'utf8').replace(/^ {2}workflow: \S+\n/m, '');
+  writeFileSync(file, workflow ? config.replace(/^sparc:\n/m, `sparc:\n  workflow: ${workflow}\n`) : config);
+};
+
+test('Workflow setting: Project without a workflow key', () => {
+  const { dir } = repo();
+  setWorkflow(dir, null);
+  appendFileSync(join(dir, 'docs/backlog.md'), '\n');
+  assert.ok(has(dir, 'files changed on the default branch "main"'));
+});
+
+test('Changes through pull requests: Trunk-based change', () => {
+  const { dir } = repo();
+  setWorkflow(dir, 'trunk');
+  appendFileSync(join(dir, 'docs/backlog.md'), '\n');
+  assert.ok(!has(dir, 'files changed on the default branch'));
+});
+
+test('Conventional commit messages: Trunk commit header is not conventional', () => {
+  const { dir, git } = repo();
+  setWorkflow(dir, 'trunk');
+  git('commit', '-q', '--allow-empty', '-m', 'old stuff before the release');
+  git('tag', 'v0.1.0');
+  git('commit', '-q', '--allow-empty', '-m', 'updated stuff');
+  git('commit', '-q', '--allow-empty', '-m', 'fix(check): Repair the range');
+  assert.ok(has(dir, '"updated stuff" does not have a Conventional Commits header'));
+  assert.ok(!has(dir, 'old stuff before the release'), 'commits before the last tag are not checked');
+  assert.ok(!has(dir, 'Repair the range'));
+});

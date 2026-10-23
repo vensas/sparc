@@ -2,7 +2,7 @@
 
 ## 1. Check
 
-- [ ] 1.1 Read `sparc.workflow` in `scripts/check.mjs`. In `trunk`, do not warn about the default branch, and check the commits since the last tag. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for the new and changed scenarios. Documents: none.
+- [x] 1.1 Read `sparc.workflow` in `scripts/check.mjs`. In `trunk`, do not warn about the default branch, and check the commits since the last tag. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for the new and changed scenarios. Documents: none.
 
 ## 2. Rule, skills and templates
 

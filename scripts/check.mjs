@@ -91,6 +91,12 @@ export function projectVersion(config) {
   return config.match(/^sparc:\n\s+version:\s*["']?([^\s"']+)/m)?.[1] ?? '0.1.0';
 }
 
+// A project without the key sparc.workflow uses pull requests, as before the key existed.
+export function projectWorkflow(config) {
+  const block = config.match(/^sparc:\n((?:[ \t]+.*\n?)*)/m)?.[1] ?? '';
+  return block.match(/^\s+workflow:\s*["']?(trunk|pull-request)\b/m)?.[1] ?? 'pull-request';
+}
+
 function checkVersion(dir, config, add) {
   const installed = JSON.parse(readFileSync(join(PLUGIN_ROOT, '.claude-plugin/plugin.json'), 'utf8')).version;
   if (realpathSync(dir) === realpathSync(PLUGIN_ROOT)) return;
@@ -255,7 +261,14 @@ function defaultBranch(dir) {
   return local ? { ref: local, name: local } : null;
 }
 
-function checkGit(dir, add) {
+function checkCommits(dir, range, add) {
+  const log = git(dir, 'log', '--format=%h%x09%s', range) ?? '';
+  for (const [hash, subject] of log.split('\n').filter(Boolean).map((l) => l.split('\t'))) {
+    if (!CONVENTIONAL.test(subject)) add('(git)', `commit ${hash} "${subject}" does not have a Conventional Commits header`);
+  }
+}
+
+function checkGit(dir, workflow, add) {
   const status = git(dir, 'status', '--porcelain');
   if (status === null) return;
   const paths = status.split('\n').filter(Boolean).map((l) => l.slice(3).split(' -> ').pop());
@@ -266,14 +279,12 @@ function checkGit(dir, add) {
   }
   const base = defaultBranch(dir);
   if (!base) return;
-  if (git(dir, 'branch', '--show-current') === base.name) {
-    if (paths.length) add('(git)', `files changed on the default branch "${base.name}": work on a branch and merge through a pull request`);
-    return;
+  if (git(dir, 'branch', '--show-current') !== base.name) return checkCommits(dir, `${base.ref}..HEAD`, add);
+  if (workflow === 'trunk') {
+    const tag = git(dir, 'describe', '--tags', '--abbrev=0');
+    return checkCommits(dir, tag ? `${tag}..HEAD` : 'HEAD', add);
   }
-  const log = git(dir, 'log', '--format=%h%x09%s', `${base.ref}..HEAD`) ?? '';
-  for (const [hash, subject] of log.split('\n').filter(Boolean).map((l) => l.split('\t'))) {
-    if (!CONVENTIONAL.test(subject)) add('(git)', `commit ${hash} "${subject}" does not have a Conventional Commits header`);
-  }
+  if (paths.length) add('(git)', `files changed on the default branch "${base.name}": work on a branch and merge through a pull request`);
 }
 
 export function check(dir) {
@@ -292,7 +303,7 @@ export function check(dir) {
   checkPlaceholders(dir, prose, add);
   // Decided ADRs must not change, so a sentence finding in them cannot be fixed.
   checkSentences(dir, prose.filter((f) => f !== DOCS.c4 && !adrs.decided.includes(f)), add);
-  checkGit(dir, add);
+  checkGit(dir, projectWorkflow(md('openspec') ?? ''), add);
   return findings;
 }
 
