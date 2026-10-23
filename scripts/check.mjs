@@ -3,10 +3,9 @@
 // Usage:
 //   node check.mjs [dir]              print findings, exit 1 if there are findings
 //   node check.mjs --json [dir]       print findings as JSON
-//   node check.mjs --lock <adr-file>  write the body hash into the ADR front matter
 //   node check.mjs --hook             Claude Code hook mode: read the event from stdin, warn, never block
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 'node:fs';
-import { join, basename } from 'node:path';
+import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
@@ -36,6 +35,8 @@ const RELEASE = /^\[(.+?)\] - \d{4}-\d{2}-\d{2}( \[YANKED\])?$/;
 const CONVENTIONAL = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([\w./-]+\))?!?: \S/;
 const MANIFESTS = ['package.json', '.claude-plugin/plugin.json'];
 const APPROVER = /^Approved by: *\[@([\w-]+)\]\(https:\/\/github\.com\/\1\)/m;
+const MADR_FIELDS = ['status', 'date', 'decision-makers', 'consulted', 'informed'];
+const PROTECTED_FIELDS = ['decision-makers', 'consulted', 'informed'];
 const STATUS = /^(proposed|accepted|rejected|deprecated|amended|superseded by ADR-(\d{4}))$/;
 
 const read = (dir, rel) => (existsSync(join(dir, rel)) ? readFileSync(join(dir, rel), 'utf8') : null);
@@ -63,20 +64,25 @@ export function parseFrontMatter(md) {
   return { data, body: md.slice(m[0].length), raw: m[0] };
 }
 
-export function adrHash(md) {
-  const body = parseFrontMatter(md).body.split(/^## +Amendments\s*$/m)[0];
-  const normal = body.split('\n').map((l) => l.trimEnd()).join('\n').trim();
-  return createHash('sha256').update(normal).digest('hex').slice(0, 16);
+// The decided content of an ADR: the protected front matter fields and the body before "## Amendments".
+export function decidedContent(md) {
+  const { data, body } = parseFrontMatter(md);
+  const fields = PROTECTED_FIELDS.map((k) => `${k}: ${data[k] ?? ''}`);
+  const text = body.split(/^## +Amendments\s*$/m)[0].split('\n').map((l) => l.trimEnd());
+  return [...fields, ...text].join('\n').trim();
 }
 
-export function lockAdr(file) {
-  const md = readFileSync(file, 'utf8');
-  const { raw } = parseFrontMatter(md);
-  if (!raw) throw new Error(`${file}: no front matter`);
-  const lock = `locked: ${adrHash(md)}`;
-  const front = /^locked:.*$/m.test(raw) ? raw.replace(/^locked:.*$/m, lock) : raw.replace(/\n---\n?$/, `\n${lock}\n---\n`);
-  writeFileSync(file, front + md.slice(raw.length));
-  return lock;
+const amendmentsOf = (md) => (md.split(/^## +Amendments\s*$/m)[1] ?? '').split('\n').map((l) => l.trimEnd()).join('\n').trim();
+const isDecided = (md) => (STATUS.exec(parseFrontMatter(md).data.status ?? '')?.[1] ?? 'proposed') !== 'proposed';
+
+// Returns the first committed version of the ADR with a decided status, or null.
+function decidedVersion(dir, rel) {
+  const log = git(dir, 'log', '--format=%H', '--reverse', '--', rel) ?? '';
+  for (const sha of log.split('\n').filter(Boolean)) {
+    const md = git(dir, 'show', `${sha}:./${rel}`);
+    if (md && isDecided(md)) return md;
+  }
+  return null;
 }
 
 function checkRequired(dir, add) {
@@ -129,22 +135,31 @@ function checkAdrs(dir, add) {
   const files = readdirSync(root).filter((f) => /^\d{4}-.+\.md$/.test(f) && !f.startsWith('0000-'));
   const numbers = new Set(files.map((f) => f.slice(0, 4)));
   if (numbers.size < files.length) add(ADR_DIR, 'two or more ADRs have the same number');
+  const repo = git(dir, 'rev-parse', '--is-inside-work-tree') === 'true';
+  let decided = false;
   for (const f of files) {
     const rel = `${ADR_DIR}/${f}`;
     const md = readFileSync(join(root, f), 'utf8');
     const { data } = parseFrontMatter(md);
+    for (const k of Object.keys(data)) if (!MADR_FIELDS.includes(k)) add(rel, `front matter field "${k}" is not a MADR field`);
     const status = STATUS.exec(data.status ?? '');
     if (!status) { add(rel, `status "${data.status ?? ''}" is not valid`); continue; }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date ?? '')) add(rel, 'date is missing or not YYYY-MM-DD');
     if (status[2] && (status[2] === f.slice(0, 4) || !numbers.has(status[2]))) add(rel, `superseding ADR-${status[2]} does not exist`);
     if (status[1] === 'proposed') continue;
-    if (!data.locked) add(rel, `status is "${status[1]}" but the ADR is not locked (run check.mjs --lock)`);
-    else if (data.locked !== adrHash(md)) add(rel, 'body changed after the lock: amend or supersede the ADR instead');
+    decided = true;
+    if (repo) {
+      const base = decidedVersion(dir, rel);
+      if (base && decidedContent(base) !== decidedContent(md)) add(rel, 'changed after the decision: amend or supersede the ADR instead');
+      const head = git(dir, 'show', `HEAD:./${rel}`);
+      if (head && !amendmentsOf(md).startsWith(amendmentsOf(head))) add(rel, 'an existing amendment changed: add new entries only at the end');
+    }
     const amendments = section(md, 'Amendments') ?? '';
     const entries = amendments.split(/^### /m).slice(1);
     if (status[1] === 'amended' && !entries.length) add(rel, 'status is "amended" but "## Amendments" has no entry');
     if (entries.some((e) => !APPROVER.test(e))) add(rel, 'an amendment has no "Approved by: [@handle](https://github.com/handle)" line');
   }
+  if (decided && !repo) add(ADR_DIR, 'not a git repository: cannot protect decided ADRs');
   return files.map((f) => `${ADR_DIR}/${f}`);
 }
 
@@ -296,7 +311,6 @@ function hook() {
 
 function main(args) {
   if (args[0] === '--hook') return hook();
-  if (args[0] === '--lock') return console.log(`${basename(args[1])}: ${lockAdr(args[1])}`);
   const json = args[0] === '--json';
   const findings = check(args.find((a) => !a.startsWith('--')) ?? process.cwd());
   console.log(json ? JSON.stringify(findings, null, 2) : findings.length ? `sparc check: ${findings.length} finding(s)\n${format(findings)}` : 'sparc check: no findings');

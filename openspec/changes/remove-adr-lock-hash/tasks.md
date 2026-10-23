@@ -2,7 +2,7 @@
 
 ## 1. Check
 
-- [ ] 1.1 Replace the lock in `scripts/check.mjs` with the git history protection, the amendment protection, the MADR field check and the no-git finding. Remove `adrHash`, `lockAdr` and `--lock`. Verify: `node --test 'scripts/*.test.mjs'` passes with a test for each scenario of `adr-management`. Documents: none.
+- [x] 1.1 Replace the lock in `scripts/check.mjs` with the git history protection, the amendment protection, the MADR field check and the no-git finding. Remove `adrHash`, `lockAdr` and `--lock`. Verify: `node --test 'scripts/*.test.mjs'` passes with a test for each scenario of `adr-management`. Documents: none.
 
 ## 2. sparc ADRs and documents
 
