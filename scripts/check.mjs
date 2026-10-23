@@ -37,6 +37,7 @@ const CONVENTIONAL = /^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|re
 const MANIFESTS = ['package.json', '.claude-plugin/plugin.json'];
 const APPROVER = /^Approved by: *\[@([\w-]+)\]\(https:\/\/github\.com\/\1\)/m;
 const MADR_FIELDS = ['status', 'date', 'decision-makers', 'consulted', 'informed'];
+const WORKFLOWS = ['trunk', 'pull-request'];
 const PROTECTED_FIELDS = ['decision-makers', 'consulted', 'informed'];
 const STATUS = /^(proposed|accepted|rejected|deprecated|amended|superseded by ADR-(\d{4}))$/;
 
@@ -94,7 +95,11 @@ export function projectVersion(config) {
 // A project without the key sparc.workflow uses pull requests, as before the key existed.
 export function projectWorkflow(config) {
   const block = config.match(/^sparc:\n((?:[ \t]+.*\n?)*)/m)?.[1] ?? '';
-  return block.match(/^\s+workflow:\s*["']?(trunk|pull-request)\b/m)?.[1] ?? 'pull-request';
+  return block.match(/^\s+workflow:\s*["']?([^\s"']+)/m)?.[1] ?? 'pull-request';
+}
+
+function checkWorkflow(workflow, add) {
+  if (!WORKFLOWS.includes(workflow)) add(DOCS.openspec, `workflow "${workflow}" is not "trunk" or "pull-request"`);
 }
 
 function checkVersion(dir, config, add) {
@@ -303,7 +308,9 @@ export function check(dir) {
   checkPlaceholders(dir, prose, add);
   // Decided ADRs must not change, so a sentence finding in them cannot be fixed.
   checkSentences(dir, prose.filter((f) => f !== DOCS.c4 && !adrs.decided.includes(f)), add);
-  checkGit(dir, projectWorkflow(md('openspec') ?? ''), add);
+  const workflow = projectWorkflow(md('openspec') ?? '');
+  checkWorkflow(workflow, add);
+  checkGit(dir, workflow, add);
   return findings;
 }
 

@@ -364,3 +364,9 @@ test('Conventional commit messages: Trunk commit header is not conventional', ()
   assert.ok(!has(dir, 'old stuff before the release'), 'commits before the last tag are not checked');
   assert.ok(!has(dir, 'Repair the range'));
 });
+
+test('Workflow setting: a value that is not trunk or pull-request is reported', () => {
+  const dir = project();
+  setWorkflow(dir, 'trunkk');
+  assert.ok(has(dir, 'openspec/config.yaml: workflow "trunkk" is not "trunk" or "pull-request"'));
+});
