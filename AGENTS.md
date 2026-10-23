@@ -16,7 +16,7 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | Path | Content |
 |---|---|
 | `.claude-plugin/` | Plugin manifest and marketplace manifest |
-| `skills/` | Skills: init, propose, apply, archive, sync, adr, release |
+| `skills/` | Skills: init, propose, apply, archive, sync, adr, release, update |
 | `rules/` | Shared rules. Skills and roles link to them. Do not copy rule text. |
 | `rules/roles/` | Roles: product owner, architect, UX designer, software engineer, QA engineer |
 | `templates/project/` | Files that `/sparc:init` copies into a project |

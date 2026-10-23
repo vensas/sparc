@@ -11,7 +11,8 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 - Five roles as plain rule files: product owner, architect, UX designer, software engineer and QA engineer. The skills follow them in the current session, without subagents.
 - Code review: the software engineer reviews the full change before QA. Acceptance needs a review without open findings.
 - Automation first: the QA engineer proves each spec scenario with an integration or end-to-end test. The product owner accepts from its report.
-- Seven skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr` and `/sparc:release`.
+- Eight skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr`, `/sparc:release` and `/sparc:update`.
+- Update path: a project records its sparc version. `/sparc:update` applies the migration steps of the changelog and replaces only the marked sparc text.
 - A document set with one home for each fact: README, AGENTS.md, backlog, changelog, C4 diagrams (Mermaid), architecture canvas and ADRs (MADR).
 - Release conventions: Keep a Changelog, Semantic Versioning, Conventional Commits and a pull request for each change.
 - ADR status rules. The check uses git history to find each change to a decided ADR.
@@ -34,6 +35,8 @@ Prerequisites: Claude Code, Node.js 20 or later, git and OpenSpec (`npm install 
 5. For each feature or fix, run `/sparc:propose <feature>`. Approve the change.
 6. Run `/sparc:apply <change-id>`, then `/sparc:archive <change-id>`.
 7. Merge the pull request. Run `/sparc:release` to make a release.
+
+To update a project that already uses sparc, run `/plugin update sparc@sparc`, then `/sparc:update` in the project.
 
 Tell the project idea one time, in `/sparc:init`. Tell each feature in `/sparc:propose`:
 

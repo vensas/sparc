@@ -20,7 +20,7 @@
 - [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments and protection of decided ADRs through git history.
 - [team-roles](../../openspec/specs/team-roles/spec.md): roles as rule files, code review by the software engineer, optional fresh-context check.
 - [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer role, automation first, scenario report and acceptance from the QA report.
-- The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr and release.
+- The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr, release and update.
 
 ## Key Stakeholder 🧑‍🧑‍🧒
 

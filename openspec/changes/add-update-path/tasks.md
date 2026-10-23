@@ -16,5 +16,5 @@
 
 ## 4. Documents
 
-- [ ] 4.1 Update README (eight skills, update in "Get Started"), AGENTS.md, C4 container "Skills" and canvas. Verify: `node scripts/check.mjs` passes. Documents: README.md, AGENTS.md, c4.md, canvas.md.
+- [x] 4.1 Update README (eight skills, update in "Get Started"), AGENTS.md, C4 container "Skills" and canvas. Verify: `node scripts/check.mjs` passes. Documents: README.md, AGENTS.md, c4.md, canvas.md.
 - [ ] 4.2 Add the `CHANGELOG.md` Unreleased entries. Verify: `node scripts/check.mjs` passes. Documents: CHANGELOG.md.
