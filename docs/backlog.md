@@ -23,4 +23,4 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] Roles as rules instead of subagents, with code review by the software engineer (change: replace-agents-with-roles)
 - [x] Update path for projects that already use sparc (change: add-update-path)
 - [x] No STE sentence findings for decided ADRs (change: skip-ste-check-for-decided-adrs)
-- [ ] Logo for README and plugin icon (change: add-sparc-logo)
+- [x] Logo for README and plugin icon (change: add-sparc-logo)
