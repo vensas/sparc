@@ -2,7 +2,7 @@
 
 ## 1. QA engineer agent (can run in parallel with group 2)
 
-- [ ] 1.1 Add `agents/qa-engineer.md`: scope, automation first, the test-tool rule, the `qa.md` format, the rule links and a "Do not" list (no unit tests, no product code, no new tool without an approved ADR). Verify: `claude plugin validate .` passes and `claude -p --plugin-dir .` lists `sparc:qa-engineer`. Documents: none.
+- [x] 1.1 Add `agents/qa-engineer.md`: scope, automation first, the test-tool rule, the `qa.md` format, the rule links and a "Do not" list (no unit tests, no product code, no new tool without an approved ADR). Verify: `claude plugin validate .` passes and `claude -p --plugin-dir .` lists `sparc:qa-engineer`. Documents: none.
 
 ## 2. Skills and product owner (can run in parallel with group 1)
 
