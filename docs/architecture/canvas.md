@@ -17,6 +17,7 @@
 *Links to the capabilities in `openspec/specs/`.*
 
 - [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and pull request rules.
+- [approval](../../openspec/specs/approval/spec.md): apply and pull requests as approval, explicit approval for other decisions.
 - [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments and protection of decided ADRs through git history.
 - [project-update](../../openspec/specs/project-update/spec.md): project version, marked sparc text and the update skill.
 - [team-roles](../../openspec/specs/team-roles/spec.md): roles as rule files, code review by the software engineer, optional fresh-context check.
@@ -56,6 +57,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0008](../adr/0008-protect-decided-adrs-through-git-history.md): Protect decided ADRs through git history.
 - [ADR-0009](../adr/0009-use-roles-as-rules-instead-of-subagents.md): Use roles as rules instead of subagents.
 - [ADR-0010](../adr/0010-record-the-sparc-version-and-mark-sparc-text-in-projects.md): Record the sparc version and mark sparc text in projects.
+- [ADR-0011](../adr/0011-use-apply-and-pull-requests-as-approval.md): Use apply and pull requests as approval.
 
 ## Technologies 🛠️
 
@@ -77,6 +79,7 @@ See the [container diagram](c4.md#containers).
 - A live test (Claude Code 2.1.308) showed that the agent gets the hook warning and replies one time. The hook warns again only when the findings change.
 - Propose, apply and archive were tested on sparc itself (changes add-qa-engineer, remove-adr-lock-hash, replace-agents-with-roles). `/sparc:init` was not tested on a sample project.
 - A fresh-context run of QA (not only acceptance) is not shown yet.
+- The pull request approval (review, merge, changes requested) is not tested, because sparc has no GitHub repository yet.
 - `/sparc:update` was tested with a scratch plugin at version 0.3.0. The first real update comes after the next release.
 - In auto mode, the Write tool failed for the main session and for each subagent (no verdict from the classifier). Edit and Bash worked.
 - [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.
