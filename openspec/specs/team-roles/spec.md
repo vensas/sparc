@@ -17,12 +17,15 @@ The sparc plugin SHALL provide one role file for each role in `rules/roles/`: pr
 - **THEN** no agent type with the prefix `sparc:` is available
 
 ### Requirement: Skills follow the roles in the current session
-Each skill SHALL name the role files that it follows. A skill SHALL NOT start a subagent or a worktree, except for the optional fresh-context check.
+Each skill SHALL name the role files that it follows. By default, the roles run in the current session. The skills and rules SHALL NOT forbid subagents or worktrees, and SHALL NOT tell the agent to use them, except for the optional fresh-context check. The agent decides where a subagent helps.
+
+#### Scenario: Skills do not forbid subagents
+- **WHEN** a user reads the sparc skills and rules
+- **THEN** no text forbids subagents, worktrees or parallel work
 
 #### Scenario: Apply without subagents
 - **WHEN** a user runs `/sparc:apply` without a request for a fresh-context check
-- **THEN** the task groups, the code review, QA and acceptance run in the current session one after the other
-- **AND** no worktree is created
+- **THEN** the skill text does not tell the agent to start a subagent or a worktree
 
 ### Requirement: Code review by the software engineer
 After all task groups and before QA, the software engineer role SHALL review the diff of the change against the default branch with the review checklist of its role file. It SHALL fix each finding with a commit, or move it to the backlog after the user agrees. It SHALL record the result in the section `## Code review` of `qa.md`.

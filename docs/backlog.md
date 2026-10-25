@@ -26,4 +26,4 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] Logo for README and plugin icon (change: add-sparc-logo)
 - [x] Approval through apply and pull requests (change: implicit-approval)
 - [x] Trunk-based workflow on the default branch (change: trunk-based-workflow)
-- [ ] Do not forbid subagents (change: allow-subagents)
+- [x] Do not forbid subagents (change: allow-subagents)

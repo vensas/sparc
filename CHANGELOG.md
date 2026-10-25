@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Changed
+
+- The skills and rules no longer forbid subagents and worktrees. They also do not tell the agent to use them. By default, the roles run in the current session ([allow-subagents](openspec/changes/archive/2026-10-25-allow-subagents/proposal.md)).
+
 ## [0.4.0] - 2026-10-23
 
 ### Added
