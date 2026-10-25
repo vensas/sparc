@@ -8,4 +8,4 @@
 
 ## 2. Amend the decision
 
-- [ ] 2.1 Add the amendment of design.md to `## Amendments` of ADR-0009 and set its status to `amended`. Verify: `node scripts/check.mjs` has no findings and the canvas still links ADR-0009.
+- [x] 2.1 Add the amendment of design.md to `## Amendments` of ADR-0009 and set its status to `amended`. Verify: `node scripts/check.mjs` has no findings and the canvas still links ADR-0009.

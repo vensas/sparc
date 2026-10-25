@@ -1,6 +1,6 @@
 ---
-status: accepted
-date: 2026-10-23
+status: amended
+date: 2026-10-25
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
@@ -39,3 +39,8 @@ ADR-0007 stays valid. It decides when QA runs, not who runs it.
 
 ## Amendments
 
+### 2026-10-25: Subagents are permitted, not required
+
+Approved by: [@sventropy](https://github.com/sventropy), chat (`/sparc:apply allow-subagents`)
+
+Roles stay rule files, and the plugin defines no agent types. The skills and rules do not forbid subagents or worktrees, and do not tell the agent to use them. The agent can start a subagent where it helps, for example for independent task groups. The optional fresh-context check is unchanged.
