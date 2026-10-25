@@ -1,6 +1,6 @@
 ---
 name: apply
-description: Implement an OpenSpec change in the current session. Running it approves the change. Follow the software engineer role for each task group and for the code review, the QA engineer role for QA, and the product owner role for acceptance.
+description: Implement an OpenSpec change. Running it approves the change. Follow the software engineer role for each task group and for the code review, the QA engineer role for QA, and the product owner role for acceptance.
 argument-hint: "<change-id> [fresh-context]"
 disable-model-invocation: true
 ---
@@ -19,7 +19,7 @@ The roles are in `${CLAUDE_PLUGIN_ROOT}/rules/roles/`. Read each role file when 
 
 ## 2. Task groups
 
-Follow the software engineer role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/software-engineer.md`). Do the open task groups (`## N.` headings with unchecked tasks) one after the other, in the current session.
+Follow the software engineer role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/software-engineer.md`). Do the open task groups (`## N.` headings with unchecked tasks). A group can depend on the groups before it.
 
 For each task group:
 
