@@ -23,10 +23,17 @@ test('Skills follow the roles in the current session: skills name role files and
   for (const name of ['init', 'propose', 'apply', 'archive', 'sync', 'adr']) assert.match(skill(name), /rules\/roles\/[a-z-]+\.md/, `skill ${name} names no role file`);
 });
 
+test('Skills follow the roles in the current session: Skills do not forbid subagents', () => {
+  const ban = /SHALL NOT start a subagent|without subagents|one after the other|do not (start|use) (a )?(subagent|worktree)/i;
+  const rules = (dir) => readdirSync(join(ROOT, dir)).filter((f) => f.endsWith('.md')).map((f) => join(dir, f));
+  const files = [...SKILLS.map((name) => join('skills', name, 'SKILL.md')), ...rules('rules'), ...rules('rules/roles')];
+  for (const file of files) assert.doesNotMatch(readFileSync(join(ROOT, file), 'utf8'), ban, `${file} forbids subagents or parallel work`);
+});
+
 test('Skills follow the roles in the current session: Apply without subagents', () => {
   const [main, fresh] = skill('apply').split(/^## .*fresh-context check.*$/im);
   assert.ok(fresh, 'apply has a section for the optional fresh-context check');
-  assert.doesNotMatch(main, /worktree|subagent/i, 'apply uses subagents or worktrees outside the fresh-context check');
+  assert.doesNotMatch(main, /worktree|subagent/i, 'apply tells the agent to use subagents or worktrees outside the fresh-context check');
 });
 
 test('Code review by the software engineer: the role has a review checklist that records into qa.md', () => {
