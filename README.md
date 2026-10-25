@@ -8,7 +8,7 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 
 ## Key Features
 
-- Five roles as plain rule files: product owner, architect, UX designer, software engineer and QA engineer. The skills follow them in the current session, without subagents.
+- Five roles as plain rule files: product owner, architect, UX designer, software engineer and QA engineer. The skills follow them. sparc defines no agent types.
 - Code review: the software engineer reviews the full change before QA. Acceptance needs a review without open findings.
 - Automation first: the QA engineer proves each spec scenario with an integration or end-to-end test. The product owner accepts from its report.
 - Eight skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr`, `/sparc:release` and `/sparc:update`.
