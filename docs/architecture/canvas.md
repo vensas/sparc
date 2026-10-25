@@ -80,7 +80,7 @@ See the [container diagram](c4.md#containers).
 - A live test (Claude Code 2.1.308) showed that the agent gets the hook warning and replies one time. The hook warns again only when the findings change.
 - Propose, apply and archive were tested on sparc itself (changes add-qa-engineer, remove-adr-lock-hash, replace-agents-with-roles). `/sparc:init` was not tested on a sample project.
 - A fresh-context run of QA (not only acceptance) is not shown yet.
-- The pull request approval (review, merge, changes requested) is not tested, because sparc has no GitHub repository yet.
+- The pull request approval (review, merge, changes requested) is not tested. sparc uses the workflow `trunk`, so its own changes do not test it.
 - `/sparc:update` was tested with a scratch plugin at version 0.3.0. The first real update comes after the next release.
 - In auto mode, the Write tool failed for the main session and for each subagent (no verdict from the classifier). Edit and Bash worked.
 - [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.

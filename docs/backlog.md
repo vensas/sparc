@@ -14,7 +14,8 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] Test the hook output in a live Claude Code session
 - [ ] Test the full workflow on a sample project (init, propose, apply, archive)
 - [x] Choose a license (MIT)
-- [ ] Publish to GitHub as vensas/sparc and test the installation from the marketplace
+- [x] Publish to GitHub as vensas/sparc (private)
+- [ ] Test the installation from the marketplace
 - [ ] Decide if sparc adds [arc42agentic](https://github.com/matthiasnissen/arc42agentic) as an optional module
 - [x] Release conventions: changelog, SemVer, Conventional Commits and pull requests (change: add-release-conventions)
 - [ ] Write the specs of sparc as OpenSpec capabilities
