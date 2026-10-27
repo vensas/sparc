@@ -8,7 +8,7 @@
 ## 2. CI workflows
 
 - [x] 2.1 Add `.github/workflows/validate.yml` (push to `main`, pull request, `workflow_call`): Node.js 24, `fetch-depth: 0`, tests, `node scripts/check.mjs`, `claude plugin validate .`. Verify: `actionlint` reports nothing, and `act push -W .github/workflows/validate.yml` passes. Documents: canvas.md (open point if the plugin validation needs a login).
-- [ ] 2.2 Add `.github/workflows/publish.yml` (push of tags `v*.*.*`): call the validation workflow, run `scripts/verify-release.mjs`, then `gh release create` with `contents: write`, skipped under `act`. Verify: `actionlint` reports nothing, `act push` with a `v0.5.0` tag event passes, and with a `v9.9.9` tag event fails at the verification step. Documents: none.
+- [x] 2.2 Add `.github/workflows/publish.yml` (push of tags `v*.*.*`): call the validation workflow, run `scripts/verify-release.mjs`, then `gh release create` with `contents: write`, skipped under `act`. Verify: `actionlint` reports nothing, `act push` with a `v0.5.0` tag event passes, and with a `v9.9.9` tag event fails at the verification step. Documents: none.
 
 ## 3. Documents
 
