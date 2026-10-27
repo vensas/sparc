@@ -18,12 +18,14 @@
 - Reason: the check needs a real release and a push to GitHub.
 - Steps: run `/sparc:release` for 0.6.0. Read the release commit. Push with `git push --atomic origin main v0.6.0`.
 - Expected result: the commit `chore(release): 0.6.0` sets the marketplace `ref` to `v0.6.0`. One push updates `main` and makes the tag.
+- Result: passed. Commit `586fe7d` sets `ref` to `v0.6.0`. `git push --atomic origin main v0.6.0` updated `main` (`27048d6..586fe7d`) and made the tag.
 
 ### Publication of a release tag: GitHub release on GitHub
 
 - Reason: `act` cannot make a GitHub release with the token of GitHub Actions.
 - Steps: after the push of `v0.6.0`, run `gh run watch` for the workflow "Publish", then `gh release view v0.6.0`.
 - Expected result: the workflow passes. The release `v0.6.0` exists, with the entries of `## [0.6.0]` as notes.
+- Result: passed after one more tag push. The first tag push started no Publish run, because `publish.yml` came in the same push. After `git push origin :refs/tags/v0.6.0` and `git push origin v0.6.0` (same commit `586fe7d`), run 40499231107 passed. `gh release view v0.6.0` shows the entries of `## [0.6.0]`.
 
 ## Code review
 
@@ -33,4 +35,4 @@ No findings.
 
 ## Acceptance
 
-Accepted by the product owner from this report on 2026-10-27. No scenario failed. The code review has no open finding. The two manual checks need the release 0.6.0. They are done after the release and their results are added here.
+Accepted by the product owner from this report on 2026-10-27. No scenario failed. The code review has no open finding. The two manual checks passed after the release 0.6.0.
