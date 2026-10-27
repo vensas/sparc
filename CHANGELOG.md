@@ -5,6 +5,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-27
+
 ### Added
 
 - CI tests sparc on each push to `main` and on each pull request: tests, document check and plugin validation ([publish-plugin-releases](openspec/changes/archive/2026-10-27-publish-plugin-releases/proposal.md)).
