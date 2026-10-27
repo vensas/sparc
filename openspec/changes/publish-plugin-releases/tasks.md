@@ -12,4 +12,4 @@
 
 ## 3. Documents
 
-- [ ] 3.1 Rewrite the install section of `README.md`: CLI, Claude Desktop, update, access to the private repository, and `claude --plugin-dir .` for development. Add the CI workflows to the structure table in `AGENTS.md`. Verify: `node scripts/check.mjs` reports no finding. Documents: README.md, AGENTS.md.
+- [x] 3.1 Rewrite the install section of `README.md`: CLI, Claude Desktop, update, access to the private repository, and `claude --plugin-dir .` for development. Add the CI workflows to the structure table in `AGENTS.md`. Verify: `node scripts/check.mjs` reports no finding. Documents: README.md, AGENTS.md.

@@ -9,6 +9,8 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | Run the tests | `node --test 'scripts/*.test.mjs'` |
 | Check the documents | `node scripts/check.mjs` |
 | Validate the plugin | `claude plugin validate .` |
+| Lint the CI workflows | `actionlint` |
+| Run a CI workflow locally (Docker, from a clean clone, `linux/arm64` on Apple silicon) | `act push -W .github/workflows/validate.yml --container-architecture linux/arm64` |
 | Load the plugin for a test | `claude --plugin-dir .` |
 | Make the plugin icon after a change to `docs/assets/icon.svg` | `rsvg-convert -w 512 -h 512 docs/assets/icon.svg -o .claude-plugin/icon.png` |
 
@@ -22,6 +24,8 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | `rules/roles/` | Roles: product owner, architect, UX designer, software engineer, QA engineer |
 | `templates/project/` | Files that `/sparc:init` copies into a project |
 | `scripts/check.mjs` | Document check without dependencies, and its tests |
+| `scripts/verify-release.mjs` | Release verification for the publication workflow, and its tests |
+| `.github/workflows/` | CI: `validate.yml` for each push and pull request, `publish.yml` for each release tag |
 | `hooks/hooks.json` | Stop and SubagentStop hooks that run the check |
 | `openspec/` | Specs and changes of sparc |
 | `docs/` | Backlog, C4 diagrams, canvas and ADRs of sparc |

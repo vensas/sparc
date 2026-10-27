@@ -28,15 +28,45 @@ For details, see the [C4 diagrams](docs/architecture/c4.md), the [architecture c
 
 Prerequisites: Claude Code, Node.js 20 or later, git and OpenSpec (`npm install -g @fission-ai/openspec`).
 
-1. Add the marketplace in Claude Code: `/plugin marketplace add vensas/sparc`.
-2. Install the plugin: `/plugin install sparc@sparc`.
-3. Open the folder of your project (new or existing) and run `/sparc:init <project idea>`.
-4. Answer the questions of the product owner: goal, stakeholders and quality requirements.
-5. For each feature or fix, run `/sparc:propose <feature>`. Read the summary.
-6. Run `/sparc:apply <change-id>`. This approves the change. Then run `/sparc:archive <change-id>`.
-7. In the workflow `pull-request`, merge the pull request. The review or the merge is the approval. In the workflow `trunk`, the archive commit is on the default branch. Run `/sparc:release` to make a release.
+### Install
 
-To update a project that already uses sparc, run `/plugin update sparc@sparc`, then `/sparc:update` in the project.
+The repository `vensas/sparc` is private. Git on your machine must have access to it without a prompt: a GitHub SSH key in `ssh-agent`, or `gh auth login` and then `gh auth setup-git`. Without an SSH key, set `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1`.
+
+With the Claude Code CLI:
+
+```sh
+claude plugin marketplace add vensas/sparc
+claude plugin install sparc@sparc
+claude plugin list
+```
+
+In a Claude Code session, use `/plugin marketplace add vensas/sparc` and `/plugin install sparc@sparc`.
+
+With Claude Desktop, in the **Code** tab:
+
+1. Click **+** next to the prompt box and select **Plugins**.
+2. In the plugin view, click **+** and select **Add from repo**.
+3. Paste `https://github.com/vensas/sparc.git`.
+4. Install `sparc` from the marketplace `sparc`. If Claude Desktop tells you to reload the plugins, run `/reload-plugins`.
+
+The marketplace gives the latest release tag, not the newest commit on `main`.
+
+### Update
+
+```sh
+claude plugin marketplace update sparc
+claude plugin update sparc@sparc
+```
+
+Then run `/sparc:update` in each project that uses sparc.
+
+### Use
+
+1. Open the folder of your project (new or existing) and run `/sparc:init <project idea>`.
+2. Answer the questions of the product owner: goal, stakeholders and quality requirements.
+3. For each feature or fix, run `/sparc:propose <feature>`. Read the summary.
+4. Run `/sparc:apply <change-id>`. This approves the change. Then run `/sparc:archive <change-id>`.
+5. In the workflow `pull-request`, merge the pull request. The review or the merge is the approval. In the workflow `trunk`, the archive commit is on the default branch. Run `/sparc:release` to make a release.
 
 Tell the project idea one time, in `/sparc:init`. Tell each feature in `/sparc:propose`:
 
@@ -47,12 +77,16 @@ Tell the project idea one time, in `/sparc:init`. Tell each feature in `/sparc:p
 
 For an existing code base, `/sparc:init` also documents what the architect finds in the code.
 
-To work on sparc itself, load the plugin from the folder and run the tests:
+### Develop sparc
+
+Load the plugin from your checkout and run the tests. Do not add the checkout as a marketplace for this: the marketplace installs the release tag from GitHub, not your local files.
 
 ```sh
 claude --plugin-dir ~/dev/vensas/sparc
 node --test 'scripts/*.test.mjs'
 ```
+
+CI runs the tests, the check and the plugin validation for each push to `main` and each pull request. For each release tag, CI also makes a GitHub release with the changelog entries.
 
 ## License
 
