@@ -44,3 +44,4 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 
 - `scripts/check.mjs` has no dependencies. Keep it like that.
 - Commit on `main`. The manifest is `.claude-plugin/plugin.json`.
+- The `ref` of the sparc entry in `.claude-plugin/marketplace.json` is a version file. Set it to `v<version>` in the release commit. Push the release commit and the tag together: `git push --atomic origin main v<version>`.
