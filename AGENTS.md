@@ -27,6 +27,7 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | `docs/` | Backlog, C4 diagrams, canvas and ADRs of sparc |
 | `CHANGELOG.md` | Changes for each release |
 
+<!-- sparc:begin -->
 ## Rules
 
 - Write all English text in ASD-STE100 Simplified Technical English.
@@ -34,6 +35,12 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 - Keep it simple. Keep each fact in one place (DRY). Link to it from other places.
 - Change behavior only through an OpenSpec change: propose, apply, archive. Running apply approves the change.
 - After each step, keep the documents in sync. Use `/sparc:sync`.
-- Do not change the body of an accepted ADR. Amend it or supersede it.
+- Do not change a decided ADR. Amend it or supersede it.
+- Use Conventional Commits. Follow the workflow in `openspec/config.yaml` (`trunk` or `pull-request`). Keep `CHANGELOG.md` and the version in the manifest equal.
+- Put project rules outside the sparc markers. `/sparc:update` replaces the text between them.
+<!-- sparc:end -->
+
+## Project rules
+
 - `scripts/check.mjs` has no dependencies. Keep it like that.
-- Commit on `main` (workflow `trunk`, see `openspec/config.yaml`). Use Conventional Commits. Keep `CHANGELOG.md` and the version in `.claude-plugin/plugin.json` equal.
+- Commit on `main`. The manifest is `.claude-plugin/plugin.json`.
