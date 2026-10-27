@@ -17,6 +17,7 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 - Release conventions: Keep a Changelog, Semantic Versioning and Conventional Commits. Each project chooses its workflow: trunk-based on the default branch, or a pull request for each change.
 - ADR status rules. The check uses git history to find each change to a decided ADR.
 - A check without an LLM (`scripts/check.mjs`). A Stop hook runs it and warns about document drift.
+- Released versions only: the marketplace gives the latest release tag. CI tests each push and publishes each release on GitHub.
 - Shared rules for all roles: ASD-STE100 writing, evidence before claims, simplicity, DRY, SOLID and good tests.
 
 ## Architecture

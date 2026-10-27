@@ -22,6 +22,7 @@
 - [project-update](../../openspec/specs/project-update/spec.md): project version, marked sparc text and the update skill.
 - [team-roles](../../openspec/specs/team-roles/spec.md): roles as rule files, code review by the software engineer, optional fresh-context check.
 - [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer role, automation first, scenario report and acceptance from the QA report.
+- [plugin-distribution](../../openspec/specs/plugin-distribution/spec.md): install from the marketplace at the latest release tag, CI validation and publication of releases.
 - The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr, release and update.
 
 ## Key Stakeholder 🧑‍🧑‍🧒
@@ -59,7 +60,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0010](../adr/0010-record-the-sparc-version-and-mark-sparc-text-in-projects.md): Record the sparc version and mark sparc text in projects.
 - [ADR-0011](../adr/0011-use-apply-and-pull-requests-as-approval.md): Use apply and pull requests as approval.
 - [ADR-0012](../adr/0012-use-a-trunk-or-pull-request-workflow.md): Use a trunk or pull request workflow.
-- [ADR-0013](../adr/0013-pin-the-marketplace-entry-to-the-release-tag.md): Pin the marketplace entry to the release tag (proposed).
+- [ADR-0013](../adr/0013-pin-the-marketplace-entry-to-the-release-tag.md): Pin the marketplace entry to the release tag.
 
 ## Technologies 🛠️
 
@@ -69,6 +70,7 @@ See the [system context diagram](c4.md#system-context).
 - OpenSpec CLI 1.14.3 (tested version).
 - Node.js 20 or later for `scripts/check.mjs` (tested with 24.12.0).
 - Mermaid C4, MADR, ASD-STE100.
+- GitHub Actions for CI and GitHub releases. `actionlint` and `act` test the workflows locally.
 
 ## Components / Modules 🧊
 

@@ -5,6 +5,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Added
+
+- CI tests sparc on each push to `main` and on each pull request: tests, document check and plugin validation ([publish-plugin-releases](openspec/changes/archive/2026-10-27-publish-plugin-releases/proposal.md)).
+- CI makes a GitHub release for each release tag, with the changelog entries as notes. It stops when the tag, the manifest, the marketplace entry and the changelog do not name the same release.
+- The README tells how to install and update sparc with the Claude Code CLI and with Claude Desktop. It also tells how to get access to the private repository.
+
+### Changed
+
+- The marketplace gives the latest release of sparc, not the newest commit on `main`. The install commands stay the same.
+
 ## [0.5.0] - 2026-10-25
 
 ### Changed
