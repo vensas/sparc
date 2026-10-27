@@ -78,7 +78,6 @@ See the [container diagram](c4.md#containers).
 
 *Risks, open questions and missing information. What stops the team from faster delivery of value?*
 
-- It is not known if `claude plugin validate .` runs on a CI runner without a login (change publish-plugin-releases, task 2.1).
 - A live test (Claude Code 2.1.308) showed that the agent gets the hook warning and replies one time. The hook warns again only when the findings change.
 - Propose, apply and archive were tested on sparc itself (changes add-qa-engineer, remove-adr-lock-hash, replace-agents-with-roles). `/sparc:init` was not tested on a sample project.
 - A fresh-context run of QA (not only acceptance) is not shown yet.
