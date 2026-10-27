@@ -2,7 +2,7 @@
 
 ## 1. Release values
 
-- [ ] 1.1 Add `scripts/verify-release.mjs <tag> [notes-file]` and `scripts/verify-release.test.mjs`. The script compares the tag, the version in `plugin.json`, the marketplace `ref` and the latest changelog release, names each difference and writes the changelog section to the notes file. Set the marketplace entry to `{"source": "github", "repo": "vensas/sparc", "ref": "v0.5.0"}`. Verify: `node --test 'scripts/*.test.mjs'` passes with a test for each scenario of the requirements "Marketplace gives the latest release" and "Publication of a release tag", and `node scripts/verify-release.mjs v0.5.0` passes. Documents: none.
+- [x] 1.1 Add `scripts/verify-release.mjs <tag> [notes-file]` and `scripts/verify-release.test.mjs`. The script compares the tag, the version in `plugin.json`, the marketplace `ref` and the latest changelog release, names each difference and writes the changelog section to the notes file. Set the marketplace entry to `{"source": "github", "repo": "vensas/sparc", "ref": "v0.5.0"}`. Verify: `node --test 'scripts/*.test.mjs'` passes with a test for each scenario of the requirements "Marketplace gives the latest release" and "Publication of a release tag", and `node scripts/verify-release.mjs v0.5.0` passes. Documents: none.
 - [ ] 1.2 Add the project rule in `AGENTS.md` (outside the sparc markers): the marketplace `ref` is a version file, and the release pushes with `git push --atomic origin main v<version>`. Verify: `node scripts/check.mjs` reports no finding. Documents: AGENTS.md.
 
 ## 2. CI workflows
