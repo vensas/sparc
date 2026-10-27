@@ -27,3 +27,4 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] Approval through apply and pull requests (change: implicit-approval)
 - [x] Trunk-based workflow on the default branch (change: trunk-based-workflow)
 - [x] Do not forbid subagents (change: allow-subagents)
+- [ ] Publish released versions to the marketplace with CI (change: publish-plugin-releases)

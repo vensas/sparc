@@ -59,6 +59,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0010](../adr/0010-record-the-sparc-version-and-mark-sparc-text-in-projects.md): Record the sparc version and mark sparc text in projects.
 - [ADR-0011](../adr/0011-use-apply-and-pull-requests-as-approval.md): Use apply and pull requests as approval.
 - [ADR-0012](../adr/0012-use-a-trunk-or-pull-request-workflow.md): Use a trunk or pull request workflow.
+- [ADR-0013](../adr/0013-pin-the-marketplace-entry-to-the-release-tag.md): Pin the marketplace entry to the release tag (proposed).
 
 ## Technologies 🛠️
 
@@ -77,6 +78,7 @@ See the [container diagram](c4.md#containers).
 
 *Risks, open questions and missing information. What stops the team from faster delivery of value?*
 
+- It is not known if `claude plugin validate .` runs on a CI runner without a login (change publish-plugin-releases, task 2.1).
 - A live test (Claude Code 2.1.308) showed that the agent gets the hook warning and replies one time. The hook warns again only when the findings change.
 - Propose, apply and archive were tested on sparc itself (changes add-qa-engineer, remove-adr-lock-hash, replace-agents-with-roles). `/sparc:init` was not tested on a sample project.
 - A fresh-context run of QA (not only acceptance) is not shown yet.
