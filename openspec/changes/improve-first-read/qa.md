@@ -30,3 +30,7 @@ Reviewed: `91719f5..fd9797c`
 Context: current session (installed sparc 0.6.0 runs the review in the current session).
 
 No findings.
+
+## Acceptance
+
+Accepted by the product owner from this report on 2026-11-16. No scenario failed. The code review has no open finding. The manual check "Diagrams render" passed.
