@@ -4,7 +4,7 @@
 
 - [x] 1.1 Change `checkBacklog` in `scripts/check.mjs` as design.md tells. Change the backlog test in `scripts/check.test.mjs` and add a test for each scenario of "Check reports done backlog items". Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
 - [x] 1.2 Change the backlog format and the sync trigger in `rules/docs.md`, step 4 and the description of `skills/archive/SKILL.md`, and the archive guidance in `templates/project/openspec/config.yaml` and `openspec/config.yaml` to remove the item. Add a test for "Backlog holds only open items: Rule in the document rules". Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
-- [ ] 1.3 Remove the done items from `docs/backlog.md`. Change "Write the specs of sparc as OpenSpec capabilities" to name the skills without a spec. Verify: `node scripts/check.mjs` gives no backlog finding. Documents: docs/backlog.md.
+- [x] 1.3 Remove the done items from `docs/backlog.md`. Change "Write the specs of sparc as OpenSpec capabilities" to name the skills without a spec. Verify: `node scripts/check.mjs` gives no backlog finding. Documents: docs/backlog.md.
 
 ## 2. README for a first-time reader
 
