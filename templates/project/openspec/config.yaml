@@ -24,6 +24,7 @@ rules:
     - Write open questions also in the canvas section "Core Risks and Missing Information".
   tasks:
     - Each task names its verification (a test or a command) and the documents that it changes.
+    - Name the verification of each task with `Verify:`.
     - Prefer the smallest task set that delivers value (MVP).
 
 operations:

@@ -4,7 +4,16 @@ This project uses sparc (spec-driven development with OpenSpec). This file tells
 
 ## Commands
 
-TODO(sparc): Write the commands to install, build, test and run. Run each command before you write it.
+Run each command before you write it. When a change is complete, the sparc verifier runs the `Lint`, `Test` and `Verify` commands. Do not rename these rows.
+
+| Task | Command |
+|---|---|
+| Install | TODO(sparc) |
+| Build | TODO(sparc) |
+| Lint | TODO(sparc) |
+| Test | TODO(sparc) |
+| Verify | TODO(sparc): optional, for example a smoke test against the running system. Remove the row if the project has none. |
+| Run | TODO(sparc) |
 
 ## Structure
 
