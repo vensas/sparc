@@ -2,7 +2,7 @@
 
 ## 1. project-setup
 
-- [ ] 1.1 Add `scripts/project-setup.test.mjs` with one test for each scenario of `specs/project-setup/spec.md`, as design.md decision 1 tells. If a test cannot pass on the current `skills/init/SKILL.md`, fix the scenario, not the skill (design.md decision 4). Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
+- [x] 1.1 Add `scripts/project-setup.test.mjs` with one test for each scenario of `specs/project-setup/spec.md`, as design.md decision 1 tells. If a test cannot pass on the current `skills/init/SKILL.md`, fix the scenario, not the skill (design.md decision 4). Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
 
 ## 2. change-workflow
 
