@@ -1,6 +1,6 @@
 ---
-status: accepted
-date: 2026-10-23
+status: amended
+date: 2026-11-16
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
@@ -40,3 +40,8 @@ Each project records its own integration and end-to-end test tool in its own ADR
 
 ## Amendments
 
+### 2026-11-16: Choose the test tool in the design
+
+Approved by: [@sventropy](https://github.com/sventropy), chat
+
+A project chooses a new integration or end-to-end test tool in `design.md` of a change, with its options and the reason for the choice. The approval of the change approves the tool. An ADR for the tool is necessary only if the choice is a major decision (see the sparc rule `rules/adr.md`).

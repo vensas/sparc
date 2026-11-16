@@ -61,7 +61,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0004](../adr/0004-lock-decided-adrs-with-a-body-hash.md): Lock decided ADRs with a body hash (superseded by ADR-0008).
 - [ADR-0005](../adr/0005-hook-warns-and-does-not-block.md): The hook warns and does not block. It warns one time for the same findings (amended).
 - [ADR-0006](../adr/0006-use-keep-a-changelog-semver-and-conventional-commits.md): Use Keep a Changelog, SemVer and Conventional Commits with pull requests (superseded by ADR-0012).
-- [ADR-0007](../adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md): Prove spec scenarios with a QA engineer after implementation.
+- [ADR-0007](../adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md): Prove spec scenarios with a QA engineer after implementation. Each change chooses a new test tool in its design (amended).
 - [ADR-0008](../adr/0008-protect-decided-adrs-through-git-history.md): Protect decided ADRs through git history.
 - [ADR-0009](../adr/0009-use-roles-as-rules-instead-of-subagents.md): Use roles as rules instead of subagents (superseded by ADR-0015).
 - [ADR-0010](../adr/0010-record-the-sparc-version-and-mark-sparc-text-in-projects.md): Record the sparc version and mark sparc text in projects.
