@@ -40,6 +40,7 @@ const MADR_FIELDS = ['status', 'date', 'decision-makers', 'consulted', 'informed
 const WORKFLOWS = ['trunk', 'pull-request'];
 const PROTECTED_FIELDS = ['decision-makers', 'consulted', 'informed'];
 const STATUS = /^(proposed|accepted|rejected|deprecated|amended|superseded by ADR-(\d{4}))$/;
+const OLD_STATUS = /^(superseded|deprecated|rejected)/;
 
 export const read = (dir, rel) => (existsSync(join(dir, rel)) ? readFileSync(join(dir, rel), 'utf8') : null);
 const h2 = (md) => [...md.matchAll(/^## +(.+?)\s*$/gm)].map((m) => m[1]);
@@ -155,8 +156,9 @@ function checkBacklog(dir, md, add) {
 
 function checkAdrs(dir, add) {
   const root = join(dir, ADR_DIR);
-  if (!existsSync(root)) return { all: [], decided: [] };
+  if (!existsSync(root)) return { all: [], decided: [], statuses: [] };
   const decidedFiles = [];
+  const statuses = [];
   const files = readdirSync(root).filter((f) => /^\d{4}-.+\.md$/.test(f) && !f.startsWith('0000-'));
   const numbers = new Set(files.map((f) => f.slice(0, 4)));
   if (numbers.size < files.length) add(ADR_DIR, 'two or more ADRs have the same number');
@@ -168,6 +170,7 @@ function checkAdrs(dir, add) {
     for (const k of Object.keys(data)) if (!MADR_FIELDS.includes(k)) add(rel, `front matter field "${k}" is not a MADR field`);
     const status = STATUS.exec(data.status ?? '');
     if (!status) { add(rel, `status "${data.status ?? ''}" is not valid`); continue; }
+    statuses.push({ file: f, number: f.slice(0, 4), status: status[1] });
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date ?? '')) add(rel, 'date is missing or not YYYY-MM-DD');
     if (status[2] && (status[2] === f.slice(0, 4) || !numbers.has(status[2]))) add(rel, `superseding ADR-${status[2]} does not exist`);
     if (status[1] === 'proposed') continue;
@@ -184,7 +187,17 @@ function checkAdrs(dir, add) {
     if (entries.some((e) => !APPROVER.test(e))) add(rel, 'an amendment has no "Approved by: [@handle](https://github.com/handle)" line');
   }
   if (decidedFiles.length && !repo) add(ADR_DIR, 'not a git repository: cannot protect decided ADRs');
-  return { all: files.map((f) => `${ADR_DIR}/${f}`), decided: decidedFiles };
+  return { all: files.map((f) => `${ADR_DIR}/${f}`), decided: decidedFiles, statuses };
+}
+
+// The canvas section "Core Decisions" is the index of the ADRs. Agents must see there which ADRs are not current.
+function checkAdrIndex(canvas, statuses, add) {
+  const lines = (section(canvas, 'Core Decisions') ?? '').split('\n');
+  for (const { file, number, status } of statuses) {
+    const line = lines.find((l) => l.includes(file));
+    if (!line) add(DOCS.canvas, `ADR-${number} has no line in "Core Decisions"`);
+    else if (OLD_STATUS.test(status) && !line.includes(status)) add(DOCS.canvas, `the line of ADR-${number} in "Core Decisions" does not name its status "${status}"`);
+  }
 }
 
 function checkPlaceholders(dir, files, add) {
@@ -304,6 +317,7 @@ export function check(dir) {
   if (md('backlog')) checkBacklog(dir, md('backlog'), add);
   if (md('changelog')) checkManifestVersion(dir, checkChangelog(md('changelog'), add), add);
   const adrs = checkAdrs(dir, add);
+  if (md('canvas')) checkAdrIndex(md('canvas'), adrs.statuses, add);
   const prose = [DOCS.readme, DOCS.agents, DOCS.backlog, DOCS.c4, DOCS.canvas, DOCS.changelog, ...adrs.all];
   checkPlaceholders(dir, prose, add);
   // Decided ADRs must not change, so a sentence finding in them cannot be fixed.

@@ -370,3 +370,36 @@ test('Workflow setting: a value that is not trunk or pull-request is reported', 
   setWorkflow(dir, 'trunkk');
   assert.ok(has(dir, 'openspec/config.yaml: workflow "trunkk" is not "trunk" or "pull-request"'));
 });
+
+const decisions = (dir, lines) => {
+  const rel = 'docs/architecture/canvas.md';
+  write(dir, rel, readFileSync(join(dir, rel), 'utf8').replace(/(## Core Decisions[^\n]*\n)[\s\S]*?(?=\n## )/, `$1\n${lines.join('\n')}\n`));
+};
+
+test('Canvas lists each ADR with its status: ADR is not in the canvas', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0001-a.md', ADR('proposed'));
+  write(dir, 'docs/adr/0003-x.md', ADR('proposed'));
+  decisions(dir, ['- [ADR-0001](../adr/0001-a.md): Use X.']);
+  assert.ok(has(dir, 'ADR-0003 has no line in "Core Decisions"'));
+  assert.ok(!has(dir, 'ADR-0001 has no line'));
+});
+
+test('Canvas lists each ADR with its status: Superseded ADR without its status in the canvas', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0002-a.md', ADR('superseded by ADR-0004'));
+  write(dir, 'docs/adr/0003-b.md', ADR('deprecated'));
+  write(dir, 'docs/adr/0004-c.md', ADR('proposed'));
+  decisions(dir, ['- [ADR-0002](../adr/0002-a.md): Use X.', '- [ADR-0003](../adr/0003-b.md): Use Y.', '- [ADR-0004](../adr/0004-c.md): Use Z.']);
+  assert.ok(has(dir, 'the line of ADR-0002 in "Core Decisions" does not name its status "superseded by ADR-0004"'));
+  assert.ok(has(dir, 'the line of ADR-0003 in "Core Decisions" does not name its status "deprecated"'));
+});
+
+test('Canvas lists each ADR with its status: Canvas names the status', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0002-a.md', ADR('superseded by ADR-0004'));
+  write(dir, 'docs/adr/0003-b.md', ADR('rejected'));
+  write(dir, 'docs/adr/0004-c.md', ADR('proposed'));
+  decisions(dir, ['- [ADR-0002](../adr/0002-a.md): Use X (superseded by ADR-0004).', '- [ADR-0003](../adr/0003-b.md): Use Y (rejected).', '- [ADR-0004](../adr/0004-c.md): Use Z.']);
+  assert.ok(!messages(dir).some((m) => m.includes('"Core Decisions"')));
+});

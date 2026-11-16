@@ -64,6 +64,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0013](../adr/0013-pin-the-marketplace-entry-to-the-release-tag.md): Pin the marketplace entry to the release tag.
 - [ADR-0014](../adr/0014-block-the-stop-of-a-complete-change-until-its-verification-passes.md): Block the stop of a complete change until its verification passes.
 - [ADR-0015](../adr/0015-use-roles-as-rules-with-a-fresh-context-code-review.md): Use roles as rules with a fresh-context code review.
+- [ADR-0016](../adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md): Mark current ADRs through a rule and the canvas index (proposed).
 
 ## Technologies 🛠️
 
