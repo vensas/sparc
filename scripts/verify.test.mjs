@@ -244,6 +244,7 @@ test('Limit of blocks: fourth stop with failed checks', () => {
   assert.equal(out.decision, undefined);
   assert.match(out.hookSpecificOutput.additionalContext, /Core Risks and Missing Information/);
   assert.match(out.systemMessage, /stopped to block/);
+  assert.equal(run(), null);
 });
 
 test('Limit of blocks: count starts again', () => {

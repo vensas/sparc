@@ -148,14 +148,15 @@ export async function verify(dir) {
 
 const list = (findings) => findings.map((f) => `- ${f}`).join('\n');
 
-// Counts the blocks in a row for a change. Returns false when the limit is reached.
-function mayBlock(dir, id) {
+// Counts the stops with failed checks in a row for a change. Returns "block" up to the limit, then "release" one time,
+// then "silent". Each output to the agent makes it reply again, so the hook is silent after the release.
+function nextAction(dir, id) {
   const file = stateFile(dir, `blocks-${id}`);
   const count = existsSync(file) ? Number(readFileSync(file, 'utf8')) || 0 : 0;
-  if (count >= MAX_BLOCKS) return false;
+  if (count > MAX_BLOCKS) return 'silent';
   mkdirSync(join(file, '..'), { recursive: true });
   writeFileSync(file, String(count + 1));
-  return true;
+  return count < MAX_BLOCKS ? 'block' : 'release';
 }
 
 async function hook() {
@@ -169,8 +170,9 @@ async function hook() {
   const messages = [];
   for (const { id, findings, manual } of results) {
     if (!findings.length) rmSync(stateFile(dir, `blocks-${id}`), { force: true });
-    else if (mayBlock(dir, id)) blocks.push(`Change "${id}" is complete, but its verification failed:\n${list(findings)}`);
-    else released.push(`Change "${id}":\n${list(findings)}`);
+    const action = findings.length ? nextAction(dir, id) : 'pass';
+    if (action === 'block') blocks.push(`Change "${id}" is complete, but its verification failed:\n${list(findings)}`);
+    if (action === 'release') released.push(`Change "${id}":\n${list(findings)}`);
     if (manual.length) messages.push(`sparc verify: change "${id}" has manual checks for you: ${manual.join('; ')}`);
   }
   const warning = commandsWarning(dir);
