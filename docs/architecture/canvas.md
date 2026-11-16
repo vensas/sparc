@@ -18,7 +18,7 @@
 
 - [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and workflow (trunk or pull request) rules.
 - [approval](../../openspec/specs/approval/spec.md): apply and pull requests as approval, explicit approval for other decisions.
-- [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments and protection of decided ADRs through git history.
+- [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments, protection of decided ADRs through git history, and current ADRs only.
 - [project-update](../../openspec/specs/project-update/spec.md): project version, marked sparc text and the update skill.
 - [team-roles](../../openspec/specs/team-roles/spec.md): roles as rule files, code review by the software engineer in a fresh context by default, optional fresh-context check.
 - [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer role, automation first, scenario report and acceptance from the QA report.
@@ -64,7 +64,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0013](../adr/0013-pin-the-marketplace-entry-to-the-release-tag.md): Pin the marketplace entry to the release tag.
 - [ADR-0014](../adr/0014-block-the-stop-of-a-complete-change-until-its-verification-passes.md): Block the stop of a complete change until its verification passes.
 - [ADR-0015](../adr/0015-use-roles-as-rules-with-a-fresh-context-code-review.md): Use roles as rules with a fresh-context code review.
-- [ADR-0016](../adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md): Mark current ADRs through a rule and the canvas index (proposed).
+- [ADR-0016](../adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md): Mark current ADRs through a rule and the canvas index.
 
 ## Technologies 🛠️
 

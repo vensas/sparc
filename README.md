@@ -15,7 +15,7 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 - Update path: a project records its sparc version. `/sparc:update` applies the migration steps of the changelog and replaces only the marked sparc text.
 - A document set with one home for each fact: README, AGENTS.md, backlog, changelog, C4 diagrams (Mermaid), architecture canvas and ADRs (MADR).
 - Release conventions: Keep a Changelog, Semantic Versioning and Conventional Commits. Each project chooses its workflow: trunk-based on the default branch, or a pull request for each change.
-- ADR status rules. The check uses git history to find each change to a decided ADR.
+- ADR status rules. The check uses git history to find each change to a decided ADR. Agents follow only current ADRs, and the check finds old ADRs in the canvas index and in open changes.
 - A check without an LLM (`scripts/check.mjs`). A Stop hook runs it and warns about document drift.
 - A verifier without an LLM (`scripts/verify.mjs`). When all tasks of a change are checked, a Stop hook runs the `Lint`, `Test` and `Verify` commands of the project. It also checks the evidence of each spec scenario in `qa.md`. If a check fails, the agent cannot stop and continues to work. After 3 blocks in a row, the failed checks become open points.
 - Released versions only: the marketplace gives the latest release tag. CI tests each push and publishes each release on GitHub.

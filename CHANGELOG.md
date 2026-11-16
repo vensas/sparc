@@ -12,6 +12,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 - The tasks rule tells each task to name its verification with `Verify:`. `/sparc:update` adds the rule.
 - The README tells where to write project requirements, for example data protection rules.
 - `/sparc:apply` has the argument `inline-review`. With it, the code review runs in the current session.
+- A rule for current ADRs in `rules/adr.md` and in the sparc text of `AGENTS.md`. Agents follow only `accepted` and `amended` ADRs, and a `proposed` ADR only in its own change. For a superseded ADR, they follow the `superseded by` chain. `/sparc:update` adds the rule ([ignore-superseded-adrs](openspec/changes/archive/2026-11-16-ignore-superseded-adrs/proposal.md)).
+- The check reports each ADR that has no line in the canvas section "Core Decisions". It also reports a line of a superseded, deprecated or rejected ADR without its status. In an existing project, add the missing lines to the canvas.
+- The check reports each superseded, deprecated or rejected ADR in the ADR list (`ADRs:`) of the design of an open change. The design rule tells to start the ADR list with `ADRs:`. `/sparc:update` adds the rule.
 
 ### Changed
 
