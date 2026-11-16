@@ -32,7 +32,7 @@ For each task group:
 When all tasks are checked, do the code review of the software engineer role. By default, the review runs in a fresh context:
 
 1. Get the commit range of the change as the role tells.
-2. Start one general-purpose subagent. Give it only the change id, the commit range, the path `${CLAUDE_PLUGIN_ROOT}/rules/roles/software-engineer.md` and the paths of `proposal.md`, `design.md`, `tasks.md` and the spec deltas of the change. Give it not the conversation.
+2. Start one general-purpose subagent. Give it only the change id, the commit range, the path `${CLAUDE_PLUGIN_ROOT}/rules/roles/software-engineer.md` and the paths of `proposal.md`, `design.md`, `tasks.md` and the spec deltas of the change. Do not give it the conversation.
 3. Tell it to do steps 1 and 2 of the section "Code review" of the role, to report each finding with the file, the line and the reason, and not to change files and not to commit.
 4. Do steps 3 and 4 of the role in this session: fix each finding, and write the result into `## Code review` of `openspec/changes/<id>/qa.md` with `Context: fresh`.
 

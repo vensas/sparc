@@ -45,7 +45,7 @@ test('Code review by the software engineer: Review in a fresh context by default
   const review = reviewSection();
   assert.match(review, /general-purpose subagent/);
   for (const input of ['change id', 'commit range', 'rules/roles/software-engineer.md', 'proposal.md', 'design.md', 'tasks.md', 'spec deltas']) assert.ok(review.includes(input), `the review subagent does not get: ${input}`);
-  assert.match(review, /not the conversation/);
+  assert.match(review, /Do not give it the conversation/);
   assert.match(review, /Context: fresh/);
 });
 
