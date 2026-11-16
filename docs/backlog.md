@@ -12,7 +12,6 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] Skills: init, propose, apply, archive, sync, adr
 - [x] Document check with tests and a Stop hook that warns
 - [x] Test the hook output in a live Claude Code session
-- [ ] Test the full workflow on a sample project (init, propose, apply, archive)
 - [x] Choose a license (MIT)
 - [x] Publish to GitHub as vensas/sparc (private)
 - [ ] Decide if sparc adds [arc42agentic](https://github.com/matthiasnissen/arc42agentic) as an optional module
