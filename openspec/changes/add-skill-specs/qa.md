@@ -53,3 +53,21 @@ Extra check: each new test fails when its skill file is empty. A script copied `
 | Release start conditions: Check finding | passed | "Release start conditions: Check finding", `node --test 'scripts/*.test.mjs'`, 194 passed, 0 failed. |
 | Release commit and tag: Trunk release | passed | "Release commit and tag: Trunk release", `node --test 'scripts/*.test.mjs'`, 194 passed, 0 failed. History: `023d558 chore(release): 0.7.0` has the tag `v0.7.0`. |
 | Release commit and tag: Pull request release | passed | "Release commit and tag: Pull request release", `node --test 'scripts/*.test.mjs'`, 194 passed, 0 failed. |
+
+## Code review
+
+Reviewed: `3c1bc8c..5782ce2` (software engineer role, workflow `trunk`)
+Context: fresh
+
+| Finding | Fix |
+|---|---|
+| `scripts/project-setup.test.mjs:20`: the order check passed when `openspec --version` was missing, because `indexOf` gave -1. | 1e4a823 |
+| `scripts/document-set.test.mjs:76`: the same defect for `scripts/check.mjs` in the sync skill. | 1e4a823 |
+| The order checks had three different forms (DRY). | 1e4a823: one helper `before` in `scripts/skill-text.mjs`. It fails when a text is missing. |
+| `docs/architecture/canvas.md:95` stated history evidence for 13 scenarios before QA recorded it, and did not name the exceptions. | 2d9ada1 |
+
+After the fixes: `node --test 'scripts/*.test.mjs'`, 194 passed, 0 failed. With `openspec --version` removed from the init skill and `scripts/check.mjs` removed from the sync skill, the two order tests fail.
+
+## Acceptance
+
+Accepted on 2026-11-16 by the product owner role. All 47 scenarios passed. The change has no manual checks. The code review has no open finding. Open points of the change are in the canvas section "Core Risks and Missing Information".
