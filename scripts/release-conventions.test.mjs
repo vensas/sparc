@@ -4,11 +4,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { before } from './skill-text.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
 const release = () => read('skills/release/SKILL.md');
-const before = (text, a, b) => assert.ok(text.indexOf(a) >= 0 && text.indexOf(a) < text.indexOf(b), `"${a}" comes before "${b}"`);
 
 test('Release start conditions: Nothing to release', () => {
   const skill = release();

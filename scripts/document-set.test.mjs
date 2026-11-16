@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { cpSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { before } from './skill-text.mjs';
 import { spawnSync } from 'node:child_process';
 
 const ROOT = new URL('..', import.meta.url).pathname;
@@ -73,7 +74,7 @@ test('Sync updates the documents of each trigger: Report', () => {
 
 test('Sync repeats until the check is clean: Finding stays', () => {
   const skill = sync();
-  assert.ok(skill.indexOf('scripts/check.mjs') < skill.indexOf('For each trigger'), 'the check runs before the updates');
+  before(skill, 'scripts/check.mjs', 'For each trigger');
   assert.match(skill, /Run the check again\. Repeat until there is no finding, or until each remaining finding has a reason/);
 });
 

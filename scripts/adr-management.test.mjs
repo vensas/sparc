@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { before } from './skill-text.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -21,7 +22,7 @@ test('Amendment does not change the decision: Addition alters the decision', () 
   const step = section('amend');
   assert.match(step, /does it alter the context, the options, the decision or the consequences\?/);
   assert.match(step, /If yes, stop\. Tell the user that a supersede is necessary/);
-  assert.ok(step.indexOf('If yes, stop') < step.indexOf('Add the entry'), 'the stop comes before the edit');
+  before(step, 'If yes, stop', 'Add the entry');
 });
 
 test('Supersede in two steps: New ADR is proposed', () => {

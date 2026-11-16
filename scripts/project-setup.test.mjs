@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { before } from './skill-text.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -17,7 +18,7 @@ test('Prerequisites before setup: OpenSpec is not installed', () => {
   const skill = init();
   assert.match(skill, /If OpenSpec is not installed, stop/);
   assert.match(skill, /`npm install -g @fission-ai\/openspec`/);
-  assert.ok(skill.indexOf('openspec --version') < skill.indexOf('## 2. Install the files'), 'the check comes before the first file');
+  before(skill, 'openspec --version', '## 2. Install the files');
 });
 
 test('Template files without overwrite: New project', () => {

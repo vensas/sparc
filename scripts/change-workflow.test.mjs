@@ -4,6 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { before } from './skill-text.mjs';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -55,7 +56,7 @@ test('Propose ends valid and committed: Propose completes', () => {
 test('Apply starts only on a valid change: Change is not valid', () => {
   const apply = skill('apply');
   assert.match(apply, /Run `openspec status --change <id>` and `openspec validate <id>`\. All planning artifacts must be complete and valid/);
-  assert.ok(apply.indexOf('openspec validate <id>') < apply.indexOf('## 2. Task groups'), 'validation comes before the task groups');
+  before(apply, 'openspec validate <id>', '## 2. Task groups');
 });
 
 test('Task groups one after the other: One commit for each task', () => {
@@ -81,13 +82,13 @@ test('Apply reports the next step: Apply completes', () => {
 test('Archive only a complete and tested change: Open task', () => {
   const archive = skill('archive');
   assert.match(archive, /All tasks in `tasks\.md` must be checked\. If not, stop and report the open tasks/);
-  assert.ok(archive.indexOf('must be checked') < archive.indexOf('openspec archive <id>'), 'the task check comes before the archive');
+  before(archive, 'must be checked', 'openspec archive <id>');
 });
 
 test('Archive only a complete and tested change: Failed test', () => {
   const archive = skill('archive');
   assert.match(archive, /Run the test commands in `AGENTS\.md`[^\n]*If a test fails, stop and report it/);
-  assert.ok(archive.indexOf('Run the test commands') < archive.indexOf('openspec archive <id>'), 'the tests run before the archive');
+  before(archive, 'Run the test commands', 'openspec archive <id>');
 });
 
 test('Archive updates the main specs: New capability', () => {
