@@ -8,8 +8,8 @@
 
 ## 2. README for a first-time reader
 
-- [ ] 2.1 Add `scripts/readme.test.mjs` with a test for each scenario of "README for a first-time reader". Verify: the tests fail on the current README. Documents: none.
-- [ ] 2.2 Rewrite `README.md` as design.md tells: value first, "Key Features" with 5 bullets or fewer, "How It Works" with the loop diagram, the file tree, the terms, the mechanics, "Limits and cost" and the STE sentence. Make the install access text short with a `<details>` block, and use `claude --plugin-dir .`. Verify: `node --test 'scripts/*.test.mjs'` passes, `node scripts/check.mjs` gives no finding, and the Mermaid diagram renders with `mmdc`. Documents: README.md.
+- [x] 2.1 Add `scripts/readme.test.mjs` with a test for each scenario of "README for a first-time reader". Verify: the tests fail on the current README. Documents: none.
+- [x] 2.2 Rewrite `README.md` as design.md tells: value first, "Key Features" with 5 bullets or fewer, "How It Works" with the loop diagram, the file tree, the terms, the mechanics, "Limits and cost" and the STE sentence. Make the install access text short with a `<details>` block, and use `claude --plugin-dir .`. Verify: `node --test 'scripts/*.test.mjs'` passes, `node scripts/check.mjs` gives no finding, and the Mermaid diagram renders with `mmdc`. Documents: README.md.
 
 ## 3. Canvas and C4 of sparc
 
