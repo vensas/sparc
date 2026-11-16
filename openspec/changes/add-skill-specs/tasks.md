@@ -11,7 +11,7 @@
 ## 3. Existing capabilities
 
 - [x] 3.1 Add one test for each scenario of `specs/document-set/spec.md` to `scripts/document-set.test.mjs`. The tests read `skills/sync/SKILL.md` and `rules/docs.md`. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
-- [ ] 3.2 Add `scripts/adr-management.test.mjs`, `scripts/release-conventions.test.mjs` and `scripts/project-update.test.mjs` with one test for each scenario of the deltas of these capabilities. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
+- [x] 3.2 Add `scripts/adr-management.test.mjs`, `scripts/release-conventions.test.mjs` and `scripts/project-update.test.mjs` with one test for each scenario of the deltas of these capabilities. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
 
 ## 4. Canvas
 
