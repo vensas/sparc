@@ -21,3 +21,19 @@ The four scenarios of "ADR only for a major decision" are agent behavior. The te
 | Use the test tools of the project: Project has a test tool | passed | "Use the test tools of the project: Project has a test tool", `node --test 'scripts/*.test.mjs'`, 207 passed, 0 failed |
 | Use the test tools of the project: Design of the change names a new tool | passed | "Use the test tools of the project: Design of the change names a new tool", `node --test 'scripts/*.test.mjs'`, 207 passed, 0 failed |
 | Use the test tools of the project: Project has no suitable test tool | passed | "Use the test tools of the project: Project has no suitable test tool", `node --test 'scripts/*.test.mjs'`, 207 passed, 0 failed |
+
+## Code review
+
+Reviewed: `d6a2407..e386c22` (software engineer role, workflow `trunk`)
+Context: fresh
+
+| Finding | Fix |
+|---|---|
+| `docs/adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md:39`: the accepted ADR tells that each project records its test tool in its own ADR. This contradicts the new test tool rule. | 5406b7b: amendment of ADR-0007, approved by the user in the chat. design.md lists the amended ADR. |
+| `rules/roles/ux-designer.md:18`: a new visual language went to an ADR. The threshold then had two homes. | 8638c80: the architect records the choice in `design.md`, and in an ADR only for a major decision. The test of "Convention or check behavior" checks the text. |
+
+After the fixes: `node --test 'scripts/*.test.mjs'`, 207 passed, 0 failed. `node scripts/check.mjs`: no findings.
+
+## Acceptance
+
+Accepted on 2026-11-16 by the product owner role. All 15 scenarios passed. The change has no manual checks. The code review has no open finding. Open points of the change are in the canvas section "Core Risks and Missing Information".
