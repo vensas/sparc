@@ -69,6 +69,17 @@ test('Code review by the software engineer: the role has a review checklist that
   assert.match(role, /## Code review\n\nReviewed: `<first commit>\.\.<last commit>`\nContext: <fresh \| current session \(<reason>\)>/);
 });
 
+test('Code review by the software engineer: Review finds an issue', () => {
+  const role = readFileSync(join(ROOT, 'rules/roles/software-engineer.md'), 'utf8');
+  assert.match(role, /Fix each finding with a Conventional Commit/);
+  assert.match(role, /\| Finding \| Fix \|\n\|---\|---\|\n\| <finding> \| <commit hash, or backlog item> \|/);
+  assert.match(reviewSection(), /fix each finding, and write the result into `## Code review`/);
+});
+
+test('Code review by the software engineer: Review finds no issue', () => {
+  assert.match(readFileSync(join(ROOT, 'rules/roles/software-engineer.md'), 'utf8'), /If there is no finding, write "No findings" instead of the table\./);
+});
+
 test('Code review by the software engineer: Commit range in the workflow trunk', () => {
   const role = readFileSync(join(ROOT, 'rules/roles/software-engineer.md'), 'utf8');
   assert.match(role, /workflow `pull-request`[^\n]*git diff <default-branch>\.\.\.HEAD/);
