@@ -15,7 +15,7 @@
 
 ## 4. Canvas
 
-- [ ] 4.1 In `docs/architecture/canvas.md`, section "Core Functions": add a line for `project-setup` and `change-workflow` with a link to `../../openspec/specs/<capability>/spec.md`. Add sync, adr, release and update to the lines of their capabilities. Remove the line that says that the skills have no spec. In "Core Risks and Missing Information", add that most skill scenarios have a text test and no recorded run. Verify: `node scripts/check.mjs` gives no finding, and `grep -n "no spec" docs/architecture/canvas.md` finds nothing. Documents: docs/architecture/canvas.md.
+- [x] 4.1 In `docs/architecture/canvas.md`, section "Core Functions": add a line for `project-setup` and `change-workflow` with a link to `../../openspec/specs/<capability>/spec.md`. Add sync, adr, release and update to the lines of their capabilities. Remove the line that says that the skills have no spec. In "Core Risks and Missing Information", add that most skill scenarios have a text test and no recorded run. Verify: `node scripts/check.mjs` gives no finding, and `grep -n "no spec" docs/architecture/canvas.md` finds nothing. Documents: docs/architecture/canvas.md.
 
 ## Workflow follow-up
 

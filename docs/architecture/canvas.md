@@ -16,16 +16,17 @@
 
 *Links to the capabilities in `openspec/specs/`.*
 
-- [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and workflow (trunk or pull request) rules.
+- [project-setup](../../openspec/specs/project-setup/spec.md): `/sparc:init`, with prerequisites, template files without overwrite and the first content from evidence.
+- [change-workflow](../../openspec/specs/change-workflow/spec.md): `/sparc:propose`, `/sparc:apply` and `/sparc:archive`, the life cycle of one change.
+- [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and workflow (trunk or pull request) rules, and `/sparc:release`.
 - [approval](../../openspec/specs/approval/spec.md): apply and pull requests as approval, explicit approval for other decisions.
-- [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments, protection of decided ADRs through git history, and current ADRs only.
-- [project-update](../../openspec/specs/project-update/spec.md): project version, marked sparc text and the update skill.
+- [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments, protection of decided ADRs through git history, current ADRs only and `/sparc:adr`.
+- [project-update](../../openspec/specs/project-update/spec.md): project version, marked sparc text and `/sparc:update`.
 - [team-roles](../../openspec/specs/team-roles/spec.md): roles as rule files, code review by the software engineer in a fresh context by default, optional fresh-context check.
 - [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer role, automation first, scenario report and acceptance from the QA report.
 - [plugin-distribution](../../openspec/specs/plugin-distribution/spec.md): install from the marketplace at the latest release tag, CI validation, publication of releases and a README for a first-time reader.
 - [change-verification](../../openspec/specs/change-verification/spec.md): the verifier blocks the stop of a complete change until its commands and spec evidence pass.
-- [document-set](../../openspec/specs/document-set/spec.md): the backlog holds only open items, and the check reports done items.
-- The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr, release and update.
+- [document-set](../../openspec/specs/document-set/spec.md): the backlog holds only open items, the check reports done items, and `/sparc:sync`.
 
 ## Key Stakeholder 🧑‍🧑‍🧒
 
@@ -91,6 +92,7 @@ See the [container diagram](c4.md#containers).
 *Risks, open questions and missing information. What stops the team from faster delivery of value?*
 
 - The full workflow (init, propose, apply, archive) has a recorded test on one sample project only.
+- Most skill scenarios have a test of the skill text and no recorded run. The test proves that the skill tells the behavior, not that the agent obeys it. The sparc history gives evidence for 13 scenarios (add-skill-specs).
 - A fresh-context run of QA (not only acceptance) is not shown yet.
 - The cost of the fresh-context code review is measured for one change only: 60,560 tokens and 36 seconds (fresh-context-code-review, 3 commits). Larger changes can cost more.
 - A search hit in the body of a superseded ADR does not show the status. Only the rule in `AGENTS.md` tells the agent to read the status first.
