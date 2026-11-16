@@ -110,6 +110,9 @@ See the [container diagram](c4.md#containers).
 - `/sparc:init` runs `node --version` and says that sparc needs Node.js 20 or later. It does not say what to do with an older version.
 - `/sparc:sync` does not report drift from work that is not complete. It does not tell how to find out that work is not complete.
 - The acceptance step of `/sparc:apply` has no commit type of its own. Two `test(qa)` acceptance commits changed the canvas (`76f91df`, `f52f33b`).
+- The imprint and the privacy policy of the website (change add-landing-page) have no legal review yet. The French and English texts are translations, and the German text is binding.
+- The DNS record for `sparc.apps.vensas.de` does not exist yet. The operator of `vensas.de` adds it.
+- It is not known if vensas GmbH has a data protection officer. The privacy policy of vensas names none.
 - Mermaid C4 draws each relation as a straight line, so some lines cross boxes in the container diagram. Mermaid CLI 12.0.0 ignores `UpdateLayoutConfig`. Label offsets keep the labels apart. The render on GitHub is not checked yet.
 
 ---
