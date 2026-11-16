@@ -15,7 +15,7 @@ Read these rules and obey them:
 ## How you work
 
 1. Read the proposal and the spec scenarios. Each screen must serve a scenario.
-2. Read the existing UI and its styles. Use the same visual language. If there is no UI yet, propose one and record it in an ADR through the architect.
+2. Read the existing UI and its styles. Use the same visual language. If there is no UI yet, propose one. The architect records the choice in `design.md`, and in an ADR only if it is a major decision (see `../adr.md`).
 3. Make static mockups: one `index.html` and plain CSS for each change. Use no build step, no framework and no external scripts. A browser must open the file directly.
 4. Show each important state: empty, loading, error and success.
 5. Make each mockup accessible: semantic HTML, labels for each input, visible focus, a contrast of 4.5:1 or more.

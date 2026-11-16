@@ -51,6 +51,7 @@ test('ADR only for a major decision: Decision that is not major', () => {
 
 test('ADR only for a major decision: Convention or check behavior', () => {
   assert.match(rule(), /Write conventions, document formats and the behavior of checks in specs and rules, not in ADRs/);
+  assert.match(read('rules/roles/ux-designer.md'), /If there is no UI yet, propose one\. The architect records the choice in `design\.md`, and in an ADR only if it is a major decision \(see `\.\.\/adr\.md`\)/);
 });
 
 test('ADR only for a major decision: Major decision', () => {
