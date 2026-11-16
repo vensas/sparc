@@ -5,6 +5,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Added
+
+- A verifier hook for a change with all tasks checked. The agent cannot stop until the `Lint`, `Test` and `Verify` commands of the project pass. Each spec scenario must have evidence in `qa.md`, and each task must name its verification. After 3 blocks in a row, the failed checks become open points ([add-verifier-hook](openspec/changes/archive/2026-11-16-add-verifier-hook/proposal.md)).
+- The `AGENTS.md` template has a commands table with the rows `Lint`, `Test` and `Verify`. To use the verifier in an existing project, add these rows to the commands table in `AGENTS.md`.
+- The tasks rule tells each task to name its verification with `Verify:`. `/sparc:update` adds the rule.
+- The README tells where to write project requirements, for example data protection rules.
+
 ## [0.6.0] - 2026-10-27
 
 ### Added

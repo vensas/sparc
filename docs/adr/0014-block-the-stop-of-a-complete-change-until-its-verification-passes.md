@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: accepted
 date: 2026-11-16
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
@@ -67,7 +67,7 @@ The tests of `scripts/verify.mjs` cover each scenario of the spec `change-verifi
 
 - Feedback on the sparc posts asked for a hard gate and proposed a Stop hook that blocks.
 - [The three layers of working with AI](https://vensas.de/en/blog/karpathy-three-layers): spec, verifier and environment.
-- The change [add-verifier-hook](../../openspec/changes/add-verifier-hook/proposal.md).
+- The change [add-verifier-hook](../../openspec/changes/archive/2026-11-16-add-verifier-hook/proposal.md).
 
 ## Amendments
 
