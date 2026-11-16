@@ -78,6 +78,16 @@ Tell the project idea one time, in `/sparc:init`. Tell each feature in `/sparc:p
 
 For an existing code base, `/sparc:init` also documents what the architect finds in the code.
 
+### Add Project Requirements
+
+sparc does not limit what a project requires. Write each requirement in its home, and the roles follow it. An example for a data protection requirement:
+
+| Requirement | Home | Example |
+|---|---|---|
+| A rule for each change | `AGENTS.md`, outside the sparc markers | `- Do not write personal data to logs. Use the customer ID only.` |
+| A quality requirement | Canvas, "Quality Requirements" | `Data protection: personal data stays in the EU region.` |
+| A behavior that a test can check | Spec scenario, through `/sparc:propose` | `WHEN the service writes a log entry for a customer THEN the entry contains the customer ID and no name or e-mail address` |
+
 ### Develop sparc
 
 Load the plugin from your checkout and run the tests. Do not add the checkout as a marketplace for this: the marketplace installs the release tag from GitHub, not your local files.
