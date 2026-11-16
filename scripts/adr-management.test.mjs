@@ -57,3 +57,11 @@ test('ADR only for a major decision: Major decision', () => {
   assert.match(rule(), /central to the idea of the project and to its approach to the problem/);
   assert.match(rule(), /The team chose between two or more real solution options/);
 });
+
+test('Proposed ADR gives its options and trade-offs: Template tells the requirement', () => {
+  for (const rel of ['templates/project/docs/adr/0000-template.md', 'docs/adr/0000-template.md']) {
+    const template = read(rel);
+    before(template, '## Considered Options', '<!-- Give two or more real options. Use the same text as the headings in Pros and Cons of the Options. -->');
+    before(template, '## Pros and Cons of the Options', '<!-- Give a good and a bad trade-off for each option. -->');
+  }
+});

@@ -18,6 +18,8 @@ Tell the context and the problem in 2 or 3 sentences.
 
 ## Considered Options
 
+<!-- Give two or more real options. Use the same text as the headings in Pros and Cons of the Options. -->
+
 - Option 1
 - Option 2
 
@@ -35,6 +37,8 @@ Chosen option: "Option 1", because <reason>.
 Tell how to confirm that the implementation follows the decision (for example a test or a review).
 
 ## Pros and Cons of the Options
+
+<!-- Give a good and a bad trade-off for each option. -->
 
 ### Option 1
 
