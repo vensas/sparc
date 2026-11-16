@@ -41,10 +41,10 @@ const WORKFLOWS = ['trunk', 'pull-request'];
 const PROTECTED_FIELDS = ['decision-makers', 'consulted', 'informed'];
 const STATUS = /^(proposed|accepted|rejected|deprecated|amended|superseded by ADR-(\d{4}))$/;
 
-const read = (dir, rel) => (existsSync(join(dir, rel)) ? readFileSync(join(dir, rel), 'utf8') : null);
+export const read = (dir, rel) => (existsSync(join(dir, rel)) ? readFileSync(join(dir, rel), 'utf8') : null);
 const h2 = (md) => [...md.matchAll(/^## +(.+?)\s*$/gm)].map((m) => m[1]);
 const hasSection = (md, title) => h2(md).some((h) => h.startsWith(title));
-const section = (md, title) => {
+export const section = (md, title) => {
   const start = md.search(new RegExp(`^## +${title}.*$`, 'm'));
   if (start < 0) return null;
   const rest = md.slice(start).replace(/^.*\n?/, '');
@@ -129,7 +129,7 @@ function checkCanvas(md, add) {
   for (const s of CANVAS_SECTIONS) if (!hasSection(md, s)) add(DOCS.canvas, `section "## ${s}" is missing`);
 }
 
-function listChanges(dir) {
+export function listChanges(dir) {
   const root = join(dir, 'openspec/changes');
   const dirs = (p) => (existsSync(p) ? readdirSync(p, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name) : []);
   return {
