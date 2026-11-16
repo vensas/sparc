@@ -31,9 +31,18 @@ A rejected ADR was never a decision. The canvas line and the rule treat it as a 
 - A new function reads the section "Core Decisions" of the canvas. For each ADR, it finds the lines that contain the file name. No line: finding "ADR-NNNN has no line in Core Decisions". For the status `superseded by ADR-NNNN`, `deprecated` or `rejected`: the line must contain the status text, else finding "line of ADR-NNNN does not name its status <status>".
 - The check runs only when the canvas exists, as `checkCanvas` does.
 
+### Check of the ADR list of open changes
+
+- The ADR list is the line that starts with `ADRs:` and the list items (`- `) that follow it. Blank lines between them are permitted. The list ends at the first other line.
+- The check uses the status from `checkAdrs`. For each link to `docs/adr/NNNN-*.md` in the list, it reports a status `superseded by ADR-NNNN`, `deprecated` or `rejected`.
+- No exception is necessary. While a change is open, the ADR that it supersedes still has the status `accepted`. Archive sets `superseded` after the change is archived. A superseded, deprecated or rejected ADR is final (`rules/adr.md`). A change cannot amend or supersede it.
+- Only open changes: an archived change links to ADRs that were current at its time.
+- A design without `ADRs:` gives no finding. A check for a missing list is not in scope.
+- The design rule in both `config.yaml` files gets: "Start the ADR list with `ADRs:`." The designs of sparc already use this form.
+
 ### Test
 
-Integration test tool: `node --test 'scripts/*.test.mjs'` (see AGENTS.md). `scripts/check.test.mjs` gets one test for each scenario of "Canvas lists each ADR with its status", with a temporary project. A test reads `rules/adr.md` and `templates/project/AGENTS.md` for "Rule in a project". The scenario "Agent finds a superseded ADR" is a manual live test: `claude -p` with `--plugin-dir .` in sparc asks "Do the sparc roles run the code review in the current session? Answer with the ADR number that decides it." The expected answer names ADR-0015, not ADR-0009.
+Integration test tool: `node --test 'scripts/*.test.mjs'` (see AGENTS.md). `scripts/check.test.mjs` gets one test for each scenario of "Canvas lists each ADR with its status" and "Open changes do not use old ADRs", with a temporary project. A test reads `rules/adr.md` and `templates/project/AGENTS.md` for "Rule in a project". The scenario "Agent finds a superseded ADR" is a manual live test: `claude -p` with `--plugin-dir .` in sparc asks "Do the sparc roles run the code review in the current session? Answer with the ADR number that decides it." The expected answer names ADR-0015, not ADR-0009.
 
 ADRs: [ADR-0016](../../../docs/adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md) is new.
 

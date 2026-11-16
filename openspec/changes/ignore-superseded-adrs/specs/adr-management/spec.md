@@ -25,3 +25,18 @@ The document check SHALL report each ADR in `docs/adr/` (not the template) that 
 #### Scenario: Canvas names the status
 - **WHEN** each ADR has a line in "Core Decisions", and the line of each superseded, deprecated or rejected ADR names its status
 - **THEN** the check gives no finding for the ADR index
+
+### Requirement: Open changes do not use old ADRs
+The design rule in `openspec/config.yaml` SHALL tell to start the ADR list of `design.md` with `ADRs:`. The document check SHALL read the ADR list in `design.md` of each open change: the line that starts with `ADRs:` and the list items that follow it. It SHALL report each link in this list to an ADR with the status `superseded by ADR-NNNN`, `deprecated` or `rejected`. It SHALL NOT read archived changes.
+
+#### Scenario: Open change lists a superseded ADR
+- **WHEN** ADR-0002 has the status `superseded by ADR-0004` and the ADR list in `design.md` of an open change links to ADR-0002
+- **THEN** the check reports that the change uses ADR-0002, which is superseded by ADR-0004
+
+#### Scenario: Open change supersedes a current ADR
+- **WHEN** ADR-0002 has the status `accepted` and the ADR list of an open change tells that a new ADR supersedes ADR-0002
+- **THEN** the check gives no finding for this link
+
+#### Scenario: Archived change links to a superseded ADR
+- **WHEN** ADR-0002 has the status `superseded by ADR-0004` and the design of an archived change links to ADR-0002
+- **THEN** the check gives no finding for this link

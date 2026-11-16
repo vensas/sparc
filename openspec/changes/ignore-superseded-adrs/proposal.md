@@ -11,13 +11,14 @@ Backlog item: "Agents must not follow superseded ADRs as current decisions" in [
 - A rule tells the agent which ADRs are current: `accepted` and `amended`. A `proposed` ADR is current only in its own change. The agent reads the status before it uses an ADR. For a superseded ADR, it follows the chain to the current ADR. It does not follow a `deprecated` or `rejected` ADR.
 - The rule is in `rules/adr.md` and in the sparc text of `AGENTS.md`, because `AGENTS.md` is in the context of each session. The architect role reads only the current ADRs.
 - The canvas section "Core Decisions" is the index of the ADRs. The document check reports an ADR that has no line in this section. It also reports the line of a `superseded`, `deprecated` or `rejected` ADR that does not name this status.
-- Existing projects get the new `AGENTS.md` rule through `/sparc:update`.
+- The document check reads the ADR list in `design.md` of each open change. It reports each link in this list to an ADR with the status `superseded`, `deprecated` or `rejected`. The design rule in `openspec/config.yaml` tells to start the ADR list with `ADRs:`.
+- Existing projects get the new `AGENTS.md` rule and the new design rule through `/sparc:update`.
 
 Out of scope:
 
 - Changes to the MADR format, to the status values or to the body of decided ADRs.
 - A move of old ADRs to a subfolder.
-- A check of links to old ADRs in other documents.
+- A check of links to old ADRs outside the ADR list of an open change, for example in the proposal or in archived changes.
 
 ## Capabilities
 
@@ -25,10 +26,10 @@ Out of scope:
 
 ### Modified Capabilities
 
-- `adr-management`: the rule for current ADRs, and the check of the ADR index in the canvas.
+- `adr-management`: the rule for current ADRs, the check of the ADR index in the canvas, and the check of the ADR list of open changes.
 
 ## Impact
 
-- `rules/adr.md`, `rules/roles/architect.md`, `templates/project/AGENTS.md`, `AGENTS.md` of sparc.
+- `rules/adr.md`, `rules/roles/architect.md`, `templates/project/AGENTS.md`, `AGENTS.md` of sparc, `templates/project/openspec/config.yaml` and `openspec/config.yaml` of sparc.
 - `scripts/check.mjs` and `scripts/check.test.mjs`.
 - A project whose canvas does not list each ADR gets new findings. The findings warn and do not block ([ADR-0005](../../../docs/adr/0005-hook-warns-and-does-not-block.md)).

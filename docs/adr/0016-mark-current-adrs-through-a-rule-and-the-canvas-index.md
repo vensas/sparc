@@ -27,18 +27,19 @@ The body of a decided ADR does not change ([ADR-0008](0008-protect-decided-adrs-
 
 ## Decision Outcome
 
-Chosen option: "Rule and canvas index", because `AGENTS.md` is in the context of each session, and the canvas already lists each ADR with its status. The check makes this index correct. The decided ADRs and all links stay unchanged.
+Chosen option: "Rule and canvas index", because `AGENTS.md` is in the context of each session, and the canvas already lists each ADR with its status. The check makes this index correct. The decided ADRs and all links stay unchanged. The check also reports a link to an old ADR in the ADR list (`ADRs:`) of an open change.
 
 ### Consequences
 
 - Good, because no decided ADR changes, and no link breaks.
 - Good, because the check finds a missing or wrong line in the index.
+- Good, because the check finds a new change that uses an old ADR.
 - Bad, because the agent must obey the rule. A grep hit in a superseded ADR still does not show the status.
 - Bad, because projects whose canvas does not list each ADR get new findings.
 
 ### Confirmation
 
-`scripts/check.test.mjs` tests the index findings. A test reads the rule in `rules/adr.md` and in the `AGENTS.md` template. A live test asks an agent about a decision that a superseded ADR made.
+`scripts/check.test.mjs` tests the findings for the index and for the ADR list of open changes. A test reads the rule in `rules/adr.md` and in the `AGENTS.md` template. A live test asks an agent about a decision that a superseded ADR made.
 
 ## Pros and Cons of the Options
 
