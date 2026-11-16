@@ -32,3 +32,7 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [ ] After each new model generation, find the rules that the model already follows without sparc.
 - [x] Code review runs in a fresh context by default (change: fresh-context-code-review)
 - [ ] The check finds each document date that is older than the last commit of its document (for example the canvas "Date / Iteration").
+- [ ] Documents for a first-time reader (change: improve-first-read)
+- [ ] A "How we work" section in the README template for human contributors
+- [ ] A note in the templates that tells which documents can stay short in a small project
+- [ ] Decide if the README of a project must follow STE
