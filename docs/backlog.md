@@ -28,3 +28,7 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [x] Trunk-based workflow on the default branch (change: trunk-based-workflow)
 - [x] Do not forbid subagents (change: allow-subagents)
 - [x] Publish released versions to the marketplace with CI (change: publish-plugin-releases)
+- [ ] Verifier hook: block the stop of a complete change until lint, tests and spec evidence pass (change: add-verifier-hook)
+- [ ] Agents must not follow superseded ADRs as current decisions. Find a solution.
+- [ ] After each new model generation, find the rules that the model already follows without sparc.
+- [ ] Code review runs in a fresh context by default.

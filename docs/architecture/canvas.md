@@ -61,6 +61,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0011](../adr/0011-use-apply-and-pull-requests-as-approval.md): Use apply and pull requests as approval.
 - [ADR-0012](../adr/0012-use-a-trunk-or-pull-request-workflow.md): Use a trunk or pull request workflow.
 - [ADR-0013](../adr/0013-pin-the-marketplace-entry-to-the-release-tag.md): Pin the marketplace entry to the release tag.
+- [ADR-0014](../adr/0014-block-the-stop-of-a-complete-change-until-its-verification-passes.md): Block the stop of a complete change until its verification passes (proposed).
 
 ## Technologies 🛠️
 
@@ -88,6 +89,7 @@ See the [container diagram](c4.md#containers).
 - In auto mode, the Write tool failed for the main session and for each subagent (no verdict from the classifier). Edit and Bash worked.
 - [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.
 - The STE check finds long sentences only. It does not check the STE dictionary.
+- The verifier hook (change add-verifier-hook) blocks the stop of an agent. A live test must show the block and the limit of 3 blocks in Claude Code.
 - The OpenSpec schema commands are experimental. sparc does not use them now.
 
 ---
