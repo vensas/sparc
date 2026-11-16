@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { cpSync, mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
-import { completeChanges, verifyChange } from './verify.mjs';
+import { completeChanges, verifyChange, projectCommands, runCommands, commandsWarning } from './verify.mjs';
 
 const TEMPLATE = new URL('../templates/project', import.meta.url).pathname;
 
@@ -123,4 +123,55 @@ test('Tasks name their verification: task without verification', () => {
   const dir = project();
   change(dir, { tasks: '# Tasks\n\n- [x] 1.1 Add the export. Verify: `npm test`.\n- [x] 1.2 Add the button.\n' });
   assert.deepEqual(messages(dir, 'add-export'), ['task "1.2 Add the button." has no "Verify:"']);
+});
+
+const AGENTS = (rows) => `# AGENTS.md\n\n## Commands\n\n| Task | Command |\n|---|---|\n${rows.map(([n, c]) => `| ${n} | \`${c}\` |`).join('\n')}\n\n## Structure\n\n| Path | Content |\n|---|---|\n| \`src/\` | Code |\n`;
+const PASS = 'node -e "process.exit(0)"';
+const FAIL = 'node -e "console.log(\'line 1\'); console.error(\'boom\'); process.exit(1)"';
+
+test('Project commands pass: commands come from the commands table in the order Lint, Test, Verify', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Verify', 'v'], ['Run the app', 'r'], ['test', 't'], ['Lint', 'l']]));
+  assert.deepEqual(projectCommands(dir), [{ name: 'Lint', command: 'l' }, { name: 'Test', command: 't' }, { name: 'Verify', command: 'v' }]);
+});
+
+test('Project commands pass: all commands pass', async () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Lint', PASS], ['Test', PASS]]));
+  assert.deepEqual(await runCommands(dir, projectCommands(dir)), []);
+});
+
+test('Project commands pass: a command fails', async () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Lint', PASS], ['Test', FAIL]]));
+  const [finding, ...rest] = await runCommands(dir, projectCommands(dir));
+  assert.deepEqual(rest, []);
+  assert.match(finding, /^command "Test" \(`node -e .+`\) exited with 1/);
+  assert.match(finding, /line 1/);
+  assert.match(finding, /boom/);
+});
+
+test('Project commands pass: a command runs too long', async () => {
+  const dir = project();
+  const start = Date.now();
+  const [finding] = await runCommands(dir, [{ name: 'Test', command: 'node -e "setTimeout(() => {}, 10000)" && echo done' }], 300);
+  assert.ok(Date.now() - start < 5000, 'the command and its child processes stop at the time limit');
+  assert.match(finding, /^command "Test" \(`.+`\) ran longer than 0\.3 s/);
+});
+
+test('Project commands pass: optional verify command', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Lint', PASS], ['Test', PASS]]));
+  assert.deepEqual(projectCommands(dir).map((c) => c.name), ['Lint', 'Test']);
+});
+
+test('Project without commands: no commands named, and no second warning', () => {
+  const dir = project();
+  process.env.CLAUDE_PLUGIN_DATA = mkdtempSync(join(tmpdir(), 'sparc-state-'));
+  write(dir, 'AGENTS.md', AGENTS([['Run the app', 'r']]));
+  assert.deepEqual(projectCommands(dir), []);
+  assert.match(commandsWarning(dir), /names no Lint, Test or Verify command/);
+  assert.equal(commandsWarning(dir), null);
+  write(dir, 'AGENTS.md', AGENTS([['Lint', PASS]]));
+  assert.equal(commandsWarning(dir), null);
 });

@@ -2,10 +2,17 @@
 // sparc verify: verifies each complete OpenSpec change without an LLM.
 // Usage:
 //   node verify.mjs [dir]             print findings, exit 1 if there are findings
-import { readdirSync, existsSync } from 'node:fs';
+import { readdirSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { createHash } from 'node:crypto';
+import { spawn } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
-import { isSparcProject, listChanges, read } from './check.mjs';
+import { isSparcProject, listChanges, read, section } from './check.mjs';
+
+const COMMANDS = ['Lint', 'Test', 'Verify'];
+const COMMAND_TIME_LIMIT_MS = 300_000;
+const OUTPUT_LINES = 20;
 
 // OpenSpec counts a box with only "x" (any case, any spaces) as checked.
 const TASK = /^\s*- \[([^\]]*)\] *(.+)$/gm;
@@ -66,6 +73,63 @@ export function verifyChange(dir, id) {
   }
   for (const task of tasksOf(dir, id)) if (!/Verify:/.test(task.text)) findings.push(`task "${task.text}" has no "Verify:"`);
   return { findings, manual };
+}
+
+// Returns the Lint, Test and Verify rows of the commands table in AGENTS.md, in this order.
+export function projectCommands(dir) {
+  const rows = new Map();
+  for (const line of (section(read(dir, 'AGENTS.md') ?? '', 'Commands') ?? '').split('\n')) {
+    const [name, command] = line.match(/^\|(.+)\|\s*$/)?.[1].split('|').map((c) => c.trim()) ?? [];
+    const known = COMMANDS.find((n) => n.toLowerCase() === name?.toLowerCase());
+    const code = command?.match(/`([^`]+)`/)?.[1];
+    if (known && code && !rows.has(known)) rows.set(known, code);
+  }
+  return COMMANDS.filter((n) => rows.has(n)).map((name) => ({ name, command: rows.get(name) }));
+}
+
+// Runs a command through the shell in its own process group, so that a time-out also stops its child processes.
+function run(dir, command, timeLimitMs) {
+  return new Promise((resolve) => {
+    const child = spawn(command, { cwd: dir, shell: true, detached: true });
+    let output = '';
+    child.stdout.on('data', (d) => { output += d; });
+    child.stderr.on('data', (d) => { output += d; });
+    let timedOut = false;
+    const timer = setTimeout(() => {
+      timedOut = true;
+      try { process.kill(-child.pid, 'SIGKILL'); } catch { /* the group has already stopped */ }
+    }, timeLimitMs);
+    child.on('close', (code) => {
+      clearTimeout(timer);
+      resolve({ code, timedOut, output });
+    });
+  });
+}
+
+const lastLines = (text) => text.trimEnd().split('\n').slice(-OUTPUT_LINES).join('\n');
+
+export async function runCommands(dir, commands, timeLimitMs = COMMAND_TIME_LIMIT_MS) {
+  const findings = [];
+  for (const { name, command } of commands) {
+    const { code, timedOut, output } = await run(dir, command, timeLimitMs);
+    const label = `command "${name}" (\`${command}\`)`;
+    if (timedOut) findings.push(`${label} ran longer than ${timeLimitMs / 1000} s and was stopped`);
+    else if (code !== 0) findings.push(`${label} exited with ${code}. Last lines of its output:\n${lastLines(output)}`);
+  }
+  return findings;
+}
+
+const stateFile = (dir, key) => join(process.env.CLAUDE_PLUGIN_DATA ?? tmpdir(),
+  `sparc-verify-${createHash('sha256').update(`${dir}\0${key}`).digest('hex').slice(0, 16)}`);
+
+// Returns the warning for a project without commands, one time for each project.
+export function commandsWarning(dir) {
+  if (projectCommands(dir).length) return null;
+  const file = stateFile(dir, 'no-commands');
+  if (existsSync(file)) return null;
+  mkdirSync(join(file, '..'), { recursive: true });
+  writeFileSync(file, '');
+  return `sparc verify: AGENTS.md names no Lint, Test or Verify command. Add them to the commands table, so that the verifier runs them when a change is complete.`;
 }
 
 function main(args) {
