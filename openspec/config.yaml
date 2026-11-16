@@ -34,5 +34,5 @@ operations:
       - After each task, look for refactoring and simplification. Do only small refactors.
   archive:
     guidance:
-      - Check the backlog item, accept the ADRs and sync README, C4, canvas and AGENTS.md.
+      - Remove the backlog item, accept the ADRs and sync README, C4, canvas and AGENTS.md.
 # sparc:end

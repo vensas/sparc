@@ -40,12 +40,12 @@ A sparc project has these documents. Each fact has one home. Other documents lin
 ## Items
 
 - [ ] <item> (change: <change-id>)
-- [x] <done item> (change: <change-id>)
 - [ ] <idea without a change yet>
 ```
 
-- An item with a change is done when the change is archived. Then check the box.
-- An item without a change is done when the user confirms it.
+- The backlog holds only items that are not done. The changelog is the home of done work.
+- An item with a change is done when the change is archived. Then remove the item.
+- An item without a change is done when the user confirms it. Then remove the item.
 
 ## Sync triggers
 
@@ -54,7 +54,7 @@ A sparc project has these documents. Each fact has one home. Other documents lin
 | Change proposed | Backlog (add or link item), ADRs (`proposed`) |
 | Design adds or removes an actor, external system, container or relation | C4 diagrams, canvas |
 | Task done | Only documents that the task changed |
-| Change archived | Changelog (Unreleased), backlog (check item), README key features, ADRs (`accepted`), canvas, AGENTS.md if commands or structure changed |
+| Change archived | Changelog (Unreleased), backlog (remove item), README key features, ADRs (`accepted`), canvas, AGENTS.md if commands or structure changed |
 | Setup or commands change | README "Get started", AGENTS.md |
 | New risk or open question | Canvas "Core Risks and Missing Information" |
 
