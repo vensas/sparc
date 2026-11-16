@@ -6,7 +6,7 @@
 
 ## 2. change-workflow
 
-- [ ] 2.1 Add `scripts/change-workflow.test.mjs` with one test for each scenario of `specs/change-workflow/spec.md`. The tests read `skills/propose/SKILL.md`, `skills/apply/SKILL.md`, `skills/archive/SKILL.md` and the rules that they link. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
+- [x] 2.1 Add `scripts/change-workflow.test.mjs` with one test for each scenario of `specs/change-workflow/spec.md`. The tests read `skills/propose/SKILL.md`, `skills/apply/SKILL.md`, `skills/archive/SKILL.md` and the rules that they link. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
 
 ## 3. Existing capabilities
 
