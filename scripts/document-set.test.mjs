@@ -53,3 +53,34 @@ test('Check reports done backlog items: Open change without an item', () => {
   const out = checkBacklog('- [ ] Other idea\n');
   assert.ok(out.some((l) => l.includes('change "add-export" has no backlog item')), out.join('\n'));
 });
+
+// The sync tests read the sync skill. They prove that the skill tells the behavior.
+const sync = () => read('skills/sync/SKILL.md');
+
+test('Sync updates the documents of each trigger: Change archived', () => {
+  const skill = sync();
+  assert.match(skill, /The document set, the owners and the triggers are in \$\{CLAUDE_PLUGIN_ROOT\}\/rules\/docs\.md/);
+  assert.match(skill, /For each trigger in the sync table that applies, find the document that must change/);
+  assert.match(skill, /the architect role [^\n]* for README, AGENTS\.md, C4, canvas and ADRs/);
+  assert.match(read('rules/docs.md'), /\| Change archived \|[^\n]*README key features/);
+  assert.match(skill, /if empty: the whole project/);
+  assert.match(skill, /For a change id, read its proposal, design and tasks/);
+});
+
+test('Sync updates the documents of each trigger: Report', () => {
+  assert.match(sync(), /Report each document that changed, in one line for each/);
+});
+
+test('Sync repeats until the check is clean: Finding stays', () => {
+  const skill = sync();
+  assert.ok(skill.indexOf('scripts/check.mjs') < skill.indexOf('For each trigger'), 'the check runs before the updates');
+  assert.match(skill, /Run the check again\. Repeat until there is no finding, or until each remaining finding has a reason/);
+});
+
+test('Sync does not change decided ADRs: Drift in an accepted ADR', () => {
+  assert.match(sync(), /Do not change a decided ADR\. Use the sparc adr skill/);
+});
+
+test('Sync does not record incomplete work: Task in progress', () => {
+  assert.match(sync(), /If the drift comes from work that is not complete, do not change the documents\. Report it/);
+});
