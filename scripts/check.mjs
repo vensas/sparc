@@ -141,17 +141,17 @@ export function listChanges(dir) {
 
 function checkBacklog(dir, md, add) {
   if (!section(md, 'Goal')?.trim()) add(DOCS.backlog, 'section "## Goal" is missing or empty');
-  const items = [...(section(md, 'Items') ?? '').matchAll(/^- \[([ xX])\] .*?(?:\(change: ([\w-]+)\))?\s*$/gm)]
-    .map(([, box, change]) => ({ done: box !== ' ', change }));
+  const items = [...(section(md, 'Items') ?? '').matchAll(/^- \[([ xX])\] (.*?)(?:\s*\(change: ([\w-]+)\))?\s*$/gm)]
+    .map(([, box, text, change]) => ({ done: box !== ' ', text, change }));
   if (!items.length) add(DOCS.backlog, 'section "## Items" has no checkbox items');
   const { active, archived } = listChanges(dir);
-  const linked = new Set(items.map((i) => i.change).filter(Boolean));
-  for (const { done, change } of items.filter((i) => i.change)) {
-    if (archived.includes(change) && !done) add(DOCS.backlog, `change "${change}" is archived but its item is not checked`);
-    else if (done && !archived.includes(change)) add(DOCS.backlog, `item for change "${change}" is checked but the change is not archived`);
-    else if (!active.includes(change) && !archived.includes(change)) add(DOCS.backlog, `change "${change}" does not exist in openspec/changes`);
+  for (const { done, text, change } of items) {
+    if (done) add(DOCS.backlog, `item "${text}" is done. Remove it. The changelog has the done work`);
+    else if (archived.includes(change)) add(DOCS.backlog, `change "${change}" is archived. Remove its item`);
+    else if (change && !active.includes(change)) add(DOCS.backlog, `change "${change}" does not exist in openspec/changes`);
   }
-  for (const c of [...active, ...archived]) if (!linked.has(c)) add(DOCS.backlog, `change "${c}" has no backlog item`);
+  const linked = new Set(items.map((i) => i.change));
+  for (const c of active) if (!linked.has(c)) add(DOCS.backlog, `change "${c}" has no backlog item`);
 }
 
 function checkAdrs(dir, add) {

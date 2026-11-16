@@ -47,14 +47,37 @@ test('C4 file needs context and container diagrams', () => {
   assert.ok(!has(dir, 'C4Context diagram is missing'));
 });
 
-test('backlog items follow the state of their OpenSpec change', () => {
+function backlogProject(items) {
   const dir = project();
   mkdirSync(join(dir, 'openspec/changes/archive/2026-10-01-add-login'), { recursive: true });
   mkdirSync(join(dir, 'openspec/changes/add-export'), { recursive: true });
-  write(dir, 'docs/backlog.md', '# Backlog\n\n## Goal\n\nA goal.\n\n## Items\n\n- [ ] Login (change: add-login)\n- [x] Search (change: add-search)\n');
-  assert.ok(has(dir, 'change "add-login" is archived but its item is not checked'));
-  assert.ok(has(dir, 'item for change "add-search" is checked but the change is not archived'));
+  write(dir, 'docs/backlog.md', `# Backlog\n\n## Goal\n\nA goal.\n\n## Items\n\n${items}`);
+  return dir;
+}
+
+test('checked backlog item is reported', () => {
+  const dir = backlogProject('- [ ] Export (change: add-export)\n- [x] Search\n');
+  assert.ok(has(dir, 'item "Search" is done. Remove it'));
+});
+
+test('backlog item of an archived change is reported', () => {
+  const dir = backlogProject('- [ ] Export (change: add-export)\n- [ ] Login (change: add-login)\n');
+  assert.ok(has(dir, 'change "add-login" is archived. Remove its item'));
+});
+
+test('archived change without a backlog item gives no finding', () => {
+  const dir = backlogProject('- [ ] Export (change: add-export)\n');
+  assert.ok(!messages(dir).some((m) => m.includes('add-login')));
+});
+
+test('open change without a backlog item is reported', () => {
+  const dir = backlogProject('- [ ] Other idea\n');
   assert.ok(has(dir, 'change "add-export" has no backlog item'));
+});
+
+test('backlog item of a change that does not exist is reported', () => {
+  const dir = backlogProject('- [ ] Export (change: add-export)\n- [ ] Search (change: add-search)\n');
+  assert.ok(has(dir, 'change "add-search" does not exist in openspec/changes'));
 });
 
 test('backlog without goal is reported', () => {
