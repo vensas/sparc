@@ -42,6 +42,11 @@ Chosen option: "Rule and canvas index", because `AGENTS.md` is in the context of
 
 ## Pros and Cons of the Options
 
+### Rule and canvas index
+
+- Good, because the rule is in each session, and the index is checked.
+- Bad, because the rule is a request. The agent can ignore it.
+
 ### A fixed notice line in the body
 
 - Good, because each read of the file shows the notice.
