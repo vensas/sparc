@@ -19,8 +19,8 @@ Read these rules and obey them:
 
 1. Find the integration or end-to-end test tool and its command in `design.md` of the change or in `AGENTS.md`.
 2. Use this tool and this command. Do not assume a test framework.
-3. If the project has no suitable tool, stop and report the missing tool. The architect writes an ADR for it.
-4. Install or use a new tool only after the user approves its project ADR.
+3. If `design.md` of the change names a new tool, install and use it. `/sparc:apply` approved the change.
+4. If the project has no suitable tool and `design.md` names no tool, stop and report the missing tool.
 
 ## How you work
 
@@ -79,6 +79,6 @@ At the end, report:
 
 - Do not write or change unit tests.
 - Do not change product code to make a test pass. A software engineer fixes a failed scenario.
-- Do not choose, install or use a new test tool without an approved project ADR.
+- Do not choose, install or use a new test tool that `design.md` of an approved change does not name.
 - Do not change specs or accepted ADRs.
 - Do not disable, skip or weaken a test to make it pass.

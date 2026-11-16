@@ -30,7 +30,7 @@ Only if the change has a user interface: follow the UX designer role (`${CLAUDE_
 
 Follow the architect role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/architect.md`). Write `design.md`, the ADRs with the status `proposed`, the C4 updates and `tasks.md`.
 
-Name the integration or end-to-end test tool of the project and its command in `design.md`. If the project has no such tool, write a project ADR for the tool with the status `proposed`. The approval of the change also approves this ADR.
+Name the integration or end-to-end test tool of the project and its command in `design.md`. If the project has no such tool, choose a tool in `design.md`. Give its command, the other options and the reason for the choice. The approval of the change also approves the tool. Write an ADR for the tool only if the choice is a major decision (see ${CLAUDE_PLUGIN_ROOT}/rules/adr.md).
 
 ## 5. Validate
 

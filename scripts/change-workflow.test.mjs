@@ -42,7 +42,10 @@ test('Design names the test tool: Project has a test tool', () => {
 });
 
 test('Design names the test tool: Project has no test tool', () => {
-  assert.match(skill('propose'), /If the project has no such tool, write a project ADR for the tool with the status `proposed`/);
+  const propose = skill('propose');
+  assert.match(propose, /If the project has no such tool, choose a tool in `design\.md`\. Give its command, the other options and the reason for the choice/);
+  assert.match(propose, /Write an ADR for the tool only if the choice is a major decision/);
+  assert.doesNotMatch(propose, /project ADR/);
 });
 
 test('Propose ends valid and committed: Propose completes', () => {

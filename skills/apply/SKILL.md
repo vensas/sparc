@@ -43,7 +43,7 @@ If you cannot start the subagent, do the full review in the current session and 
 
 Follow the QA engineer role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/qa-engineer.md`).
 
-1. If the role finds no suitable test tool, stop. Tell the user that the tool needs an approved project ADR (see ${CLAUDE_PLUGIN_ROOT}/rules/adr.md).
+1. If the role finds no suitable test tool, stop. Tell the user that the tool needs a change whose `design.md` names it.
 2. Make sure that the QA commits change only test files and `openspec/changes/<id>/qa.md`.
 3. For each scenario with the result `failed`, fix the issue as the software engineer role, then do QA again.
 
