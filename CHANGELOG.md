@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Added
+
+- Specs for the skills that had no spec. The new capabilities `project-setup` (`/sparc:init`) and `change-workflow` (`/sparc:propose`, `/sparc:apply`, `/sparc:archive`) specify their current behavior. `document-set`, `adr-management`, `release-conventions` and `project-update` get the requirements of `/sparc:sync`, `/sparc:adr`, `/sparc:release` and `/sparc:update`. A test for each new scenario reads the skill text. No skill behavior changes ([add-skill-specs](openspec/changes/archive/2026-11-16-add-skill-specs/proposal.md)).
+
 ## [0.7.0] - 2026-11-16
 
 ### Added
