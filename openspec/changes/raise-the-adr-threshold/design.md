@@ -4,7 +4,11 @@
 
 See proposal.md - Why. The architect role tells the ADR threshold in step 5 of `rules/roles/architect.md`. `rules/adr.md` tells the ADR format and status, but not when to write an ADR. The ADR template already has the sections `## Considered Options` and `## Pros and Cons of the Options`. No check reads them. `checkAdrs` in `scripts/check.mjs` skips each further check for a `proposed` ADR. The propose skill, the apply skill and the QA engineer role require a project ADR for a new test tool.
 
-ADRs: none. This change does not meet its own threshold. The decisions below change rules and check behavior. They are not central to the idea of sparc, and they are easy to change.
+This change adds no ADR. It does not meet its own threshold. The decisions below change rules and check behavior. They are not central to the idea of sparc, and they are easy to change.
+
+ADRs:
+
+- [ADR-0007](../../../docs/adr/0007-prove-spec-scenarios-with-a-qa-engineer-after-implementation.md): amended. Its "More Information" tells that each project records its test tool in an ADR. The amendment tells that the change chooses the tool in `design.md`. The code review found this conflict, and the user approved the amendment in the chat.
 
 ## Goals / Non-Goals
 
