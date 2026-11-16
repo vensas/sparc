@@ -270,3 +270,9 @@ test('hook does nothing outside a sparc project', () => {
   const dir = mkdtempSync(join(tmpdir(), 'sparc-verify-'));
   assert.equal(hookRunner(dir)(), null);
 });
+
+test('Project commands pass: a command that a signal stops names the signal', async () => {
+  const dir = project();
+  const [finding] = await runCommands(dir, [{ name: 'Test', command: 'kill -TERM $$' }]);
+  assert.match(finding, /^command "Test" \(`kill -TERM \$\$`\) was stopped by SIGTERM/);
+});

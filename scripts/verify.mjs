@@ -101,9 +101,9 @@ function run(dir, command, timeLimitMs) {
       timedOut = true;
       try { process.kill(-child.pid, 'SIGKILL'); } catch { /* the group has already stopped */ }
     }, timeLimitMs);
-    child.on('close', (code) => {
+    child.on('close', (code, signal) => {
       clearTimeout(timer);
-      resolve({ code, timedOut, output });
+      resolve({ code, signal, timedOut, output });
     });
   });
 }
@@ -113,9 +113,10 @@ const lastLines = (text) => text.trimEnd().split('\n').slice(-OUTPUT_LINES).join
 export async function runCommands(dir, commands, timeLimitMs = COMMAND_TIME_LIMIT_MS) {
   const findings = [];
   for (const { name, command } of commands) {
-    const { code, timedOut, output } = await run(dir, command, timeLimitMs);
+    const { code, signal, timedOut, output } = await run(dir, command, timeLimitMs);
     const label = `command "${name}" (\`${command}\`)`;
     if (timedOut) findings.push(`${label} ran longer than ${timeLimitMs / 1000} s and was stopped`);
+    else if (signal) findings.push(`${label} was stopped by ${signal}. Last lines of its output:\n${lastLines(output)}`);
     else if (code !== 0) findings.push(`${label} exited with ${code}. Last lines of its output:\n${lastLines(output)}`);
   }
   return findings;
