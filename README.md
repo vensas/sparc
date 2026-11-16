@@ -17,6 +17,7 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 - Release conventions: Keep a Changelog, Semantic Versioning and Conventional Commits. Each project chooses its workflow: trunk-based on the default branch, or a pull request for each change.
 - ADR status rules. The check uses git history to find each change to a decided ADR.
 - A check without an LLM (`scripts/check.mjs`). A Stop hook runs it and warns about document drift.
+- A verifier without an LLM (`scripts/verify.mjs`). When all tasks of a change are checked, a Stop hook runs the `Lint`, `Test` and `Verify` commands of the project. It also checks the evidence of each spec scenario in `qa.md`. If a check fails, the agent cannot stop and continues to work. After 3 blocks in a row, the failed checks become open points.
 - Released versions only: the marketplace gives the latest release tag. CI tests each push and publishes each release on GitHub.
 - Shared rules for all roles: ASD-STE100 writing, evidence before claims, simplicity, DRY, SOLID and good tests.
 
@@ -87,6 +88,7 @@ sparc does not limit what a project requires. Write each requirement in its home
 | A rule for each change | `AGENTS.md`, outside the sparc markers | `- Do not write personal data to logs. Use the customer ID only.` |
 | A quality requirement | Canvas, "Quality Requirements" | `Data protection: personal data stays in the EU region.` |
 | A behavior that a test can check | Spec scenario, through `/sparc:propose` | `WHEN the service writes a log entry for a customer THEN the entry contains the customer ID and no name or e-mail address` |
+| A command that each complete change must pass | Commands table in `AGENTS.md`, row `Lint`, `Test` or `Verify` | Row `Verify` with the command `npm run check:privacy` |
 
 ### Develop sparc
 

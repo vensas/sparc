@@ -25,8 +25,9 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | `templates/project/` | Files that `/sparc:init` copies into a project |
 | `scripts/check.mjs` | Document check without dependencies, and its tests |
 | `scripts/verify-release.mjs` | Release verification for the publication workflow, and its tests |
+| `scripts/verify.mjs` | Verifier of a complete change (Stop hook, blocks), and its tests |
 | `.github/workflows/` | CI: `validate.yml` for each push and pull request, `publish.yml` for each release tag |
-| `hooks/hooks.json` | Stop and SubagentStop hooks that run the check |
+| `hooks/hooks.json` | Stop and SubagentStop hooks that run the check, and the Stop hook that runs the verifier |
 | `openspec/` | Specs and changes of sparc |
 | `docs/` | Backlog, C4 diagrams, canvas and ADRs of sparc |
 | `CHANGELOG.md` | Changes for each release |
