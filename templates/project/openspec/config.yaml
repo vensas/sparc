@@ -18,7 +18,7 @@ rules:
     - Link the proposal to its item in docs/backlog.md. Add the item if it does not exist.
     - State what is out of scope.
   design:
-    - List each ADR that this change adds, amends or supersedes, with its path in docs/adr/.
+    - List each ADR that this change adds, amends or supersedes, with its path in docs/adr/. Start the ADR list with `ADRs:`.
     - State the C4 impact. Name each actor, external system, container or relation that the change adds, changes or removes. Write "No C4 impact" if there is none.
     - If the change has a user interface, link the mockups in docs/mockups/<change>/.
     - Write open questions also in the canvas section "Core Risks and Missing Information".

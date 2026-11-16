@@ -200,6 +200,30 @@ function checkAdrIndex(canvas, statuses, add) {
   }
 }
 
+// The ADR list of a design: the line that starts with "ADRs:" and the list items after it.
+function adrList(md) {
+  const lines = md.split('\n');
+  const start = lines.findIndex((l) => l.startsWith('ADRs:'));
+  if (start < 0) return '';
+  const list = [lines[start]];
+  for (const l of lines.slice(start + 1)) {
+    if (l.startsWith('- ')) list.push(l);
+    else if (l.trim()) break;
+  }
+  return list.join('\n');
+}
+
+// An open change must not build on an old decision. Archived changes link to ADRs that were current at their time.
+function checkChangeAdrs(dir, statuses, add) {
+  for (const change of listChanges(dir).active) {
+    const rel = `openspec/changes/${change}/design.md`;
+    const list = adrList(read(dir, rel) ?? '');
+    for (const { file, number, status } of statuses) {
+      if (OLD_STATUS.test(status) && list.includes(file)) add(rel, `the ADR list uses ADR-${number}, which is ${status}`);
+    }
+  }
+}
+
 function checkPlaceholders(dir, files, add) {
   for (const rel of files) {
     const n = (read(dir, rel) ?? '').split(PLACEHOLDER).length - 1;
@@ -318,6 +342,7 @@ export function check(dir) {
   if (md('changelog')) checkManifestVersion(dir, checkChangelog(md('changelog'), add), add);
   const adrs = checkAdrs(dir, add);
   if (md('canvas')) checkAdrIndex(md('canvas'), adrs.statuses, add);
+  checkChangeAdrs(dir, adrs.statuses, add);
   const prose = [DOCS.readme, DOCS.agents, DOCS.backlog, DOCS.c4, DOCS.canvas, DOCS.changelog, ...adrs.all];
   checkPlaceholders(dir, prose, add);
   // Decided ADRs must not change, so a sentence finding in them cannot be fixed.

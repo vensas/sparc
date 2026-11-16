@@ -414,3 +414,33 @@ test('Agents follow only current ADRs: Rule in a project', () => {
   assert.match(adrRule, /A `proposed` ADR is current only in its own change/);
   assert.match(readFileSync(new URL('../rules/roles/architect.md', import.meta.url), 'utf8'), /the current ADRs \(see `\.\.\/adr\.md`\)/);
 });
+
+const changeDesign = (dir, path, adrList) => {
+  mkdirSync(join(dir, path), { recursive: true });
+  write(dir, `${path}/design.md`, `# Design\n\nContext links [ADR-0002](../../../docs/adr/0002-a.md).\n\n${adrList}\n\nNo C4 impact.\n`);
+};
+
+test('Open changes do not use old ADRs: Open change lists a superseded ADR', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0002-a.md', ADR('superseded by ADR-0004'));
+  write(dir, 'docs/adr/0004-b.md', ADR('accepted'));
+  changeDesign(dir, 'openspec/changes/add-x', 'ADRs:\n\n- [ADR-0002](../../../docs/adr/0002-a.md) is amended.');
+  assert.ok(has(dir, 'openspec/changes/add-x/design.md: the ADR list uses ADR-0002, which is superseded by ADR-0004'));
+});
+
+test('Open changes do not use old ADRs: Open change supersedes a current ADR', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0002-a.md', ADR('accepted'));
+  write(dir, 'docs/adr/0003-b.md', ADR('proposed'));
+  changeDesign(dir, 'openspec/changes/add-x', 'ADRs: [ADR-0003](../../../docs/adr/0003-b.md) is new and supersedes [ADR-0002](../../../docs/adr/0002-a.md).');
+  assert.ok(!messages(dir).some((m) => m.includes('the ADR list uses')));
+});
+
+test('Open changes do not use old ADRs: Archived change links to a superseded ADR', () => {
+  const dir = project();
+  write(dir, 'docs/adr/0002-a.md', ADR('superseded by ADR-0004'));
+  write(dir, 'docs/adr/0004-b.md', ADR('accepted'));
+  changeDesign(dir, 'openspec/changes/archive/2026-10-01-add-x', 'ADRs: [ADR-0002](../../../docs/adr/0002-a.md) is new.');
+  changeDesign(dir, 'openspec/changes/add-y', 'ADRs: [ADR-0004](../../../docs/adr/0004-b.md) is new.');
+  assert.ok(!messages(dir).some((m) => m.includes('the ADR list uses')));
+});
