@@ -4,7 +4,7 @@
   "plugins": [
     {
       "name": "sparc",
-      "source": { "source": "github", "repo": "vensas/sparc", "ref": "v0.6.0" },
+      "source": { "source": "github", "repo": "vensas/sparc", "ref": "v0.7.0" },
       "description": "Spec-driven agent harness on top of OpenSpec."
     }
   ]

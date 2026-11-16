@@ -5,6 +5,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-16
+
 ### Added
 
 - A verifier hook for a change with all tasks checked. The agent cannot stop until the `Lint`, `Test` and `Verify` commands of the project pass. Each spec scenario must have evidence in `qa.md`, and each task must name its verification. After 3 blocks in a row, the failed checks become open points ([add-verifier-hook](openspec/changes/archive/2026-11-16-add-verifier-hook/proposal.md)).

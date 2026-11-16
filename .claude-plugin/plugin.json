@@ -1,7 +1,7 @@
 {
   "name": "sparc",
   "displayName": "sparc",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Spec-driven agent harness on top of OpenSpec: product owner, architect, UX designer, software engineer and QA engineer roles, MADR ADRs, C4, architecture canvas, backlog and automatic document sync.",
   "author": { "name": "vensas", "email": "kontakt@vensas.de" },
   "repository": "https://github.com/vensas/sparc",
