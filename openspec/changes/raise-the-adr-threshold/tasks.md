@@ -6,7 +6,7 @@
 
 ## 2. Options and trade-offs
 
-- [ ] 2.1 Add the check of options and trade-offs of `proposed` ADRs to `scripts/check.mjs` as design.md tells. Add a test for each check scenario of "Proposed ADR gives its options and trade-offs" to `scripts/check.test.mjs`. Verify: `node --test 'scripts/*.test.mjs'` passes, and `node scripts/check.mjs` reports no finding for sparc. Documents: none.
+- [x] 2.1 Add the check of options and trade-offs of `proposed` ADRs to `scripts/check.mjs` as design.md tells. Add a test for each check scenario of "Proposed ADR gives its options and trade-offs" to `scripts/check.test.mjs`. Verify: `node --test 'scripts/*.test.mjs'` passes, and `node scripts/check.mjs` reports no finding for sparc. Documents: none.
 - [ ] 2.2 Add the two comments to `templates/project/docs/adr/0000-template.md` and `docs/adr/0000-template.md`. Add a test for "Proposed ADR gives its options and trade-offs: Template tells the requirement". Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
 
 ## 3. Test tool in the design

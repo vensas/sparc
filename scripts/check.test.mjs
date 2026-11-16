@@ -427,6 +427,41 @@ test('Canvas lists each ADR with its status: Canvas names the status', () => {
   assert.ok(!messages(dir).some((m) => m.includes('"Core Decisions"')));
 });
 
+const OPTIONS = (options, prosAndCons) => `\n## Considered Options\n\n${options.map((o) => `- ${o}`).join('\n')}\n\n## Decision Outcome\n\nChosen option: "A".\n\n## Pros and Cons of the Options\n${prosAndCons}`;
+const TRADE_OFFS = (option, lines = ['Good, because it is fast', 'Bad, because it is new']) => `\n### ${option}\n\n${lines.map((l) => `- ${l}`).join('\n')}\n`;
+const optionFindings = (dir) => messages(dir).filter((m) => m.includes('option'));
+
+test('Proposed ADR gives its options and trade-offs: Only one option', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('proposed', OPTIONS(['A'], TRADE_OFFS('A'))));
+  assert.ok(has(dir, '0001-a.md: needs two or more options in "## Considered Options"'));
+});
+
+test('Proposed ADR gives its options and trade-offs: Option without trade-offs', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('proposed', OPTIONS(['A', 'B'], TRADE_OFFS('A'))));
+  assert.ok(has(dir, '0001-a.md: option "B" has no trade-offs in "## Pros and Cons of the Options"'));
+});
+
+test('Proposed ADR gives its options and trade-offs: Option without a bad trade-off', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('proposed', OPTIONS(['A', 'B'], TRADE_OFFS('A') + TRADE_OFFS('B', ['Good, because it is old']))));
+  assert.ok(has(dir, '0001-a.md: option "B" has no bad trade-off'));
+  assert.ok(!has(dir, 'option "B" has no good trade-off'));
+});
+
+test('Proposed ADR gives its options and trade-offs: Complete options and trade-offs', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('proposed', OPTIONS(['A', 'B'], TRADE_OFFS('A') + TRADE_OFFS('B'))));
+  assert.deepEqual(optionFindings(dir), []);
+});
+
+test('Proposed ADR gives its options and trade-offs: Decided ADR with one option', () => {
+  const { dir, commit } = adrRepo();
+  commit('docs/adr/0001-a.md', ADR('accepted', '\n## Considered Options\n\n- A\n'));
+  assert.deepEqual(optionFindings(dir), []);
+});
+
 test('Agents follow only current ADRs: Rule in a project', () => {
   const sparcText = (md) => md.slice(md.indexOf('<!-- sparc:begin -->'), md.indexOf('<!-- sparc:end -->'));
   const rule = /Follow only current ADRs: `accepted`, `amended`, or `proposed` in its own change\. Read the status first\. For a superseded ADR, follow the `superseded by` chain\. The sparc rule `rules\/adr\.md` tells the details\./;

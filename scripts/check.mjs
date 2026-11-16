@@ -173,7 +173,7 @@ function checkAdrs(dir, add) {
     statuses.push({ file: f, number: f.slice(0, 4), status: status[1] });
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date ?? '')) add(rel, 'date is missing or not YYYY-MM-DD');
     if (status[2] && (status[2] === f.slice(0, 4) || !numbers.has(status[2]))) add(rel, `superseding ADR-${status[2]} does not exist`);
-    if (status[1] === 'proposed') continue;
+    if (status[1] === 'proposed') { checkOptions(md, rel, add); continue; }
     decidedFiles.push(rel);
     if (repo) {
       const base = decidedVersion(dir, rel);
@@ -188,6 +188,20 @@ function checkAdrs(dir, add) {
   }
   if (decidedFiles.length && !repo) add(ADR_DIR, 'not a git repository: cannot protect decided ADRs');
   return { all: files.map((f) => `${ADR_DIR}/${f}`), decided: decidedFiles, statuses };
+}
+
+// A proposed ADR compares two or more real options. Each option has a good and a bad trade-off.
+function checkOptions(md, rel, add) {
+  const options = (section(md, 'Considered Options') ?? '').split('\n').filter((l) => l.startsWith('- ')).map((l) => l.slice(2).trim());
+  if (options.length < 2) add(rel, 'needs two or more options in "## Considered Options"');
+  const prosAndCons = (section(md, 'Pros and Cons of the Options') ?? '').split(/^### /m).slice(1);
+  for (const option of options) {
+    const tradeOffs = prosAndCons.find((s) => s.split('\n')[0].trim() === option);
+    if (!tradeOffs) add(rel, `option "${option}" has no trade-offs in "## Pros and Cons of the Options"`);
+    else for (const kind of ['Good', 'Bad']) {
+      if (!new RegExp(`^- ${kind}, because`, 'm').test(tradeOffs)) add(rel, `option "${option}" has no ${kind.toLowerCase()} trade-off`);
+    }
+  }
 }
 
 // The canvas section "Core Decisions" is the index of the ADRs. Agents must see there which ADRs are not current.
