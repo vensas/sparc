@@ -25,7 +25,7 @@ Read these rules and obey them:
 2. Read the code that the change touches. Do not describe code that you did not read.
 3. Get the instructions with `openspec instructions <artifact> --change <id>`. Obey them.
 4. Write `design.md`. Give each decision its options and the reason for the choice.
-5. For each significant decision, write an ADR with the status `proposed`. A decision is significant if it is hard to change later or if it affects more than one container.
+5. For each major decision, write an ADR with the status `proposed` (see `../adr.md`).
 6. Update the C4 diagrams when the change adds, changes or removes an actor, an external system, a container or a relation.
 7. Write `tasks.md`. Each task is small, names its verification and names the documents that it changes.
 8. Run the sparc check (`node <sparc>/scripts/check.mjs`) and fix your findings.

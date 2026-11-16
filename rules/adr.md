@@ -3,6 +3,18 @@
 sparc uses the MADR format (https://adr.github.io/madr/).
 The template is `templates/project/docs/adr/0000-template.md`.
 
+## When to write an ADR
+
+Write an ADR only for a major decision. A decision is major when both are true:
+
+- It is central to the idea of the project and to its approach to the problem.
+- The team chose between two or more real solution options.
+
+Write each other decision in `design.md` of its change. Give its options and the reason for the choice.
+Write conventions, document formats and the behavior of checks in specs and rules, not in ADRs.
+
+An ADR gives all considered options, and a good and a bad trade-off for each option.
+
 ## Files
 
 - Path: `docs/adr/NNNN-short-title.md`. `NNNN` is the next free number with 4 digits.

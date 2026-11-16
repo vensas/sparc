@@ -36,3 +36,24 @@ test('Supersede in two steps: New ADR is accepted', () => {
   assert.match(step, /set the old status to `superseded by ADR-NNNN` and the date/);
   assert.match(step, /Update the canvas section "Core Decisions"/);
 });
+
+const rule = () => read('rules/adr.md').split(/^## /m).find((s) => s.startsWith('When to write an ADR')) ?? '';
+
+test('ADR only for a major decision: Rule for the architect', () => {
+  assert.match(read('rules/roles/architect.md'), /For each major decision, write an ADR with the status `proposed` \(see `\.\.\/adr\.md`\)/);
+  before(read('rules/adr.md'), '## When to write an ADR', '## Files');
+});
+
+test('ADR only for a major decision: Decision that is not major', () => {
+  assert.match(rule(), /Write an ADR only for a major decision/);
+  assert.match(rule(), /Write each other decision in `design\.md` of its change\. Give its options and the reason for the choice/);
+});
+
+test('ADR only for a major decision: Convention or check behavior', () => {
+  assert.match(rule(), /Write conventions, document formats and the behavior of checks in specs and rules, not in ADRs/);
+});
+
+test('ADR only for a major decision: Major decision', () => {
+  assert.match(rule(), /central to the idea of the project and to its approach to the problem/);
+  assert.match(rule(), /The team chose between two or more real solution options/);
+});

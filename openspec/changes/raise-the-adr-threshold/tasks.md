@@ -2,7 +2,7 @@
 
 ## 1. When to write an ADR
 
-- [ ] 1.1 Add the section "When to write an ADR" to `rules/adr.md` as design.md tells. Change step 5 of `rules/roles/architect.md` to refer to it. Add a test for each scenario of "ADR only for a major decision" to `scripts/adr-management.test.mjs`. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
+- [x] 1.1 Add the section "When to write an ADR" to `rules/adr.md` as design.md tells. Change step 5 of `rules/roles/architect.md` to refer to it. Add a test for each scenario of "ADR only for a major decision" to `scripts/adr-management.test.mjs`. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
 
 ## 2. Options and trade-offs
 
