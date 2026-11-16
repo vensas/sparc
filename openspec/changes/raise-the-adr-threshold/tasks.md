@@ -12,7 +12,7 @@
 ## 3. Test tool in the design
 
 - [x] 3.1 Change the test tool text in `skills/propose/SKILL.md`, step 4.1 of `skills/apply/SKILL.md` and the section "Test tool" and "Do not" of `rules/roles/qa-engineer.md` as design.md tells. Change the tests of "Design names the test tool" in `scripts/change-workflow.test.mjs`. Add tests for "Use the test tools of the project" to `scripts/qa-engineer.test.mjs`. Verify: `node --test 'scripts/*.test.mjs'` passes. Documents: none.
-- [ ] 3.2 Add the open point "central to the idea of the project needs judgement, and no check decides it" to the canvas section "Core Risks and Missing Information". Verify: `node scripts/check.mjs` reports no finding. Documents: docs/architecture/canvas.md.
+- [x] 3.2 Add the open point "central to the idea of the project needs judgement, and no check decides it" to the canvas section "Core Risks and Missing Information". Verify: `node scripts/check.mjs` reports no finding. Documents: docs/architecture/canvas.md.
 
 ## Workflow follow-up
 

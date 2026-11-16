@@ -96,6 +96,7 @@ See the [container diagram](c4.md#containers).
 - A fresh-context run of QA (not only acceptance) is not shown yet.
 - The cost of the fresh-context code review is measured for one change only: 60,560 tokens and 36 seconds (fresh-context-code-review, 3 commits). Larger changes can cost more.
 - A search hit in the body of a superseded ADR does not show the status. Only the rule in `AGENTS.md` tells the agent to read the status first.
+- An ADR is necessary only for a decision that is central to the idea of the project. This needs judgement. No check decides it. The check finds only a `proposed` ADR without two options and their trade-offs.
 - The pull request approval (review, merge, changes requested) is not tested. sparc uses the workflow `trunk`, so its own changes do not test it.
 - `/sparc:update` was tested with a scratch plugin at version 0.3.0. The first real update comes after the next release.
 - In auto mode, the Write tool failed for the main session and for each subagent (no verdict from the classifier). Edit and Bash worked.
