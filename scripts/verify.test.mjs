@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { cpSync, mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdtempSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { completeChanges, verifyChange, projectCommands, runCommands, commandsWarning } from './verify.mjs';
@@ -174,4 +175,98 @@ test('Project without commands: no commands named, and no second warning', () =>
   assert.equal(commandsWarning(dir), null);
   write(dir, 'AGENTS.md', AGENTS([['Lint', PASS]]));
   assert.equal(commandsWarning(dir), null);
+});
+
+const VERIFY = new URL('./verify.mjs', import.meta.url).pathname;
+
+function hookRunner(dir) {
+  const env = { ...process.env, CLAUDE_PLUGIN_DATA: mkdtempSync(join(tmpdir(), 'sparc-state-')) };
+  return () => {
+    const out = spawnSync('node', [VERIFY, '--hook'], { input: JSON.stringify({ cwd: dir, hook_event_name: 'Stop' }), encoding: 'utf8', env });
+    assert.equal(out.status, 0, out.stderr);
+    return out.stdout ? JSON.parse(out.stdout) : null;
+  };
+}
+
+test('Block the stop with a reason: checks fail', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Test', FAIL]]));
+  change(dir, { qa: null });
+  const out = hookRunner(dir)();
+  assert.equal(out.decision, 'block');
+  assert.match(out.reason, /add-export/);
+  assert.match(out.reason, /command "Test"/);
+  assert.match(out.reason, /"Export: Empty list" has no row in qa\.md/);
+});
+
+test('Block the stop with a reason: checks pass', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Test', PASS]]));
+  change(dir);
+  assert.equal(hookRunner(dir)(), null);
+});
+
+test('Block the stop with a reason: change in progress does not block and runs no command', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Test', 'node -e "require(\'fs\').writeFileSync(\'ran\', \'\')"']]));
+  change(dir, { tasks: '# Tasks\n\n- [ ] 1.1 One. Verify: a.\n' });
+  assert.equal(hookRunner(dir)(), null);
+  assert.ok(!existsSync(join(dir, 'ran')));
+});
+
+test('Block the stop with a reason: manual scenarios are named for the user', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Test', PASS]]));
+  change(dir, { qa: QA_OK.replace('| Export: Empty list | passed |', '| Export: Empty list | manual |') });
+  const out = hookRunner(dir)();
+  assert.equal(out.decision, undefined);
+  assert.match(out.systemMessage, /manual check.*Export: Empty list/s);
+});
+
+test('Project without commands: hook warns one time and does not block', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([]));
+  change(dir);
+  const run = hookRunner(dir);
+  const out = run();
+  assert.equal(out.decision, undefined);
+  assert.match(out.systemMessage, /names no Lint, Test or Verify command/);
+  assert.equal(run(), null);
+});
+
+test('Limit of blocks: fourth stop with failed checks', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Test', FAIL]]));
+  change(dir);
+  const run = hookRunner(dir);
+  for (let i = 0; i < 3; i++) assert.equal(run().decision, 'block');
+  const out = run();
+  assert.equal(out.decision, undefined);
+  assert.match(out.hookSpecificOutput.additionalContext, /Core Risks and Missing Information/);
+  assert.match(out.systemMessage, /stopped to block/);
+});
+
+test('Limit of blocks: count starts again', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Test', FAIL]]));
+  change(dir);
+  const run = hookRunner(dir);
+  run(); run();
+  write(dir, 'AGENTS.md', AGENTS([['Test', PASS]]));
+  assert.equal(run(), null);
+  write(dir, 'AGENTS.md', AGENTS([['Test', FAIL]]));
+  for (let i = 0; i < 3; i++) assert.equal(run().decision, 'block');
+});
+
+test('Document check does not block: document drift in a complete change', () => {
+  const dir = project();
+  write(dir, 'AGENTS.md', AGENTS([['Test', PASS]]));
+  write(dir, 'README.md', '# Name\n');
+  change(dir);
+  assert.equal(hookRunner(dir)(), null);
+});
+
+test('hook does nothing outside a sparc project', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'sparc-verify-'));
+  assert.equal(hookRunner(dir)(), null);
 });

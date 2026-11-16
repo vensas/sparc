@@ -1,7 +1,8 @@
 {
   "hooks": {
     "Stop": [
-      { "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs\" --hook", "timeout": 30 }] }
+      { "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs\" --hook", "timeout": 30 }] },
+      { "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/verify.mjs\" --hook", "timeout": 960 }] }
     ],
     "SubagentStop": [
       { "hooks": [{ "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs\" --hook", "timeout": 30 }] }

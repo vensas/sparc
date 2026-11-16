@@ -2,7 +2,8 @@
 // sparc verify: verifies each complete OpenSpec change without an LLM.
 // Usage:
 //   node verify.mjs [dir]             print findings, exit 1 if there are findings
-import { readdirSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
+//   node verify.mjs --hook            Claude Code Stop hook: read the event from stdin, block a complete change with findings
+import { readdirSync, existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createHash } from 'node:crypto';
@@ -13,6 +14,7 @@ import { isSparcProject, listChanges, read, section } from './check.mjs';
 const COMMANDS = ['Lint', 'Test', 'Verify'];
 const COMMAND_TIME_LIMIT_MS = 300_000;
 const OUTPUT_LINES = 20;
+const MAX_BLOCKS = 3;
 
 // OpenSpec counts a box with only "x" (any case, any spaces) as checked.
 const TASK = /^\s*- \[([^\]]*)\] *(.+)$/gm;
@@ -132,9 +134,66 @@ export function commandsWarning(dir) {
   return `sparc verify: AGENTS.md names no Lint, Test or Verify command. Add them to the commands table, so that the verifier runs them when a change is complete.`;
 }
 
-function main(args) {
+// Verifies each complete change. The project commands run one time for all complete changes.
+export async function verify(dir) {
+  const ids = completeChanges(dir);
+  if (!ids.length) return [];
+  const commandFindings = await runCommands(dir, projectCommands(dir));
+  return ids.map((id) => {
+    const { findings, manual } = verifyChange(dir, id);
+    return { id, findings: [...commandFindings, ...findings], manual };
+  });
+}
+
+const list = (findings) => findings.map((f) => `- ${f}`).join('\n');
+
+// Counts the blocks in a row for a change. Returns false when the limit is reached.
+function mayBlock(dir, id) {
+  const file = stateFile(dir, `blocks-${id}`);
+  const count = existsSync(file) ? Number(readFileSync(file, 'utf8')) || 0 : 0;
+  if (count >= MAX_BLOCKS) return false;
+  mkdirSync(join(file, '..'), { recursive: true });
+  writeFileSync(file, String(count + 1));
+  return true;
+}
+
+async function hook() {
+  const event = JSON.parse(readFileSync(0, 'utf8') || '{}');
+  const dir = event.cwd ?? process.cwd();
+  if (!isSparcProject(dir)) return;
+  const results = await verify(dir);
+  if (!results.length) return;
+  const blocks = [];
+  const released = [];
+  const messages = [];
+  for (const { id, findings, manual } of results) {
+    if (!findings.length) rmSync(stateFile(dir, `blocks-${id}`), { force: true });
+    else if (mayBlock(dir, id)) blocks.push(`Change "${id}" is complete, but its verification failed:\n${list(findings)}`);
+    else released.push(`Change "${id}":\n${list(findings)}`);
+    if (manual.length) messages.push(`sparc verify: change "${id}" has manual checks for you: ${manual.join('; ')}`);
+  }
+  const warning = commandsWarning(dir);
+  if (warning) messages.push(warning);
+  if (blocks.length) {
+    const reason = `${blocks.join('\n\n')}\n\nFix each failed check, then stop again. The verifier runs the checks again.`;
+    process.stdout.write(JSON.stringify({ decision: 'block', reason, systemMessage: `sparc verify: blocked the stop. ${messages.join(' ')}`.trim() }));
+    return;
+  }
+  if (released.length) messages.push(`sparc verify: the verification failed ${MAX_BLOCKS} times in a row and stopped to block.`);
+  if (!messages.length) return;
+  process.stdout.write(JSON.stringify({
+    systemMessage: messages.join('\n'),
+    ...(released.length && { hookSpecificOutput: {
+      hookEventName: event.hook_event_name ?? 'Stop',
+      additionalContext: `The sparc verifier stopped to block after ${MAX_BLOCKS} blocks. Write each failed check as an open point in the canvas section "Core Risks and Missing Information":\n${released.join('\n\n')}`,
+    } }),
+  }));
+}
+
+async function main(args) {
+  if (args[0] === '--hook') return hook();
   const dir = args.find((a) => !a.startsWith('--')) ?? process.cwd();
-  const findings = completeChanges(dir).flatMap((id) => verifyChange(dir, id).findings.map((f) => `- ${id}: ${f}`));
+  const findings = (await verify(dir)).flatMap(({ id, findings }) => findings.map((f) => `- ${id}: ${f}`));
   console.log(findings.length ? `sparc verify: ${findings.length} finding(s)\n${findings.join('\n')}` : 'sparc verify: no findings');
   process.exitCode = findings.length ? 1 : 0;
 }
