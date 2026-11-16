@@ -406,7 +406,7 @@ test('Canvas lists each ADR with its status: Canvas names the status', () => {
 
 test('Agents follow only current ADRs: Rule in a project', () => {
   const sparcText = (md) => md.slice(md.indexOf('<!-- sparc:begin -->'), md.indexOf('<!-- sparc:end -->'));
-  const rule = /Follow only current ADRs: `accepted` or `amended`\. For an ADR that is `superseded by ADR-NNNN`, follow the chain to the current ADR\. Do not follow a `deprecated` or `rejected` ADR\./;
+  const rule = /Follow only current ADRs: `accepted`, `amended`, or `proposed` in its own change\. Read the status first\. For a superseded ADR, follow the `superseded by` chain\. The sparc rule `rules\/adr\.md` tells the details\./;
   assert.match(sparcText(readFileSync(join(TEMPLATE, 'AGENTS.md'), 'utf8')), rule);
   const adrRule = readFileSync(new URL('../rules/adr.md', import.meta.url), 'utf8');
   assert.match(adrRule, /^## Current ADRs$/m);

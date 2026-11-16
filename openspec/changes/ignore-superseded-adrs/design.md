@@ -19,7 +19,7 @@ See proposal.md - Why. `scripts/check.mjs` has `checkAdrs`, which reads the stat
 
 ### Rule and index, not a body notice or a subfolder
 
-See [ADR-0016](../../../docs/adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md). The rule has one home: a section "Current ADRs" in `rules/adr.md`. `AGENTS.md` has one short line that links to it, because `AGENTS.md` is in the context of each session. The architect role step 1 reads "the current ADRs (see `../adr.md`)".
+See [ADR-0016](../../../docs/adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md). The rule has one home: a section "Current ADRs" in `rules/adr.md`. `AGENTS.md` has one short line that names the current statuses and refers to the sparc rule, because `AGENTS.md` is in the context of each session. A link is not possible, because `rules/adr.md` is in the plugin, not in the project. The architect role step 1 reads "the current ADRs (see `../adr.md`)".
 
 ### Rejected ADRs get the same treatment
 

@@ -194,7 +194,7 @@ function checkAdrs(dir, add) {
 function checkAdrIndex(canvas, statuses, add) {
   const lines = (section(canvas, 'Core Decisions') ?? '').split('\n');
   for (const { file, number, status } of statuses) {
-    const line = lines.find((l) => l.includes(file));
+    const line = lines.find((l) => l.includes(`adr/${file})`));
     if (!line) add(DOCS.canvas, `ADR-${number} has no line in "Core Decisions"`);
     else if (OLD_STATUS.test(status) && !line.includes(status)) add(DOCS.canvas, `the line of ADR-${number} in "Core Decisions" does not name its status "${status}"`);
   }
@@ -219,7 +219,7 @@ function checkChangeAdrs(dir, statuses, add) {
     const rel = `openspec/changes/${change}/design.md`;
     const list = adrList(read(dir, rel) ?? '');
     for (const { file, number, status } of statuses) {
-      if (OLD_STATUS.test(status) && list.includes(file)) add(rel, `the ADR list uses ADR-${number}, which is ${status}`);
+      if (OLD_STATUS.test(status) && list.includes(`adr/${file})`)) add(rel, `the ADR list uses ADR-${number}, which is ${status}`);
     }
   }
 }
