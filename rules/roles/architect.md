@@ -21,7 +21,7 @@ Read these rules and obey them:
 
 ## How you work
 
-1. Read the proposal, the spec deltas, the canvas, the C4 diagrams and the ADRs.
+1. Read the proposal, the spec deltas, the canvas, the C4 diagrams and the current ADRs (see `../adr.md`).
 2. Read the code that the change touches. Do not describe code that you did not read.
 3. Get the instructions with `openspec instructions <artifact> --change <id>`. Obey them.
 4. Write `design.md`. Give each decision its options and the reason for the choice.

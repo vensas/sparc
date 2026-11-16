@@ -29,6 +29,17 @@ The template is `templates/project/docs/adr/0000-template.md`.
 
 `rejected`, `deprecated` and `superseded` are final.
 
+## Current ADRs
+
+The body of a decided ADR does not change. Thus a superseded ADR keeps its full text. Only the status tells that the decision is not valid now.
+
+- Read the status of an ADR before you use it. A search hit in the body does not show the status.
+- Only ADRs with the status `accepted` or `amended` are current decisions.
+- A `proposed` ADR is current only in its own change.
+- For an ADR that is `superseded by ADR-NNNN`, read ADR-NNNN. Follow the chain until you find the current ADR.
+- Do not follow a `deprecated` or `rejected` ADR.
+- The canvas section "Core Decisions" lists each ADR with its status. `scripts/check.mjs` keeps this list correct.
+
 ## Decided ADRs do not change
 
 An ADR is decided when its status is not `proposed`. Commit the decision. After that commit, only these changes are permitted:

@@ -403,3 +403,14 @@ test('Canvas lists each ADR with its status: Canvas names the status', () => {
   decisions(dir, ['- [ADR-0002](../adr/0002-a.md): Use X (superseded by ADR-0004).', '- [ADR-0003](../adr/0003-b.md): Use Y (rejected).', '- [ADR-0004](../adr/0004-c.md): Use Z.']);
   assert.ok(!messages(dir).some((m) => m.includes('"Core Decisions"')));
 });
+
+test('Agents follow only current ADRs: Rule in a project', () => {
+  const sparcText = (md) => md.slice(md.indexOf('<!-- sparc:begin -->'), md.indexOf('<!-- sparc:end -->'));
+  const rule = /Follow only current ADRs: `accepted` or `amended`\. For an ADR that is `superseded by ADR-NNNN`, follow the chain to the current ADR\. Do not follow a `deprecated` or `rejected` ADR\./;
+  assert.match(sparcText(readFileSync(join(TEMPLATE, 'AGENTS.md'), 'utf8')), rule);
+  const adrRule = readFileSync(new URL('../rules/adr.md', import.meta.url), 'utf8');
+  assert.match(adrRule, /^## Current ADRs$/m);
+  assert.match(adrRule, /Read the status of an ADR before you use it/);
+  assert.match(adrRule, /A `proposed` ADR is current only in its own change/);
+  assert.match(readFileSync(new URL('../rules/roles/architect.md', import.meta.url), 'utf8'), /the current ADRs \(see `\.\.\/adr\.md`\)/);
+});
