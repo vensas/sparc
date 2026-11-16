@@ -101,6 +101,12 @@ See the [container diagram](c4.md#containers).
 - The STE check finds long sentences only. It does not check the STE dictionary.
 - The verifier runs the commands in `AGENTS.md`. The agent can change this file, for example rename the `Test` row, and so skip a command. The code review and the diff must show such a change.
 - The OpenSpec schema commands are experimental. sparc does not use them now.
+- `/sparc:apply` says that all planning artifacts must be complete and valid. It does not say if it stops or fixes the artifacts when they are not.
+- `/sparc:archive` sets an ADR of the change to `rejected` if the user rejected it. No skill step tells how a user rejects an ADR of a change before the archive.
+- `/sparc:archive` runs "the test commands in `AGENTS.md`". The verifier runs only the rows `Lint`, `Test` and `Verify`. The two sets of commands can differ.
+- `/sparc:init` runs `node --version` and says that sparc needs Node.js 20 or later. It does not say what to do with an older version.
+- `/sparc:sync` does not report drift from work that is not complete. It does not tell how to find out that work is not complete.
+- The acceptance step of `/sparc:apply` has no commit type of its own. Two `test(qa)` acceptance commits changed the canvas (`76f91df`, `f52f33b`).
 - Mermaid C4 draws each relation as a straight line, so some lines cross boxes in the container diagram. Mermaid CLI 12.0.0 ignores `UpdateLayoutConfig`. Label offsets keep the labels apart. The render on GitHub is not checked yet.
 
 ---
