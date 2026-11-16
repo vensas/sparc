@@ -2,7 +2,7 @@
 
 | System | Created by | Date / Iteration |
 |---|---|---|
-| sparc | vensas | 2026-10-22 / 0.1.0 |
+| sparc | vensas | 2026-11-16 / 0.6.0 |
 
 ## Value Proposition 💼
 
