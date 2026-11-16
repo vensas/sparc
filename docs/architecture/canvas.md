@@ -90,6 +90,7 @@ See the [container diagram](c4.md#containers).
 - [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.
 - The STE check finds long sentences only. It does not check the STE dictionary.
 - The verifier hook (change add-verifier-hook) blocks the stop of an agent. A live test must show the block and the limit of 3 blocks in Claude Code.
+- The verifier runs the commands in `AGENTS.md`. The agent can change this file, for example rename the `Test` row, and so skip a command. The code review and the diff must show such a change.
 - The OpenSpec schema commands are experimental. sparc does not use them now.
 
 ---
