@@ -46,3 +46,6 @@ Reviewed: `4875430..3431b40`
 | A command that a signal stopped gave the message "exited with null". | `53cff48` |
 | The agent can change the commands table in `AGENTS.md` and so skip a command. Code cannot prevent this. | Risk in the canvas, `86cab22` |
 | Found by the live test in QA: after the release, each stop gave `additionalContext`, so the agent did not stop. | `99efe11` |
+## Acceptance
+
+Accepted by the product owner from this report on 2026-11-16. No scenario failed. The code review has no open finding. The live test in Claude Code passed after the fix `99efe11`.

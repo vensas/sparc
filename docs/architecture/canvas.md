@@ -89,7 +89,7 @@ See the [container diagram](c4.md#containers).
 - In auto mode, the Write tool failed for the main session and for each subagent (no verdict from the classifier). Edit and Bash worked.
 - [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.
 - The STE check finds long sentences only. It does not check the STE dictionary.
-- The verifier hook (change add-verifier-hook) blocks the stop of an agent. A live test must show the block and the limit of 3 blocks in Claude Code.
+- A live test (Claude Code 2.1.x) showed that the verifier blocks 3 times, then releases one time. Each hook output to the agent makes the agent reply again, so the verifier is silent after the release.
 - The verifier runs the commands in `AGENTS.md`. The agent can change this file, for example rename the `Test` row, and so skip a command. The code review and the diff must show such a change.
 - The OpenSpec schema commands are experimental. sparc does not use them now.
 
