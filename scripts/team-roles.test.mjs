@@ -40,7 +40,13 @@ test('Code review by the software engineer: the role has a review checklist that
   const role = readFileSync(join(ROOT, 'rules/roles/software-engineer.md'), 'utf8');
   assert.match(role, /^## Code review$/m);
   assert.match(role, /git diff <default-branch>\.\.\.HEAD/);
-  assert.match(role, /## Code review\n\nReviewed:/);
+  assert.match(role, /## Code review\n\nReviewed: `<first commit>\.\.<last commit>`\nContext: <fresh \| current session \(<reason>\)>/);
+});
+
+test('Code review by the software engineer: Commit range in the workflow trunk', () => {
+  const role = readFileSync(join(ROOT, 'rules/roles/software-engineer.md'), 'utf8');
+  assert.match(role, /workflow `pull-request`[^\n]*git diff <default-branch>\.\.\.HEAD/);
+  assert.match(role, /workflow `trunk`[^\n]*docs\(openspec\): Propose <id>[^\n]*HEAD/);
 });
 
 test('Acceptance needs a completed code review: Code review is missing', () => {

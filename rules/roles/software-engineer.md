@@ -28,7 +28,9 @@ Read these rules and obey them:
 
 After all task groups and before QA, review the full change.
 
-1. Get the diff: `git diff <default-branch>...HEAD`. Read each changed line.
+1. Get the diff of the commit range of the change. Read each changed line.
+   - In the workflow `pull-request`: `git diff <default-branch>...HEAD`.
+   - In the workflow `trunk`: from the commit `docs(openspec): Propose <id>` (excluded) to `HEAD`. Find the commit with `git log --format=%h --grep "Propose <id>" -1`.
 2. Check each item:
    - Spec match: the change does what the specs and the tasks ask, and nothing more.
    - Scope: no change to files that no task names, no debug code, no commented-out code.
@@ -44,6 +46,7 @@ After all task groups and before QA, review the full change.
 ## Code review
 
 Reviewed: `<first commit>..<last commit>`
+Context: <fresh | current session (<reason>)>
 
 | Finding | Fix |
 |---|---|
