@@ -9,7 +9,7 @@ Agents write code fast, but the specs, the architecture and the documents fall b
 ## Key Features
 
 - Five roles as plain rule files: product owner, architect, UX designer, software engineer and QA engineer. The skills follow them. sparc defines no agent types.
-- Code review: the software engineer reviews the full change before QA. Acceptance needs a review without open findings.
+- Code review: before QA, a subagent in a fresh context reviews the full change as the software engineer. It does not get the conversation. Acceptance needs a review without open findings.
 - Automation first: the QA engineer proves each spec scenario with an integration or end-to-end test. The product owner accepts from its report.
 - Eight skills: `/sparc:init`, `/sparc:propose`, `/sparc:apply`, `/sparc:archive`, `/sparc:sync`, `/sparc:adr`, `/sparc:release` and `/sparc:update`.
 - Update path: a project records its sparc version. `/sparc:update` applies the migration steps of the changelog and replaces only the marked sparc text.
@@ -67,7 +67,7 @@ Then run `/sparc:update` in each project that uses sparc.
 1. Open the folder of your project (new or existing) and run `/sparc:init <project idea>`.
 2. Answer the questions of the product owner: goal, stakeholders and quality requirements.
 3. For each feature or fix, run `/sparc:propose <feature>`. Read the summary.
-4. Run `/sparc:apply <change-id>`. This approves the change. Then run `/sparc:archive <change-id>`.
+4. Run `/sparc:apply <change-id>`. This approves the change. Add `inline-review` to do the code review in the current session. Then run `/sparc:archive <change-id>`.
 5. In the workflow `pull-request`, merge the pull request. The review or the merge is the approval. In the workflow `trunk`, the archive commit is on the default branch. Run `/sparc:release` to make a release.
 
 Tell the project idea one time, in `/sparc:init`. Tell each feature in `/sparc:propose`:
