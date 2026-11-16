@@ -36,18 +36,21 @@ The QA engineer SHALL write an automated test for each spec scenario of a change
 - **THEN** the manual check is in the archived change folder
 
 ### Requirement: Use the test tools of the project
-The QA engineer SHALL find the test tools and the test commands of the project before it writes a test. It SHALL use these tools. It SHALL NOT assume a test framework. The test tool is a decision for each project. The QA engineer SHALL NOT choose, install or use a new test tool before an ADR records it and the user approves it.
+The QA engineer SHALL find the test tools and the test commands of the project before it writes a test. It SHALL use these tools. It SHALL NOT assume a test framework. The test tool is a decision for each project. The QA engineer SHALL NOT choose, install or use a new test tool before `design.md` of an approved change names it.
 
 #### Scenario: Project has a test tool
 - **WHEN** the project has an integration or end-to-end test tool in its build files or test configuration
 - **THEN** the QA engineer writes its tests with this tool
 - **AND** it does not add a different test framework
 
+#### Scenario: Design of the change names a new tool
+- **WHEN** the project has no suitable test tool, and `design.md` of the change names a new tool and its command
+- **THEN** the QA engineer installs and uses this tool, because `/sparc:apply` approved the change
+
 #### Scenario: Project has no suitable test tool
-- **WHEN** the project has no tool that can run an integration test or an end-to-end test for a spec scenario
+- **WHEN** the project has no tool that can run an integration test or an end-to-end test for a spec scenario, and `design.md` of the change names no tool
 - **THEN** the QA engineer does not choose or install a tool alone
-- **AND** it reports the missing tool, and the architect writes an ADR for the tool with the status `proposed`
-- **AND** the QA engineer installs or uses the tool only after the user approves the ADR
+- **AND** it stops and reports the missing tool, and the tool needs a change whose `design.md` names it
 
 ### Requirement: Scenario report with evidence
 At the end of its work, the QA engineer SHALL report each spec scenario of the change as passed, failed or manual. Each result SHALL have evidence.

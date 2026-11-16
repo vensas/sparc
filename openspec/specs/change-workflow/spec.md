@@ -35,7 +35,7 @@ The change id SHALL be kebab-case and SHALL name the work. In the workflow `pull
 - **THEN** propose makes no folder `docs/mockups/<id>/`
 
 ### Requirement: Design names the test tool
-`design.md` SHALL name the integration or end-to-end test tool of the project and its command. If the project has no such tool, propose SHALL write a project ADR for the tool with the status `proposed`.
+`design.md` SHALL name the integration or end-to-end test tool of the project and its command. If the project has no such tool, `design.md` SHALL choose a tool and give the options and the reason for the choice. Propose SHALL write an ADR for the tool only if the choice is a major decision (see `adr-management`).
 
 #### Scenario: Project has a test tool
 - **WHEN** `AGENTS.md` names a test command
@@ -43,7 +43,8 @@ The change id SHALL be kebab-case and SHALL name the work. In the workflow `pull
 
 #### Scenario: Project has no test tool
 - **WHEN** the project has no integration or end-to-end test tool
-- **THEN** the change adds an ADR for a test tool with the status `proposed`
+- **THEN** `design.md` names the chosen tool, its command, the other options and the reason for the choice
+- **AND** the change adds no ADR for the tool, unless the choice is a major decision
 
 ### Requirement: Propose ends valid and committed
 `/sparc:propose` SHALL run `openspec validate <id>` until it passes, run the check, and commit the planning documents with the header `docs(openspec): Propose <id>`. The summary SHALL name the scope, the out-of-scope items, the ADRs, the C4 impact, the mockups and the number of tasks.

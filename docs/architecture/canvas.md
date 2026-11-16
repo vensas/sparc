@@ -20,7 +20,7 @@
 - [change-workflow](../../openspec/specs/change-workflow/spec.md): `/sparc:propose`, `/sparc:apply` and `/sparc:archive`, the life cycle of one change.
 - [release-conventions](../../openspec/specs/release-conventions/spec.md): changelog, version, commit and workflow (trunk or pull request) rules, and `/sparc:release`.
 - [approval](../../openspec/specs/approval/spec.md): apply and pull requests as approval, explicit approval for other decisions.
-- [adr-management](../../openspec/specs/adr-management/spec.md): ADR status, MADR front matter, amendments, protection of decided ADRs through git history, current ADRs only and `/sparc:adr`.
+- [adr-management](../../openspec/specs/adr-management/spec.md): when to write an ADR, and the options and trade-offs of a proposed ADR. ADR status, MADR front matter, amendments, protection of decided ADRs through git history, current ADRs only and `/sparc:adr`.
 - [project-update](../../openspec/specs/project-update/spec.md): project version, marked sparc text and `/sparc:update`.
 - [team-roles](../../openspec/specs/team-roles/spec.md): roles as rule files, code review by the software engineer in a fresh context by default, optional fresh-context check.
 - [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer role, automation first, scenario report and acceptance from the QA report.

@@ -8,6 +8,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 ### Added
 
 - Specs for the skills that had no spec. The new capabilities `project-setup` (`/sparc:init`) and `change-workflow` (`/sparc:propose`, `/sparc:apply`, `/sparc:archive`) specify their current behavior. `document-set`, `adr-management`, `release-conventions` and `project-update` get the requirements of `/sparc:sync`, `/sparc:adr`, `/sparc:release` and `/sparc:update`. A test for each new scenario reads the skill text. No skill behavior changes ([add-skill-specs](openspec/changes/archive/2026-11-16-add-skill-specs/proposal.md)).
+- The check reports a `proposed` ADR with fewer than two options in "Considered Options". It also reports an option without a good and a bad trade-off in "Pros and Cons of the Options". The ADR template tells this rule. `/sparc:update` brings the new template ([raise-the-adr-threshold](openspec/changes/archive/2026-11-16-raise-the-adr-threshold/proposal.md)).
+
+### Changed
+
+- The architect writes an ADR only for a major decision: it is central to the idea of the project, and the team chose between two or more real options. Each other decision stays in `design.md` of its change, with its options and reason. Conventions, document formats and check behavior go in specs and rules. Existing ADRs do not change ([raise-the-adr-threshold](openspec/changes/archive/2026-11-16-raise-the-adr-threshold/proposal.md)).
+- A new test tool needs no project ADR. The change chooses it in `design.md`, and `/sparc:apply` approves it. ADR-0007 is amended to tell this.
 
 ## [0.7.0] - 2026-11-16
 
