@@ -32,3 +32,4 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 - [ ] Agents must not follow superseded ADRs as current decisions. Find a solution.
 - [ ] After each new model generation, find the rules that the model already follows without sparc.
 - [ ] Code review runs in a fresh context by default.
+- [ ] The check finds each document date that is older than the last commit of its document (for example the canvas "Date / Iteration").
