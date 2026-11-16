@@ -33,7 +33,33 @@ test('Skills follow the roles in the current session: Skills do not forbid subag
 test('Skills follow the roles in the current session: Apply without subagents', () => {
   const [main, fresh] = skill('apply').split(/^## .*fresh-context check.*$/im);
   assert.ok(fresh, 'apply has a section for the optional fresh-context check');
-  assert.doesNotMatch(main, /worktree|subagent/i, 'apply tells the agent to use subagents or worktrees outside the fresh-context check');
+  const [beforeReview, review = ''] = main.split(/^## \d+\. Code review$/m);
+  const afterReview = review.split(/^## /m).slice(1).join('');
+  assert.doesNotMatch(main, /worktree/i, 'apply tells the agent to use worktrees outside the fresh-context check');
+  assert.doesNotMatch(beforeReview + afterReview, /subagent/i, 'apply tells the agent to use subagents outside the code review and the fresh-context check');
+});
+
+const reviewSection = () => skill('apply').split(/^## \d+\. Code review$/m)[1].split(/^## /m)[0];
+
+test('Code review by the software engineer: Review in a fresh context by default', () => {
+  const review = reviewSection();
+  assert.match(review, /general-purpose subagent/);
+  for (const input of ['change id', 'commit range', 'rules/roles/software-engineer.md', 'proposal.md', 'design.md', 'tasks.md', 'spec deltas']) assert.ok(review.includes(input), `the review subagent does not get: ${input}`);
+  assert.match(review, /not the conversation/);
+  assert.match(review, /Context: fresh/);
+});
+
+test('Code review by the software engineer: Reviewer does not change files', () => {
+  assert.match(reviewSection(), /not to change files and not to commit/);
+});
+
+test('Code review in the current session: User asks for an inline review', () => {
+  assert.match(skill('apply'), /^argument-hint: ".*\[inline-review\].*"$/m);
+  assert.match(reviewSection(), /`inline-review`[^\n]*current session[^\n]*`Context: current session \(inline-review\)`/);
+});
+
+test('Code review in the current session: Subagent cannot start', () => {
+  assert.match(reviewSection(), /cannot start the subagent[^\n]*current session[^\n]*reason/);
 });
 
 test('Code review by the software engineer: the role has a review checklist that records into qa.md', () => {
