@@ -37,9 +37,13 @@
 
 *Speed, scalability, reliability, usability, security, safety, capacity or similar.*
 
-- Simplicity: few files, no runtime dependencies in the check.
-- Correctness: each role writes only facts with evidence.
-- Reusability: one plugin for all projects, updated through the marketplace.
+| Quality | Requirement | Measured value | How to measure |
+|---|---|---|---|
+| Simplicity | `/sparc:init` copies 10 template files or fewer. | 8 files | `find templates/project -type f \| wc -l` |
+| Simplicity | The check and the verifier have no npm dependencies. | 0 | No `package.json`. `grep '^import' scripts/check.mjs scripts/verify.mjs` shows only `node:` modules and `./check.mjs`. |
+| Speed | The check runs in 3 seconds or less on sparc. The hook stops it after 30 seconds. | 0.95 to 1.09 seconds (3 runs, Node.js 24.12.0, 2026-11-16) | `time node scripts/check.mjs` |
+| Correctness | Each spec scenario of a change has evidence before the agent can stop. | The verifier blocks the stop without it. | `node --test 'scripts/*.test.mjs'`, tests of `scripts/verify.mjs` |
+| Reusability | All projects get sparc from one plugin, at the latest release tag. | One marketplace entry | `.claude-plugin/marketplace.json` |
 
 ## Business Context 🔗
 
@@ -85,8 +89,7 @@ See the [container diagram](c4.md#containers).
 
 *Risks, open questions and missing information. What stops the team from faster delivery of value?*
 
-- A live test (Claude Code 2.1.308) showed that the agent gets the hook warning and replies one time. The hook warns again only when the findings change.
-- Propose, apply and archive were tested on sparc itself (changes add-qa-engineer, remove-adr-lock-hash, replace-agents-with-roles). The full workflow (init, propose, apply, archive) was tested on a sample project.
+- The full workflow (init, propose, apply, archive) has a recorded test on one sample project only.
 - A fresh-context run of QA (not only acceptance) is not shown yet.
 - The cost of the fresh-context code review is measured for one change only: 60,560 tokens and 36 seconds (fresh-context-code-review, 3 commits). Larger changes can cost more.
 - A search hit in the body of a superseded ADR does not show the status. Only the rule in `AGENTS.md` tells the agent to read the status first.
@@ -95,7 +98,6 @@ See the [container diagram](c4.md#containers).
 - In auto mode, the Write tool failed for the main session and for each subagent (no verdict from the classifier). Edit and Bash worked.
 - [arc42agentic](https://github.com/matthiasnissen/arc42agentic): it is not decided if sparc uses it. GitHub does not identify its license.
 - The STE check finds long sentences only. It does not check the STE dictionary.
-- A live test (Claude Code 2.1.x) showed that the verifier blocks 3 times, then releases one time. Each hook output to the agent makes the agent reply again, so the verifier is silent after the release.
 - The verifier runs the commands in `AGENTS.md`. The agent can change this file, for example rename the `Test` row, and so skip a command. The code review and the diff must show such a change.
 - The OpenSpec schema commands are experimental. sparc does not use them now.
 

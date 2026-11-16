@@ -13,7 +13,7 @@
 
 ## 3. Canvas and C4 of sparc
 
-- [ ] 3.1 Write measurable quality requirements in `docs/architecture/canvas.md`, from measured values. Remove the lines in "Core Risks and Missing Information" that are only evidence and that a `qa.md` or an ADR has. Change the other lines to risks or open points. Verify: `node scripts/check.mjs` gives no finding, and each value names how to measure it. Documents: docs/architecture/canvas.md.
+- [x] 3.1 Write measurable quality requirements in `docs/architecture/canvas.md`, from measured values. Remove the lines in "Core Risks and Missing Information" that are only evidence and that a `qa.md` or an ADR has. Change the other lines to risks or open points. Verify: `node scripts/check.mjs` gives no finding, and each value names how to measure it. Documents: docs/architecture/canvas.md.
 - [ ] 3.2 Render the C4 container diagram with `mmdc`. If shapes or labels overlap, change the layout as design.md tells, with the same elements and relations. Verify: the render has no overlap, and a diff shows the same `Container`, `System_Ext` and `Rel` lines. Documents: docs/architecture/c4.md.
 
 ## Workflow follow-up
