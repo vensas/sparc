@@ -11,6 +11,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 - The `AGENTS.md` template has a commands table with the rows `Lint`, `Test` and `Verify`. To use the verifier in an existing project, add these rows to the commands table in `AGENTS.md`.
 - The tasks rule tells each task to name its verification with `Verify:`. `/sparc:update` adds the rule.
 - The README tells where to write project requirements, for example data protection rules.
+- `/sparc:apply` has the argument `inline-review`. With it, the code review runs in the current session.
+
+### Changed
+
+- By default, `/sparc:apply` runs the code review in a general-purpose subagent in a fresh context. The subagent does not get the conversation. It only reports findings, and the main session fixes them. If the subagent cannot start, the review runs in the current session ([fresh-context-code-review](openspec/changes/archive/2026-11-16-fresh-context-code-review/proposal.md)).
+- The code review gets the commit range of the change also in the workflow `trunk`. `## Code review` in `qa.md` has a `Context:` line.
 
 ## [0.6.0] - 2026-10-27
 

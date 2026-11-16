@@ -1,6 +1,6 @@
 ---
-status: amended
-date: 2026-10-25
+status: superseded by ADR-0015
+date: 2026-11-16
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []
 informed: []
