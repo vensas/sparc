@@ -92,7 +92,7 @@ See the [container diagram](c4.md#containers).
 *Risks, open questions and missing information. What stops the team from faster delivery of value?*
 
 - The full workflow (init, propose, apply, archive) has a recorded test on one sample project only.
-- Most skill scenarios have a test of the skill text and no recorded run. The test proves that the skill tells the behavior, not that the agent obeys it. The sparc history gives evidence for 13 scenarios (add-skill-specs).
+- Most skill scenarios have a test of the skill text and no recorded run. The test proves that the skill tells the behavior, not that the agent obeys it. For 13 scenarios, `qa.md` of add-skill-specs adds evidence from the sparc history. For "Files of a QA commit", the history also shows two exceptions (see the acceptance commit type below).
 - A fresh-context run of QA (not only acceptance) is not shown yet.
 - The cost of the fresh-context code review is measured for one change only: 60,560 tokens and 36 seconds (fresh-context-code-review, 3 commits). Larger changes can cost more.
 - A search hit in the body of a superseded ADR does not show the status. Only the rule in `AGENTS.md` tells the agent to read the status first.
