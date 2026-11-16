@@ -100,6 +100,7 @@ See the [container diagram](c4.md#containers).
 - The STE check finds long sentences only. It does not check the STE dictionary.
 - The verifier runs the commands in `AGENTS.md`. The agent can change this file, for example rename the `Test` row, and so skip a command. The code review and the diff must show such a change.
 - The OpenSpec schema commands are experimental. sparc does not use them now.
+- Mermaid C4 draws each relation as a straight line, so some lines cross boxes in the container diagram. Mermaid CLI 12.0.0 ignores `UpdateLayoutConfig`. Label offsets keep the labels apart. The render on GitHub is not checked yet.
 
 ---
 
