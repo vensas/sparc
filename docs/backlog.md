@@ -8,7 +8,6 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 
 The backlog holds only open items. The [changelog](../CHANGELOG.md) has the done work.
 
-- [ ] Documents for a first-time reader (change: improve-first-read)
 - [ ] Write specs for the skills that have no spec yet. The canvas section [Core Functions](architecture/canvas.md#core-functions-) names them.
 - [ ] Decide if sparc adds [arc42agentic](https://github.com/matthiasnissen/arc42agentic) as an optional module
 - [ ] After each new model generation, find the rules that the model already follows without sparc.

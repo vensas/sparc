@@ -22,8 +22,9 @@
 - [project-update](../../openspec/specs/project-update/spec.md): project version, marked sparc text and the update skill.
 - [team-roles](../../openspec/specs/team-roles/spec.md): roles as rule files, code review by the software engineer in a fresh context by default, optional fresh-context check.
 - [qa-engineering](../../openspec/specs/qa-engineering/spec.md): QA engineer role, automation first, scenario report and acceptance from the QA report.
-- [plugin-distribution](../../openspec/specs/plugin-distribution/spec.md): install from the marketplace at the latest release tag, CI validation and publication of releases.
+- [plugin-distribution](../../openspec/specs/plugin-distribution/spec.md): install from the marketplace at the latest release tag, CI validation, publication of releases and a README for a first-time reader.
 - [change-verification](../../openspec/specs/change-verification/spec.md): the verifier blocks the stop of a complete change until its commands and spec evidence pass.
+- [document-set](../../openspec/specs/document-set/spec.md): the backlog holds only open items, and the check reports done items.
 - The other functions have no spec yet. They are the [skills](../../skills/): init, propose, apply, archive, sync, adr, release and update.
 
 ## Key Stakeholder 🧑‍🧑‍🧒
@@ -69,7 +70,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0014](../adr/0014-block-the-stop-of-a-complete-change-until-its-verification-passes.md): Block the stop of a complete change until its verification passes.
 - [ADR-0015](../adr/0015-use-roles-as-rules-with-a-fresh-context-code-review.md): Use roles as rules with a fresh-context code review.
 - [ADR-0016](../adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md): Mark current ADRs through a rule and the canvas index.
-- [ADR-0017](../adr/0017-keep-only-open-items-in-the-backlog.md): Keep only open items in the backlog (proposed).
+- [ADR-0017](../adr/0017-keep-only-open-items-in-the-backlog.md): Keep only open items in the backlog.
 
 ## Technologies 🛠️
 

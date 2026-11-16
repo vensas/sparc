@@ -15,9 +15,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 - A rule for current ADRs in `rules/adr.md` and in the sparc text of `AGENTS.md`. Agents follow only `accepted` and `amended` ADRs, and a `proposed` ADR only in its own change. For a superseded ADR, they follow the `superseded by` chain. `/sparc:update` adds the rule ([ignore-superseded-adrs](openspec/changes/archive/2026-11-16-ignore-superseded-adrs/proposal.md)).
 - The check reports each ADR that has no line in the canvas section "Core Decisions". It also reports a line of a superseded, deprecated or rejected ADR without its status. In an existing project, add the missing lines to the canvas.
 - The check reports each superseded, deprecated or rejected ADR in the ADR list (`ADRs:`) of the design of an open change. The design rule tells to start the ADR list with `ADRs:`. `/sparc:update` adds the rule.
+- The README introduces sparc to a first-time reader. It tells the value first and has five key features. The section "How It Works" shows the loop of a change, the files of a project, the terms, the limits and the cost ([improve-first-read](openspec/changes/archive/2026-11-16-improve-first-read/proposal.md)).
 
 ### Changed
 
+- **Breaking:** The backlog holds only open items. `/sparc:archive` removes the item of the change, and the changelog has the done work. The check reports each checked item and each item of an archived change. Remove the done items from `docs/backlog.md` ([improve-first-read](openspec/changes/archive/2026-11-16-improve-first-read/proposal.md)).
 - By default, `/sparc:apply` runs the code review in a general-purpose subagent in a fresh context. The subagent does not get the conversation. It only reports findings, and the main session fixes them. If the subagent cannot start, the review runs in the current session ([fresh-context-code-review](openspec/changes/archive/2026-11-16-fresh-context-code-review/proposal.md)).
 - The code review gets the commit range of the change also in the workflow `trunk`. `## Code review` in `qa.md` has a `Context:` line.
 
