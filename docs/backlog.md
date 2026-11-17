@@ -9,7 +9,7 @@ sparc lets a team take an idea from a spark to working software with agents. Spe
 The backlog holds only open items. The [changelog](../CHANGELOG.md) has the done work.
 
 - [ ] A landing page for sparc at `sparc.apps.vensas.de` (change: add-landing-page)
-- [ ] Require the latest Node.js LTS version (change: require-node-26)
+- [ ] Use the latest Node.js LTS version (change: use-node-lts)
 - [ ] Make the repository `vensas/sparc` public and update the README section "Install"
 - [ ] Decide if sparc adds [arc42agentic](https://github.com/matthiasnissen/arc42agentic) as an optional module
 - [ ] After each new model generation, find the rules that the model already follows without sparc.
