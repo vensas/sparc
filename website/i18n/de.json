@@ -196,10 +196,6 @@
         "a": "Ja. Jede Änderung am Verhalten geht durch propose, apply und archive. Das ist der Preis für Specs und Dokumente, die richtig bleiben."
       },
       {
-        "q": "Was kostet sparc?",
-        "a": "sparc ist kostenlos unter der MIT-Lizenz. Es verbraucht mehr Tokens: Das Review im frischen Kontext startet für jede Änderung einen weiteren Agenten. Eine gemessene Änderung brauchte für das Review 60.560 Tokens und 36 Sekunden."
-      },
-      {
         "q": "Funktioniert sparc mit Pull Requests?",
         "a": "Ja. Wähle den Workflow <code>trunk</code> oder <code>pull-request</code> in <code>openspec/config.yaml</code>. Im Pull-Request-Workflow ist das Review oder der Merge die Freigabe."
       }

@@ -512,7 +512,6 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
         <details><summary>Does sparc work with other coding agents?</summary><p>No. sparc is a Claude Code plugin. It uses the skills and hooks of Claude Code, in the CLI and in Claude Desktop.</p></details>
         <details><summary>Can I use sparc in an existing code base?</summary><p>Yes. Run <code>/sparc:init</code> in the folder of the project. The architect documents what it finds in the code.</p></details>
         <details><summary>Must a small fix go through the full loop?</summary><p>Yes. Each change of behavior goes through propose, apply and archive. This is the cost of specs and documents that stay correct.</p></details>
-        <details><summary>What does sparc cost?</summary><p>sparc is free under the MIT license. It uses more tokens: the fresh-context review starts one more agent for each change. One measured change used 60,560 tokens and 36 seconds for the review.</p></details>
         <details><summary>Does sparc work with pull requests?</summary><p>Yes. Choose the workflow <code>trunk</code> or <code>pull-request</code> in <code>openspec/config.yaml</code>. In the pull request workflow, the review or the merge is the approval.</p></details>
         </div></div>
     </div>
