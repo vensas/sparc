@@ -33,7 +33,7 @@ This repository is sparc, a plugin for coding agents (Claude Code and GitHub Cop
 | `scripts/verify.mjs` | Verifier of a complete change (Stop hook, blocks), and its tests |
 | `website/` | Website: layout, pages, texts for each language in `i18n/`, styles, script, font, nginx container (`Dockerfile`, `nginx/`) and its test `test.sh`, Aspire AppHost for Kamal (`apphost/`) |
 | `scripts/build-website.mjs` | Website build without dependencies, and its tests in `scripts/website.test.mjs` |
-| `.github/workflows/` | CI: `validate.yml` for each push and pull request, `publish.yml` for each release tag, `website.yml` tests and deploys the website |
+| `.github/workflows/` | CI: `validate.yml` for each push and pull request, `publish.yml` for each release tag, `website.yml` tests the website on each push and pull request, and deploys it when `publish.yml` calls it or on a manual start |
 | `hooks/hooks.json` | Stop and SubagentStop hooks that run the check, and the Stop hook that runs the verifier |
 | `openspec/` | Specs and changes of sparc |
 | `docs/` | Backlog, C4 diagrams, canvas and ADRs of sparc |

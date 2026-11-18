@@ -370,3 +370,48 @@ test('Build: a changelog without a release stops the build', () => {
 test('Build: a text with braces is not a placeholder', () => {
   assert.equal(render('{{#items}}<b>{{.text}}</b>{{/items}}', { items: [{ text: 'use {{name}}' }] }), '<b>use {{name}}</b>');
 });
+
+// The deploy rules live in the workflow files: the triggers, the job conditions and the call from the release.
+const workflow = (name) => readFileSync(join(ROOT, '.github/workflows', name), 'utf8');
+const job = (yml, name) => yml.match(new RegExp(`\\n  ${name}:(\\n[\\s\\S]*?)(?=\\n  [\\w-]+:\\n|$)`))?.[1] ?? '';
+// Evaluates a job condition of the form used here for an event and a ref, as GitHub Actions does.
+function runs(condition, eventName, ref) {
+  const js = condition.replace(/^\$\{\{\s*|\s*\}\}$/g, '')
+    .replace(/startsWith\(([^,]+),\s*([^)]+)\)/g, '($1).startsWith($2)')
+    .replace(/github\.event_name/g, JSON.stringify(eventName)).replace(/github\.ref/g, JSON.stringify(ref))
+    .replace(/==/g, '===');
+  return Function(`return (${js});`)();
+}
+const deployCondition = () => job(workflow('website.yml'), 'deploy').match(/\n    if: (.+)/)?.[1] ?? '';
+
+test('Build and deployment: Deploy after a change', () => {
+  const yml = workflow('website.yml');
+  assert.match(yml, /\non:\n  push:\n    branches: \[main\]\n    paths: &paths/, 'tests on push to main');
+  assert.match(yml, /\n  pull_request:\n    paths: \*paths/, 'tests on pull requests');
+  assert.match(job(yml, 'deploy'), /\n    needs: test\n/);
+  assert.equal(runs(deployCondition(), 'push', 'refs/heads/main'), false, 'no deploy on push to main');
+  assert.equal(runs(deployCondition(), 'pull_request', 'refs/pull/7/merge'), false, 'no deploy on a pull request');
+});
+
+test('Build and deployment: Deploy after a release', () => {
+  assert.match(workflow('website.yml'), /\n  workflow_call:\n/);
+  const caller = job(workflow('publish.yml'), 'website');
+  assert.match(caller, /\n    needs: publish\n/);
+  assert.match(caller, /\n    uses: \.\/\.github\/workflows\/website\.yml\n/);
+  assert.match(caller, /\n    secrets: inherit\n/);
+  assert.match(caller, /\n      packages: write\n/);
+  assert.equal(runs(deployCondition(), 'push', 'refs/tags/v0.9.0'), true, 'the called workflow deploys for a release tag');
+});
+
+test('Build and deployment: Failed release verification', () => {
+  const publish = job(workflow('publish.yml'), 'publish');
+  const verify = publish.indexOf('Verify the release');
+  const create = publish.indexOf('Create the GitHub release');
+  assert.ok(verify > 0 && create > verify, 'the release is verified before it is created');
+  assert.match(job(workflow('publish.yml'), 'website'), /\n    needs: publish\n/, 'the deploy waits for the verified release');
+});
+
+test('Build and deployment: Manual start', () => {
+  assert.match(workflow('website.yml'), /\n  workflow_dispatch:\n/);
+  assert.equal(runs(deployCondition(), 'workflow_dispatch', 'refs/heads/main'), true);
+});

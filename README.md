@@ -197,7 +197,7 @@ claude --plugin-dir .            # or: copilot --plugin-dir .
 node --test 'scripts/*.test.mjs'
 ```
 
-CI runs the tests, the check and the plugin validation for each push to `main` and each pull request. For each release tag, CI also makes a GitHub release with the changelog entries.
+CI runs the tests, the check and the plugin validation for each push to `main` and each pull request. For each release tag, CI also makes a GitHub release with the changelog entries, and then deploys the website. A push to `main` only tests the website.
 
 ## License
 
