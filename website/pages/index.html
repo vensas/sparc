@@ -1,0 +1,148 @@
+    <div class="hero" id="top">
+      <h1>{{t.index.heading}}</h1>
+      <div class="titleblock">
+        <p class="tb-head"><span>sparc</span><span>{{t.index.sheet}}</span></p>
+        <dl>
+          <div><dt>{{t.index.facts.type}}</dt><dd>{{t.index.facts.typeValue}}</dd></div>
+          <div><dt>{{t.index.facts.builtOn}}</dt><dd><a href="https://openspec.dev">OpenSpec</a></dd></div>
+          <div><dt>{{t.index.facts.formats}}</dt><dd>C4, MADR, Keep a Changelog</dd></div>
+          <div><dt>{{t.index.facts.requires}}</dt><dd>Claude Code, Node.js, git</dd></div>
+          <div><dt>{{t.index.facts.version}}</dt><dd>{{record.version}}</dd></div>
+          <div><dt>{{t.index.facts.license}}</dt><dd>MIT</dd></div>
+        </dl>
+      </div>
+      <p class="lede">{{t.index.lede}}</p>
+      <div class="install" role="group" aria-labelledby="install-label">
+        <div class="install-head">
+          <span id="install-label">{{t.index.installLabel}}</span>
+          <button class="copy" type="button" data-copy="claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc" data-copied="{{t.index.copied}}" data-failed="{{t.index.copyFailed}}">{{t.index.copy}}</button>
+        </div>
+<pre><code><span class="p">$ </span>claude plugin marketplace add vensas/sparc
+<span class="p">$ </span>claude plugin install sparc@sparc</code></pre>
+      </div>
+      <p class="hero-links">
+        <a href="{{record.repository}}">{{t.index.source}}</a>
+        <a href="#loop">{{t.index.seeLoop}}</a>
+      </p>
+    </div>
+<!-- content -->
+<main id="main">
+  <section class="part" id="why" aria-labelledby="why-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">1.0</span>
+        <h2 id="why-h">{{t.why.heading}}</h2>
+        <p>{{t.why.intro}}</p>
+      </div>
+      <div class="cols"><div class="main">
+        <table class="spec pains">
+          <thead><tr><th scope="col">{{t.why.pain}}</th><th scope="col">{{t.why.answer}}</th></tr></thead>
+          <tbody>
+            {{#t.why.rows}}<tr><th scope="row">{{.pain}}</th><td>{{.answer}}</td></tr>
+            {{/t.why.rows}}</tbody>
+        </table>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="part" id="loop" aria-labelledby="loop-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">2.0</span>
+        <h2 id="loop-h">{{t.loop.heading}}</h2>
+        <p>{{t.loop.intro}}</p>
+      </div>
+      <ol class="loop" data-loop>
+        {{#t.loop.steps}}<li><h3>{{.name}}</h3><span class="cmd">{{.cmd}}</span><p>{{.text}}</p><span class="who">{{.who}}</span></li>
+        {{/t.loop.steps}}</ol>
+      <p class="loop-note">{{t.loop.note}}</p>
+    </div>
+  </section>
+
+  <section class="part" id="roles" aria-labelledby="roles-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">3.0</span>
+        <h2 id="roles-h">{{t.roles.heading}}</h2>
+        <p>{{t.roles.intro}}</p>
+      </div>
+      <div class="cols"><div class="main">
+        <table class="spec">
+          <thead><tr><th scope="col">{{t.roles.role}}</th><th scope="col">{{t.roles.does}}</th><th scope="col">{{t.roles.owns}}</th></tr></thead>
+          <tbody>
+            {{#t.roles.rows}}<tr><th scope="row">{{.role}}</th><td>{{.does}}</td><td>{{.owns}}</td></tr>
+            {{/t.roles.rows}}</tbody>
+        </table>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="part" id="documents" aria-labelledby="docs-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">4.0</span>
+        <h2 id="docs-h">{{t.documents.heading}}</h2>
+        <p>{{t.documents.intro}}</p>
+      </div>
+      <div class="cols"><div class="main">
+        <table class="spec">
+          <thead><tr><th scope="col">{{t.documents.file}}</th><th scope="col">{{t.documents.home}}</th><th scope="col">{{t.documents.format}}</th></tr></thead>
+          <tbody>
+            {{#t.documents.rows}}<tr><th scope="row"><code>{{.file}}</code></th><td>{{.home}}</td><td>{{.format}}</td></tr>
+            {{/t.documents.rows}}</tbody>
+        </table>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="part" id="record" aria-labelledby="record-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">5.0</span>
+        <h2 id="record-h">{{t.record.heading}}</h2>
+        <p>{{t.record.intro}}</p>
+      </div>
+      <div class="record"><div class="ledger">
+        <dl class="tally">
+          <div><dt>{{t.record.decisions}}</dt><dd><a href="{{record.repository}}/tree/main/docs/adr">{{record.adrs}} ADRs</a></dd></div>
+          <div><dt>{{t.record.archived}}</dt><dd><a href="{{record.repository}}/tree/main/openspec/changes/archive">{{record.archived}}</a></dd></div>
+          <div><dt>{{t.record.releases}}</dt><dd><a href="{{record.repository}}/blob/main/CHANGELOG.md">{{record.releases}}, {{t.record.latest}} {{record.latest}}</a></dd></div>
+          <div><dt>{{t.record.dependencies}}</dt><dd>{{t.record.noDependencies}}</dd></div>
+        </dl>
+        <table class="spec">
+          <thead><tr><th scope="col">{{t.record.date}}</th><th scope="col">{{t.record.change}}</th></tr></thead>
+          <tbody>
+            {{#record.recent}}<tr><th scope="row">{{.date}}</th><td><a href="{{record.repository}}/tree/main/openspec/changes/archive/{{.name}}">{{.id}}</a></td></tr>
+            {{/record.recent}}</tbody>
+        </table>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="part" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">6.0</span>
+        <h2 id="faq-h">{{t.faq.heading}}</h2>
+      </div>
+      <div class="cols"><div class="main faq">
+        {{#t.faq.items}}<details><summary>{{.q}}</summary><p>{{.a}}</p></details>
+        {{/t.faq.items}}</div></div>
+    </div>
+  </section>
+
+  <section class="part" id="install" aria-labelledby="install-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">7.0</span>
+        <h2 id="install-h">{{t.install.heading}}</h2>
+        <p>{{t.install.prerequisites}}</p>
+      </div>
+      <div class="cols"><div class="main">
+        <ol class="steps">
+          {{#t.install.steps}}<li><div><p>{{.text}}</p><pre><code>{{.code}}</code></pre></div></li>
+          {{/t.install.steps}}</ol>
+      </div></div>
+    </div>
+  </section>
+</main>

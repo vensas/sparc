@@ -2,7 +2,7 @@
 
 ## 1. Build and English landing page
 
-- [ ] 1.1 Add `scripts/build-website.mjs`, `website/layout.html`, `website/pages/index.html`, `website/i18n/en.json`, the styles and the font from the mockup, and `.gitignore` with `_site/`. The script reads the version and the record from the repository. Verify: `node --test 'scripts/*.test.mjs'` passes with tests in `scripts/website.test.mjs` for the pages, the first-viewport content, the record values, the footer and the scan for third-party resources and cookies. Documents: AGENTS.md (command and structure rows).
+- [x] 1.1 Add `scripts/build-website.mjs`, `website/layout.html`, `website/pages/index.html`, `website/i18n/en.json`, the styles and the font from the mockup, and `.gitignore` with `_site/`. The script reads the version and the record from the repository. Verify: `node --test 'scripts/*.test.mjs'` passes with tests in `scripts/website.test.mjs` for the pages, the first-viewport content, the record values, the footer and the scan for third-party resources and cookies. Documents: AGENTS.md (command and structure rows).
 
 ## 2. Legal pages
 

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<meta name="description" content="{{t.meta.description}}">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+{{#languages}}<link rel="alternate" hreflang="{{.code}}" href="{{.url}}">
+{{/languages}}<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">{{t.nav.skip}}</a>
+<svg class="defs" width="0" height="0" aria-hidden="true"><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><circle cx="46" cy="18" r="15" fill="#000"/></mask></svg>
+<header class="field">
+  <div class="wrap">
+    <div class="masthead">
+      <a class="brand" href="{{links.index}}" aria-label="{{t.nav.home}}">
+        <svg width="44" height="44" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg>
+        <span>sparc</span>
+      </a>
+      <nav aria-label="{{t.nav.label}}">
+        <ul class="index">
+          {{#sections}}<li><a href="#{{.id}}"><b>{{.number}}</b> {{.name}}</a></li>
+          {{/sections}}<li class="lang">
+            {{#languages}}<a href="{{.href}}" lang="{{.code}}" hreflang="{{.code}}"{{.current}}>{{.short}}</a>
+            {{/languages}}</li>
+        </ul>
+      </nav>
+    </div>
+{{header}}
+  </div>
+</header>
+{{content}}
+<footer class="billing">
+  <div class="wrap">
+    <div class="b-brand">
+      <a class="brand" href="{{links.index}}" aria-label="{{t.nav.home}}"><svg width="36" height="36" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg><span>sparc</span></a>
+      <p>{{t.footer.about}}</p>
+    </div>
+    <nav aria-labelledby="f-proj"><h2 id="f-proj">{{t.footer.project}}</h2><ul>
+      <li><a href="{{record.repository}}">GitHub</a></li>
+      <li><a href="{{record.repository}}/blob/main/CHANGELOG.md">{{t.footer.changelog}}</a></li>
+      <li><a href="{{record.repository}}/blob/main/LICENSE">{{t.footer.license}}</a></li>
+    </ul></nav>
+    <nav aria-labelledby="f-legal"><h2 id="f-legal">{{t.footer.legal}}</h2><ul>
+      <li><a href="{{links.imprint}}">{{t.imprint.title}}</a></li>
+      <li><a href="{{links.privacy}}">{{t.privacy.title}}</a></li>
+    </ul></nav>
+    <nav aria-labelledby="f-lang"><h2 id="f-lang">{{t.footer.language}}</h2><ul>
+      {{#languages}}<li><a href="{{.href}}" lang="{{.code}}" hreflang="{{.code}}"{{.current}}>{{.name}}</a></li>
+      {{/languages}}</ul></nav>
+    <div class="agate">
+      <span>sparc {{record.version}} · {{t.footer.license}}</span>
+      <span>© 2026 <a href="https://vensas.de">vensas GmbH</a> · {{t.footer.nocookies}}</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
