@@ -1,14 +1,18 @@
 // Tests for the website spec. Each test name starts with "<Requirement>: <Scenario>".
 // The tests build the site into a temporary folder and read the built files.
-import { test } from 'node:test';
+import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { build } from './build-website.mjs';
+import { fileURLToPath } from 'node:url';
+import { build, render } from './build-website.mjs';
 
-const ROOT = new URL('..', import.meta.url).pathname;
-const temp = () => mkdtempSync(join(tmpdir(), 'sparc-website-'));
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
+const temps = [];
+const temp = () => { const dir = mkdtempSync(join(tmpdir(), 'sparc-website-')); temps.push(dir); return dir; };
+after(() => { for (const dir of temps) rmSync(dir, { recursive: true, force: true }); });
 
 function buildRepo(root = ROOT) {
   const out = temp();
@@ -219,11 +223,11 @@ test('Web server: Security headers (no inline styles or scripts for the CSP)', (
 const DOCUMENTATION = /^(192\.0\.2|198\.51\.100|203\.0\.113)\./;
 
 test('No server data in the repository: Scan of the tracked files', () => {
-  const scanned = ['website', '.github/workflows'].flatMap((dir) => files(join(ROOT, dir)))
-    .filter((f) => !/\/(bin|obj|out)\//.test(f) && !/\.(woff2|png)$/.test(f));
-  assert.ok(scanned.length > 10, `${scanned.length} files`);
-  for (const file of scanned) {
-    const text = readFileSync(file, 'utf8');
+  const tracked = execFileSync('git', ['ls-files', 'website', '.github/workflows'], { cwd: ROOT, encoding: 'utf8' })
+    .split('\n').filter((f) => f && !/\.(woff2|png)$/.test(f));
+  assert.ok(tracked.length > 10, `${tracked.length} files`);
+  for (const file of tracked) {
+    const text = readFileSync(join(ROOT, file), 'utf8');
     const addresses = (text.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) ?? []).filter((ip) => !DOCUMENTATION.test(ip));
     assert.deepEqual(addresses, [], file);
     assert.doesNotMatch(text, /PRIVATE KEY/, file);
@@ -232,4 +236,39 @@ test('No server data in the repository: Scan of the tracked files', () => {
 
 test('No server data in the repository: Generated Kamal configuration is not committed', () => {
   assert.match(readFileSync(join(ROOT, '.gitignore'), 'utf8'), /^website\/apphost\/out\/$/m);
+});
+
+test('Build: a missing language file stops the build', () => {
+  const root = fixture();
+  rmSync(join(root, 'website/i18n/de.json'));
+  assert.throws(() => build({ root, out: temp() }), /de\.json/);
+});
+
+test('Build: a page without texts stops the build with its name', () => {
+  const root = fixture();
+  writeFileSync(join(root, 'website/pages/extra.html'), '<!-- content -->\n<main id="main"></main>\n');
+  assert.throws(() => build({ root, out: temp() }), /no texts for page "extra" in en\.json/);
+});
+
+test('Build: a page without the content marker stops the build', () => {
+  const root = fixture();
+  writeFileSync(join(root, 'website/pages/imprint.html'), '<main id="main"></main>\n');
+  assert.throws(() => build({ root, out: temp() }), /imprint\.html has no "<!-- content -->" line/);
+});
+
+test('Build: a page with CRLF line ends', () => {
+  const root = fixture();
+  const file = join(root, 'website/pages/imprint.html');
+  writeFileSync(file, readFileSync(file, 'utf8').replace(/\n/g, '\r\n'));
+  const html = page('imprint.html', buildRepo(root));
+  assert.match(main(html), /HRB 110062/);
+  assert.doesNotMatch(header(html), /<main/);
+});
+
+test('Build: a changelog without a release stops the build', () => {
+  assert.throws(() => buildRepo(fixture({ releases: [] })), /CHANGELOG\.md has no release/);
+});
+
+test('Build: a text with braces is not a placeholder', () => {
+  assert.equal(render('{{#items}}<b>{{.text}}</b>{{/items}}', { items: [{ text: 'use {{name}}' }] }), '<b>use {{name}}</b>');
 });

@@ -13,12 +13,12 @@
 </head>
 <body>
 <a class="skip" href="#main">{{t.nav.skip}}</a>
-<svg class="defs" width="0" height="0" aria-hidden="true"><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><circle cx="46" cy="18" r="15" fill="#000"/></mask></svg>
+<svg class="defs" width="0" height="0" aria-hidden="true"><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><circle cx="46" cy="18" r="15" fill="#000"/></mask><symbol id="logo" viewBox="4 2 56 56"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></symbol></svg>
 <header class="field">
   <div class="wrap">
     <div class="masthead">
       <a class="brand" href="{{links.index}}" aria-label="{{t.nav.home}}">
-        <svg width="44" height="44" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg>
+        <svg width="44" height="44" aria-hidden="true"><use href="#logo"/></svg>
         <span>sparc</span>
       </a>
       <nav aria-label="{{t.nav.label}}">
@@ -37,7 +37,7 @@
 <footer class="billing">
   <div class="wrap">
     <div class="b-brand">
-      <a class="brand" href="{{links.index}}" aria-label="{{t.nav.home}}"><svg width="36" height="36" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg><span>sparc</span></a>
+      <a class="brand" href="{{links.index}}" aria-label="{{t.nav.home}}"><svg width="36" height="36" aria-hidden="true"><use href="#logo"/></svg><span>sparc</span></a>
       <p>{{t.footer.about}}</p>
     </div>
     <nav aria-labelledby="f-proj"><h2 id="f-proj">{{t.footer.project}}</h2><ul>

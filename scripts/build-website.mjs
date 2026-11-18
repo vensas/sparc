@@ -19,37 +19,42 @@ export function record(root) {
     ? readdirSync(archiveDir, { withFileTypes: true }).filter((e) => e.isDirectory() && /^\d{4}-\d{2}-\d{2}-/.test(e.name)).map((e) => e.name).sort().reverse()
     : [];
   const releases = [...readFileSync(join(root, 'CHANGELOG.md'), 'utf8').matchAll(/^## \[(\d+\.\d+\.\d+)\]/gm)].map((m) => m[1]);
+  if (releases.length === 0) throw new Error('CHANGELOG.md has no release');
   return {
     version: plugin.version,
     repository: plugin.repository,
     adrs: adrs.length,
     archived: archived.length,
     releases: releases.length,
-    latest: releases[0] ?? plugin.version,
+    latest: releases[0],
     recent: archived.slice(0, RECENT).map((name) => ({ name, date: name.slice(0, 10), id: name.slice(11) })),
   };
 }
 
 const lookup = (ctx, path) => path.split('.').reduce((value, key) => value?.[key], ctx);
 
+// Replaces {{path}} with its value. A missing value stops the build. {{.field}} is left for the list.
+const fill = (template, ctx) => template.replace(/\{\{(\w[\w.]*)\}\}/g, (_, path) => {
+  const value = lookup(ctx, path);
+  if (value === undefined || typeof value === 'object') throw new Error(`no text for "{{${path}}}"`);
+  return value;
+});
+
 // Replaces {{#list}}...{{/list}} with one copy for each item, and {{path}} with its value.
-// An item of a list is {{.}} or {{.field}}. A missing value stops the build.
+// In a list, {{.field}} is a value of the item. Values are put in last, so a text with braces stays text.
 export function render(template, ctx) {
-  return template
-    .replace(/\{\{#([\w.]+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (_, path, inner) => {
-      const list = lookup(ctx, path);
-      if (!Array.isArray(list)) throw new Error(`"${path}" is not a list`);
-      return list.map((item) => render(inner.replace(/\{\{\.(\w*)\}\}/g, (__, key) => {
-        const value = key ? item[key] : item;
-        if (value === undefined) throw new Error(`"${path}" has an item without "${key}"`);
-        return value;
-      }), ctx)).join('');
-    })
-    .replace(/\{\{([\w.]+)\}\}/g, (_, path) => {
-      const value = lookup(ctx, path);
-      if (value === undefined || typeof value === 'object') throw new Error(`no text for "{{${path}}}"`);
-      return value;
-    });
+  const lists = [];
+  const marked = template.replace(/\{\{#([\w.]+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (_, path, inner) => {
+    const list = lookup(ctx, path);
+    if (!Array.isArray(list)) throw new Error(`"${path}" is not a list`);
+    const copy = fill(inner, ctx);
+    lists.push(list.map((item) => copy.replace(/\{\{\.(\w+)\}\}/g, (__, key) => {
+      if (item[key] === undefined) throw new Error(`"${path}" has an item without "${key}"`);
+      return item[key];
+    })).join(''));
+    return `\u0000${lists.length - 1}\u0000`;
+  });
+  return fill(marked, ctx).replace(/\u0000(\d+)\u0000/g, (_, n) => lists[n]);
 }
 
 // The path of a page in a language. English is at the root.
@@ -60,7 +65,7 @@ export function build({ root = ROOT, out = join(ROOT, '_site') } = {}) {
   const data = record(root);
   const layout = readFileSync(join(site, 'layout.html'), 'utf8');
   const pages = readdirSync(join(site, 'pages')).filter((f) => f.endsWith('.html')).map((f) => f.slice(0, -5));
-  const langs = ['en', 'de'].filter((lang) => existsSync(join(site, 'i18n', `${lang}.json`)));
+  const langs = ['en', 'de'];
 
   rmSync(out, { recursive: true, force: true });
   mkdirSync(out, { recursive: true });
@@ -68,12 +73,19 @@ export function build({ root = ROOT, out = join(ROOT, '_site') } = {}) {
   cpSync(join(root, 'docs/assets/icon.svg'), join(out, 'assets/icon.svg'));
 
   for (const lang of langs) {
-    const t = JSON.parse(readFileSync(join(site, 'i18n', `${lang}.json`), 'utf8'));
+    const file = join(site, 'i18n', `${lang}.json`);
+    if (!existsSync(file)) throw new Error(`website/i18n/${lang}.json is missing`);
+    const t = JSON.parse(readFileSync(file, 'utf8'));
     for (const page of pages) {
-      const [head, body] = readFileSync(join(site, 'pages', `${page}.html`), 'utf8').split('<!-- content -->\n');
+      // The part before the line <!-- content --> goes into the header, the rest after it.
+      const parts = readFileSync(join(site, 'pages', `${page}.html`), 'utf8').split(/<!-- content -->\r?\n/);
+      if (parts.length !== 2) throw new Error(`website/pages/${page}.html has no "<!-- content -->" line`);
+      if (!t[page]) throw new Error(`no texts for page "${page}" in ${lang}.json`);
+      const [head, body] = parts;
       const ctx = {
         t, lang, page, record: data, origin: ORIGIN,
         title: t[page].title,
+        german: href('de', page),
         sections: page === 'index' ? t.nav.sections : [],
         // The German legal texts are binding. The other languages link to them.
         binding: lang === 'de' ? [] : [{}],
@@ -84,10 +96,10 @@ export function build({ root = ROOT, out = join(ROOT, '_site') } = {}) {
         })),
         links: Object.fromEntries(LINKED.map((p) => [p, href(lang, p)])),
       };
-      const html = render(layout, { ...ctx, header: render(head, ctx), content: render(body ?? '', ctx) });
-      const file = join(out, lang === 'en' ? '' : lang, `${page}.html`);
-      mkdirSync(dirname(file), { recursive: true });
-      writeFileSync(file, html);
+      const html = render(layout, { ...ctx, header: render(head, ctx), content: render(body, ctx) });
+      const target = join(out, lang === 'en' ? '' : lang, `${page}.html`);
+      mkdirSync(dirname(target), { recursive: true });
+      writeFileSync(target, html);
     }
   }
   return out;
