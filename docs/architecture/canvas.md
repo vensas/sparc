@@ -111,7 +111,7 @@ See the [container diagram](c4.md#containers).
 - The acceptance step of `/sparc:apply` has no commit type of its own. Two `test(qa)` acceptance commits changed the canvas (`76f91df`, `f52f33b`).
 - The imprint and the privacy policy of the website (change add-landing-page) have no legal review yet. The French and English texts are translations, and the German text is binding.
 - The DNS record for `sparc.apps.vensas.de` and the repository secrets `DEPLOY_HOST` and `SSH_PRIVATE_KEY` do not exist yet. The operator of the server adds them.
-- It is not known how long the server keeps its access log. The privacy policy of the website must tell it.
+- It is not known how long the server keeps the request log of kamal-proxy. The nginx log of the website has no IP address. The privacy policy of the website must tell the time.
 - It is not known if vensas GmbH has a data protection officer. The privacy policy of vensas names none.
 - Mermaid C4 draws each relation as a straight line, so some lines cross boxes in the container diagram. Mermaid CLI 12.0.0 ignores `UpdateLayoutConfig`. Label offsets keep the labels apart. The render on GitHub is not checked yet.
 

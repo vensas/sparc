@@ -168,6 +168,15 @@ A container SHALL serve the site with nginx. It SHALL answer only for the host `
 - **WHEN** a visitor opens any page
 - **THEN** the response has the security headers and no `Server` header
 
+### Requirement: Access log without IP address
+
+The access log of the website container SHALL NOT contain the IP address of the visitor.
+
+#### Scenario: Access log without IP address
+
+- **WHEN** a visitor opens a page
+- **THEN** the log of the container has a line for the request, and the line has no IP address
+
 ### Requirement: Build and deployment
 
 A script without npm dependencies SHALL build the site from `website/` into one output folder. An Aspire AppHost SHALL run the site container locally and generate the Kamal configuration. A GitHub Actions workflow SHALL test the site container, and SHALL deploy it with Kamal to the server of `sparc.apps.vensas.de` on each push to `main` that changes the website, its build or the data it reads, and on manual start.
