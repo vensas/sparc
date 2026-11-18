@@ -15,7 +15,7 @@ Obey ${CLAUDE_PLUGIN_ROOT}/rules/evidence.md and ${CLAUDE_PLUGIN_ROOT}/rules/wri
 
 1. Run `git rev-parse --show-toplevel`. If this is not a git repository, ask the user if you can run `git init`.
 2. Run `openspec --version`. If OpenSpec is not installed, stop. Tell the user to install it: `npm install -g @fission-ai/openspec`.
-3. Run `node --version`. sparc needs Node.js 20 or later.
+3. Run `node --version`. If `node --version` fails, stop. Tell the user to install the latest Node.js LTS version from https://nodejs.org. Do not stop because of the Node.js version.
 4. Ask the user: "Do you work alone or in a team?" Suggest the workflow `trunk` for a solo user and `pull-request` for a team (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md). Use the answer in step 2.
 5. In the workflow `pull-request`, if the repository has commits, make the branch `chore/sparc-init`. In a new repository, the first commit can be on the default branch.
 

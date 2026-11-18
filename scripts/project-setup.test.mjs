@@ -21,6 +21,18 @@ test('Prerequisites before setup: OpenSpec is not installed', () => {
   before(skill, 'openspec --version', '## 2. Install the files');
 });
 
+test('Prerequisites before setup: Node.js is not installed', () => {
+  const skill = init();
+  assert.match(skill, /If `node --version` fails, stop\. Tell the user to install the latest Node\.js LTS version from https:\/\/nodejs\.org/);
+  before(skill, 'node --version', '## 2. Install the files');
+});
+
+test('Prerequisites before setup: Any installed Node.js version', () => {
+  const skill = init();
+  assert.match(skill, /Do not stop because of the Node\.js version/);
+  assert.doesNotMatch(skill, /Node\.js \d+ or later/);
+});
+
 test('Template files without overwrite: New project', () => {
   assert.match(init(), /Copy each file from `\$\{CLAUDE_PLUGIN_ROOT\}\/templates\/project\/` into the project\. Keep the relative paths/);
 });
