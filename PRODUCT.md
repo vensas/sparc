@@ -10,7 +10,7 @@ web
 
 ## Stack
 
-`website/`: static HTML and CSS. A Node.js script without dependencies renders the pages from one template and one text file for each language. GitHub Pages serves the result at `sparc.apps.vensas.de`.
+`website/`: static HTML and CSS. A Node.js script without dependencies renders the pages from one template and one text file for each language. An nginx container serves the result at `sparc.apps.vensas.de`. Kamal deploys it.
 
 ## Users
 

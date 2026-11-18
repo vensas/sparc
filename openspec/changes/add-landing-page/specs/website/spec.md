@@ -7,7 +7,7 @@ The website SHALL have a landing page, an imprint and a privacy policy in Englis
 #### Scenario: Pages of the built site
 
 - **WHEN** the build of the website completes
-- **THEN** the output has `index.html`, `imprint.html` and `privacy.html` at the root, in `de/` and in `fr/`
+- **THEN** the output has `index.html`, `imprint.html`, `privacy.html` and `404.html` at the root, in `de/` and in `fr/`
 
 #### Scenario: Change the language
 
@@ -93,14 +93,14 @@ The privacy policy SHALL name vensas GmbH as the controller with its address and
 - **WHEN** a visitor reads the privacy policy in any language
 - **THEN** it names vensas GmbH with its address and e-mail, and lists the rights of Art. 15 to 18, 20 and 21 GDPR and the right to complain
 
-### Requirement: Privacy policy for GitHub Pages
+### Requirement: Privacy policy for the hosting
 
-The privacy policy SHALL tell that GitHub Pages hosts the site and records IP addresses, give the legal basis and the basis of the transfer to the USA, and link to the GitHub privacy statement. It SHALL tell that the site sets no cookies and uses no analytics.
+The privacy policy SHALL name the hosting company with its address and link to its privacy policy. It SHALL list the data in the access log of the server, the purpose, the legal basis and the time for which the server keeps the log. It SHALL tell that the site sets no cookies and uses no analytics.
 
 #### Scenario: Hosting
 
 - **WHEN** a visitor reads the privacy policy in any language
-- **THEN** it names GitHub as the host, Art. 6 (1) (f) GDPR as the legal basis, and links to the GitHub General Privacy Statement
+- **THEN** it names the hosting company, lists the IP address, the date and time, the requested page and the browser as log data, and names Art. 6 (1) (f) GDPR as the legal basis
 
 ### Requirement: No cookies and no third-party requests
 
@@ -115,6 +115,11 @@ The website SHALL set no cookies and use no browser storage. It SHALL load all f
 
 - **WHEN** the built site is scanned for `document.cookie`, `localStorage` and `sessionStorage`
 - **THEN** none is found
+
+#### Scenario: No cookie from the server
+
+- **WHEN** a visitor opens any page
+- **THEN** the response has no `Set-Cookie` header
 
 ### Requirement: Footer
 
@@ -139,16 +144,59 @@ Each page SHALL meet WCAG 2.2 level AA. Text SHALL have a contrast of 4.5:1 or m
 - **WHEN** a visitor opens any page at a width of 360 px
 - **THEN** the page has no horizontal scroll
 
+### Requirement: Web server
+
+A container SHALL serve the site with nginx. It SHALL answer only for the host `sparc.apps.vensas.de` and, in a local run, `localhost`, and SHALL answer `/health` for each host. Each response SHALL have a Content Security Policy without `unsafe-inline`, `Strict-Transport-Security`, `X-Content-Type-Options: nosniff` and `Referrer-Policy`, and no `Server` header. The server SHALL allow only GET and HEAD, and SHALL show its own 404 page in the language of the path.
+
+#### Scenario: Other host
+
+- **WHEN** a request comes for a host other than the site host
+- **THEN** the server closes the connection without a response
+
+#### Scenario: Health check
+
+- **WHEN** kamal-proxy requests `/health` with any host
+- **THEN** the server answers 200
+
+#### Scenario: Page not found
+
+- **WHEN** a visitor opens `/de/missing.html`
+- **THEN** the server answers 404 with the German 404 page
+
+#### Scenario: Security headers
+
+- **WHEN** a visitor opens any page
+- **THEN** the response has the security headers and no `Server` header
+
 ### Requirement: Build and deployment
 
-A script without npm dependencies SHALL build the site from `website/` into one output folder. A GitHub Actions workflow SHALL build the site and deploy it to GitHub Pages with the custom domain `sparc.apps.vensas.de` on each push to `main` that changes the website, its build or the data it reads, and on manual start.
+A script without npm dependencies SHALL build the site from `website/` into one output folder. An Aspire AppHost SHALL run the site container locally and generate the Kamal configuration. A GitHub Actions workflow SHALL test the site container, and SHALL deploy it with Kamal to the server of `sparc.apps.vensas.de` on each push to `main` that changes the website, its build or the data it reads, and on manual start.
 
 #### Scenario: Build without dependencies
 
 - **WHEN** a developer runs the build command in a clean checkout with Node.js and no `npm install`
 - **THEN** the build completes and writes the site
 
+#### Scenario: Local run
+
+- **WHEN** a developer runs the AppHost with `aspire run`
+- **THEN** the Aspire dashboard shows the site container, and its endpoint shows the landing page
+
 #### Scenario: Deploy after a change
 
 - **WHEN** a commit on `main` changes a file in `website/`
-- **THEN** the Pages workflow builds the site and deploys it
+- **THEN** the workflow tests the container, and after the test deploys it with Kamal
+
+### Requirement: No server data in the repository
+
+The repository SHALL NOT contain the address of the server, an SSH key or another credential for the deployment. The workflow SHALL read them from repository secrets. The generated Kamal configuration SHALL NOT be committed.
+
+#### Scenario: Scan of the tracked files
+
+- **WHEN** the tracked files in `website/` and `.github/workflows/` are scanned for IPv4 addresses and private keys
+- **THEN** none is found, except addresses from the documentation ranges of RFC 5737
+
+#### Scenario: Publish without the server address
+
+- **WHEN** a developer runs `aspire publish` without the value `DEPLOY_HOST`
+- **THEN** the publish stops and tells that `DEPLOY_HOST` is missing

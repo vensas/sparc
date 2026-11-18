@@ -6,15 +6,17 @@
 
 ## 2. Legal pages
 
-- [ ] 2.1 Add `website/pages/imprint.html` and `website/pages/privacy.html`, and the legal texts in German (binding) and English in the language files. Verify: tests for the register data, the controller, the hosting section and the link to the binding German text pass. Documents: none.
+- [ ] 2.1 Add `website/pages/imprint.html` and `website/pages/privacy.html`, and the legal texts in German (binding) and English in the language files. Get the retention time of the access log from the user first (open question in design.md). Verify: tests for the register data, the controller, the hosting section with the log data and the link to the binding German text pass. Documents: none.
 
 ## 3. German and French
 
 - [ ] 3.1 Complete `website/i18n/de.json` and add `website/i18n/fr.json` for all pages, and the language switch with `hreflang`. Verify: tests for each language, `<html lang>`, the `hreflang` links and equal keys in all language files pass. Documents: none.
 
-## 4. Deployment
+## 4. Container and deployment
 
-- [ ] 4.1 Add `.github/workflows/pages.yml` and `website/CNAME`. Verify: `actionlint` passes, and `act push -W .github/workflows/pages.yml --container-architecture linux/arm64 -j build` builds the site. Documents: AGENTS.md (CI row), C4 (already updated in the proposal).
+- [ ] 4.1 Add `website/Dockerfile`, `website/Dockerfile.dockerignore`, the nginx configuration, the entrypoint and `website/test.sh`, and the 404 pages in the language files. Verify: `website/test.sh` passes with `CONTAINER=podman` for the scenarios of "Web server" and "No cookie from the server". Documents: AGENTS.md (command and structure rows).
+- [ ] 4.2 Add the Aspire AppHost in `website/apphost/` with `Vensas.Aspire.Hosting.Kamal` and `website/global.json`, and `website/apphost/out/` in `.gitignore`. Verify: `aspire run` shows the landing page; `DEPLOY_HOST=203.0.113.10 aspire publish -o out` writes `config/deploy.yml` with the proxy host `sparc.apps.vensas.de`, and `kamal config -c config/deploy.yml` loads it; without `DEPLOY_HOST` the publish stops with the message; the node:test scan for server data passes. Documents: AGENTS.md (command rows).
+- [ ] 4.3 Add `.github/workflows/website.yml` with the jobs `test` and `deploy`. Verify: `actionlint` passes, and `act push -W .github/workflows/website.yml --container-architecture linux/arm64 -j test` passes. Documents: AGENTS.md (CI row), C4 (already updated in the proposal).
 
 ## 5. Finish
 
@@ -23,5 +25,5 @@
 
 ## Workflow follow-up
 
-- Set the Pages source to "GitHub Actions", enforce HTTPS and add the DNS record (see design.md, "Migration Plan").
+- Add the repository secrets `DEPLOY_HOST` and `SSH_PRIVATE_KEY` and the DNS record, then start the workflow `Website` (see design.md, "Migration Plan").
 - Get a legal review of the imprint and the privacy policy before the repository becomes public.
