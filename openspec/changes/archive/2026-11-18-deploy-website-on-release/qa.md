@@ -7,7 +7,7 @@ Test tool (design.md, "Test tool"): node:test in `scripts/website.test.mjs` read
 | Build and deployment: Build without dependencies | passed | The website tests build the site with Node.js and no `npm install`, `node --test 'scripts/*.test.mjs'`, 253 passed, 0 failed |
 | Build and deployment: Local run | passed | Unchanged by this change; the manual check of add-landing-page (2026-11-18) stays valid |
 | Build and deployment: Deploy after a change | passed | "Build and deployment: Deploy after a change" (push to `main` and a pull request do not deploy), `node --test 'scripts/*.test.mjs'`, 253 passed, 0 failed. act in a clean clone, `act push -W .github/workflows/website.yml`: the job `test` passed and the job `deploy` did not start |
-| Build and deployment: Deploy after a release | manual | See "Manual checks" |
+| Build and deployment: Deploy after a release | passed | See "Manual checks" (release 0.9.0) |
 | Build and deployment: Failed release verification | passed | "Build and deployment: Failed release verification" (the job `website` needs `publish`, which verifies before it creates the release, and its condition has no status function), `node --test 'scripts/*.test.mjs'`, 253 passed, 0 failed |
 | Build and deployment: Manual start | manual | See "Manual checks". The condition part: "Build and deployment: Manual start", `node --test 'scripts/*.test.mjs'`, 253 passed, 0 failed |
 
@@ -18,7 +18,7 @@ Test tool (design.md, "Test tool"): node:test in `scripts/website.test.mjs` read
 - Reason: needs a release tag on GitHub, the runners, the secrets and the server.
 - Steps: at the release of 0.9.0, push the release commit and the tag, and watch the job `website` of the workflow `Publish`.
 - Expected result: `validate` and `publish` pass, then `website` tests and deploys, and https://sparc.apps.vensas.de shows version 0.9.0.
-- Result: open. The tests show the call and the condition. `actionlint` passes. act in a clean clone, `act push -W .github/workflows/publish.yml -e <event with ref refs/tags/v0.8.0> -j website`: `validate` and `publish` (with "Verify the release") passed, and the job `website` did not start under act.
+- Result: passed on 2026-11-18. The release 0.9.0 ran the workflow `Publish` (run 44281424898): `validate`, `publish`, `website / test` and `website / deploy` succeeded. https://sparc.apps.vensas.de answers 200 for `/`, `/de/` and `/imprint.html`, 404 for a missing page, shows version 0.9.0, sends the CSP and HSTS headers, and has a Let's Encrypt certificate. The push to `main` before the release (run 44281226313) tested the site and skipped `deploy`.
 
 ### Build and deployment: Manual start
 
