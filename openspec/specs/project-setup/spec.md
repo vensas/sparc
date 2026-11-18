@@ -6,7 +6,7 @@ Sets up sparc in a new or existing project with `/sparc:init`: the tools, the te
 ## Requirements
 
 ### Requirement: Prerequisites before setup
-Before it changes a file, `/sparc:init` SHALL make sure that the project is a git repository and that OpenSpec is installed. It SHALL ask the user before it runs `git init`. If OpenSpec is not installed, it SHALL stop and tell the install command.
+Before it changes a file, `/sparc:init` SHALL make sure that the project is a git repository, that OpenSpec is installed and that Node.js is installed. It SHALL ask the user before it runs `git init`. If OpenSpec is not installed, it SHALL stop and tell the install command. If Node.js is not installed, it SHALL stop and tell the user to install the latest Node.js LTS version. It SHALL NOT stop because of the Node.js version.
 
 #### Scenario: Not a git repository
 - **WHEN** the user runs `/sparc:init` in a folder that is not a git repository
@@ -15,6 +15,14 @@ Before it changes a file, `/sparc:init` SHALL make sure that the project is a gi
 #### Scenario: OpenSpec is not installed
 - **WHEN** `openspec --version` fails
 - **THEN** init stops, writes no file, and tells the user to run `npm install -g @fission-ai/openspec`
+
+#### Scenario: Node.js is not installed
+- **WHEN** `node --version` fails
+- **THEN** init stops, writes no file, and tells the user to install the latest Node.js LTS version from https://nodejs.org
+
+#### Scenario: Any installed Node.js version
+- **WHEN** `node --version` returns a version, for example `v22.23.5`
+- **THEN** init continues with the next step
 
 ### Requirement: Template files without overwrite
 `/sparc:init` SHALL copy each file of `templates/project/` into the project with the same relative path. It SHALL NOT overwrite a file that exists. For each existing file, it SHALL show the difference and ask the user to keep, replace or merge it.
