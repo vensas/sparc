@@ -53,7 +53,7 @@
         <table class="spec">
           <thead><tr><th scope="col">{{t.documents.file}}</th><th scope="col">{{t.documents.holds}}</th><th scope="col">{{t.documents.format}}</th><th scope="col">{{t.documents.owner}}</th></tr></thead>
           <tbody>
-            {{#t.documents.rows}}<tr><th scope="row"><code>{{.file}}</code></th><td>{{.holds}}</td><td>{{.format}}</td><td>{{.owner}}</td></tr>
+            {{#t.documents.rows}}<tr><th scope="row"><code>{{.file}}</code></th><td data-label="{{t.documents.holds}}">{{.holds}}</td><td data-label="{{t.documents.format}}">{{.format}}</td><td data-label="{{t.documents.owner}}">{{.owner}}</td></tr>
             {{/t.documents.rows}}</tbody>
         </table>
       </div></div>

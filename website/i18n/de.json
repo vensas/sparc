@@ -95,7 +95,7 @@
       },
       {
         "name": "Verify",
-        "cmd": "Stop-Hook",
+        "cmd": "hooks/hooks.json",
         "text": "Lint, Tests und Nachweise müssen bestehen.",
         "pain": "„Fertig“ ohne Nachweis.",
         "who": "Verifier, ohne LLM"

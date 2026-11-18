@@ -95,7 +95,7 @@
       },
       {
         "name": "Verify",
-        "cmd": "Stop hook",
+        "cmd": "hooks/hooks.json",
         "text": "Lint, tests and evidence must pass.",
         "pain": "\"Done\" without proof.",
         "who": "Verifier, no LLM"

@@ -67,10 +67,10 @@ body {
   font-stretch: 100%;
   font-variant-numeric: tabular-nums;
 }
-::selection { background: var(--spark); color: var(--spark-ink); }
+::selection { background: var(--accent); color: var(--sheet); }
 a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
-:focus-visible { outline: 3px solid var(--spark); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 3px var(--sheet); border-radius: 2px; }
 p, li, dd, td, th, summary { text-wrap: pretty; }
 code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.9em; }
 
@@ -121,7 +121,7 @@ code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; fo
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 0 24px;
-  padding-block: clamp(48px, 9vw, 112px) clamp(48px, 7vw, 88px);
+  padding-block: clamp(40px, 6vw, 80px) clamp(40px, 4vw, 56px);
   position: relative;
 }
 .hero > * { min-width: 0; }
@@ -173,14 +173,16 @@ code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; fo
 .install pre .p { color: var(--accent); user-select: none; }
 .copy {
   font: inherit; font-size: 0.8125rem; letter-spacing: 0.04em;
-  background: transparent; color: var(--accent); border: 1px solid var(--accent);
+  background: transparent; color: var(--ink); border: 1px solid var(--ink-2);
   padding: 6px 14px; cursor: pointer; font-weight: 700;
 }
-.copy:hover { background: var(--accent); color: var(--sheet); }
+.copy:hover { background: var(--ink); color: var(--sheet); }
 .hero-links { grid-column: 1 / span 7; margin: 24px 0 0; display: flex; gap: 24px; flex-wrap: wrap; font-weight: 600; }
 
 /* ---------- Sections ---------- */
 section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw, 120px) clamp(48px, 6vw, 80px); }
+#loop { padding-top: clamp(32px, 3vw, 48px); }
+#loop .part-head { margin-bottom: 24px; }
 .part-head {
   display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 24px;
   margin-bottom: 48px;
@@ -225,23 +227,23 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 .loop .cmd { font-size: 0.8125rem; color: var(--ink-2); }
 .loop p { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
 .loop .pain { margin: 0; font-size: 0.8125rem; line-height: 1.4; color: var(--ink); }
-.loop .pain span { display: block; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
-.loop .who { margin-top: auto; font-size: 0.8125rem; font-weight: 600; color: var(--ink); padding-top: 12px; border-top: 1px solid var(--rule); }
+.loop .pain span { display: block; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.loop .who { margin-top: auto; font-size: 0.8125rem; line-height: 1.4; min-height: calc(3 * 1.4em + 12px); font-weight: 600; color: var(--ink); padding-top: 12px; border-top: 1px solid var(--rule); }
 .loop li.is-active { background: var(--code-bg); box-shadow: inset 0 4px 0 var(--spark); }
 .loop li.is-next { box-shadow: inset 0 0 0 1px var(--accent); }
 /* The rule back from the last step to the first: the next change starts the loop again. */
 .loop-return {
   position: relative; height: 28px; margin: 0 calc(100% / 14);
-  border: 1px solid var(--accent); border-top: 0;
+  border: 1px solid var(--ink-2); border-top: 0;
 }
 .loop-return::before {
   content: ""; position: absolute; left: -5px; top: -1px;
-  border: 5px solid transparent; border-bottom: 7px solid var(--accent); border-top: 0;
+  border: 5px solid transparent; border-bottom: 7px solid var(--ink-2); border-top: 0;
 }
 .loop-return span {
   position: absolute; left: 50%; bottom: -0.7em; transform: translateX(-50%);
   background: var(--sheet); padding: 0 12px;
-  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent);
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2);
 }
 
 /* Spec tables */
@@ -279,7 +281,7 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::after {
   content: ""; width: 12px; height: 12px;
-  border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--ink-2); border-bottom: 2px solid var(--ink-2);
   transform: translateY(-3px) rotate(45deg); transition: transform 240ms cubic-bezier(.16,1,.3,1);
 }
 .faq details[open] summary::after { transform: translateY(3px) rotate(-135deg); }
@@ -358,6 +360,9 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
   .spec thead { display: none; }
   .spec tbody tr { display: block; border-top: 1px solid var(--rule); padding: 12px 0; }
   .spec tbody th, .spec tbody td { display: block; border: 0; padding: 2px 0; width: auto; }
+  .spec td[data-label]::before { content: attr(data-label) ": "; color: var(--ink-2); }
+  .install pre, .steps pre { font-size: 0.75rem; }
+  .install pre code, .steps pre code { font-size: 1em; }
   .spec tbody tr:last-child > * { border-bottom: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
