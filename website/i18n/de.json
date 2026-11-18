@@ -9,8 +9,8 @@
   "nav": {
     "skip": "Zum Inhalt springen",
     "home": "sparc, Startseite",
-    "label": "Abschnitte und Sprache",
-    "dark": "Dunkel",
+    "label": "Abschnitte, Sprache und Farbschema",
+    "dark": "Dunkler Modus",
     "sections": [
       {
         "id": "loop",

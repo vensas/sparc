@@ -115,10 +115,10 @@ code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; fo
 .lang { display: flex; gap: 2px; border-left: 1px solid var(--field-rule); padding-left: 20px; }
 .lang a { padding: 6px 8px; font-weight: 600; letter-spacing: 0.04em; font-size: 0.8125rem; }
 .lang a[aria-current="true"] { background: var(--field-ink); color: var(--field); }
-.theme-switch { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.04em; background: transparent; color: var(--field-ink); border: 1px solid var(--field-rule); padding: 5px 8px; cursor: pointer; }
-.theme-switch[aria-pressed="true"] { background: var(--field-ink); color: var(--field); border-color: var(--field-ink); }
-.theme-switch[hidden] { display: none; }
+.theme-switch { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; background: transparent; color: var(--field-ink); border: 1px solid transparent; cursor: pointer; }
+.theme-switch:hover { border-color: var(--field-rule); }
 .theme-switch svg { display: block; }
+.theme-switch[aria-pressed="false"] .sun, .theme-switch[aria-pressed="true"] .moon { display: none; }
 
 .hero {
   display: grid;

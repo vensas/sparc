@@ -219,20 +219,23 @@ test('First viewport of the landing page: Page without JavaScript', () => {
 });
 
 // Runs the real site.js against a stand-in of the root and the color scheme switch of a built page.
-const themeButton = (html) => html.match(/<button type="button" class="theme-switch"[^>]*>[\s\S]*?<\/button>/)?.[0] ?? '';
+const themeItem = (html) => html.match(/<li[^>]*><button type="button" class="theme-switch"[\s\S]*?<\/button><\/li>/)?.[0] ?? '';
+const themeButton = (html) => themeItem(html).match(/<button[^>]*>/)?.[0] ?? '';
 function runTheme(html, systemDark) {
-  const tag = themeButton(html);
+  const item = { hidden: /^<li[^>]*\shidden[\s>]/.test(themeItem(html)) };
   const button = {
-    hidden: /\shidden[\s>]/.test(tag), attrs: {}, listeners: {},
+    parentNode: item, attrs: {}, listeners: {},
     setAttribute(key, value) { this.attrs[key] = String(value); },
     addEventListener(type, fn) { (this.listeners[type] ??= []).push(fn); },
-    fire(type) { for (const fn of this.listeners[type] ?? []) fn({ preventDefault() {} }); },
+    fire(type) { for (const fn of this.listeners[type] ?? []) fn(); },
   };
   const root = { dataset: {}, classList: { add() {} } };
   const doc = { documentElement: root, querySelector: (s) => (s === '[data-theme-switch]' ? button : null), querySelectorAll: () => [] };
-  const media = (query) => ({ matches: query === '(prefers-color-scheme: dark)' && systemDark, addEventListener() {} });
+  const system = { matches: systemDark, listeners: [], addEventListener(type, fn) { if (type === 'change') this.listeners.push(fn); } };
+  const media = (query) => (query === '(prefers-color-scheme: dark)' ? system : { matches: false, addEventListener() {} });
   vm.runInNewContext(readFileSync(join(OUT, 'assets/site.js'), 'utf8'), { document: doc, matchMedia: media, addEventListener() {}, requestAnimationFrame() {} });
-  return { button, root };
+  const prefer = (dark) => { system.matches = dark; for (const fn of system.listeners) fn(); };
+  return { button, item, root, prefer };
 }
 
 test('Color scheme switch: Select the dark scheme', () => {
@@ -252,28 +255,37 @@ test('Color scheme switch: Start with the system preference', () => {
   const ui = runTheme(header(page('index.html')), true);
   assert.equal(ui.root.dataset.theme, undefined, 'the system preference applies, no override');
   assert.equal(ui.button.attrs['aria-pressed'], 'true');
+  ui.prefer(false);
+  assert.equal(ui.button.attrs['aria-pressed'], 'false', 'follows a change of the system preference');
   ui.button.fire('click');
-  assert.equal(ui.root.dataset.theme, 'light');
+  assert.equal(ui.root.dataset.theme, 'dark');
+  ui.prefer(false);
+  assert.equal(ui.button.attrs['aria-pressed'], 'true', 'a selection wins over the system preference');
 });
 
 test('Color scheme switch: Switch the scheme with the keyboard', () => {
   // A native button takes the focus with Tab and fires click on Enter and Space; the focus style is global.
+  // The keyboard itself is a manual check in qa.md.
   for (const file of ['index.html', 'de/index.html', 'privacy.html']) {
-    assert.match(themeButton(header(page(file))), /^<button type="button" class="theme-switch" data-theme-switch aria-pressed="false" hidden>/, file);
+    const tag = themeButton(header(page(file)));
+    for (const attr of ['type="button"', 'data-theme-switch', 'aria-pressed="false"']) assert.ok(tag.includes(attr), `${file}: ${attr}`);
   }
-  assert.match(themeButton(header(page('de/index.html'))), />Dunkel<\/button>$/);
-  assert.match(themeButton(header(page('index.html'))), />Dark<\/button>$/);
+  assert.match(themeButton(header(page('de/index.html'))), /aria-label="Dunkler Modus"/);
+  assert.match(themeButton(header(page('index.html'))), /aria-label="Dark mode"/);
   assert.match(readFileSync(join(OUT, 'assets/site.css'), 'utf8'), /:focus-visible \{ outline: 2px solid/);
 });
 
 test('Color scheme switch: Switch without JavaScript', () => {
   for (const file of ['index.html', 'de/imprint.html']) {
-    assert.match(themeButton(header(page(file))), /\shidden>/, `${file}: hidden in the HTML`);
-    assert.equal(runTheme(header(page(file)), false).button.hidden, false, `${file}: the script shows it`);
+    assert.ok(runTheme(header(page(file)), false).item.hidden === false, `${file}: the script shows it`);
+    assert.match(themeItem(header(page(file))), /^<li hidden>/, `${file}: the list item is hidden in the HTML`);
   }
-  const css = readFileSync(join(OUT, 'assets/site.css'), 'utf8');
-  assert.match(css, /\.theme-switch\[hidden\] \{ display: none; \}/);
-  assert.match(css, /@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-theme="light"\]\)/);
+  assert.match(readFileSync(join(OUT, 'assets/site.css'), 'utf8'), /@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-theme="light"\]\)/);
+});
+
+test('Color scheme switch: the navigation name tells the switch', () => {
+  assert.match(header(page('index.html')), /<nav aria-label="Sections, language and color scheme">/);
+  assert.match(header(page('de/index.html')), /<nav aria-label="Abschnitte, Sprache und Farbschema">/);
 });
 
 test('Supported agents on the website: Title block', () => {

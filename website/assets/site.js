@@ -32,7 +32,7 @@ document.documentElement.classList.add('js');
 })();
 
 // The color scheme switch: pressed means dark. Without a selection, the system preference applies. A click
-// sets data-theme on the root for this page only: the site stores nothing. Without JavaScript, it stays hidden.
+// sets data-theme on the root for this page only: the site stores nothing. Without JavaScript, its list item stays hidden.
 (function () {
   var button = document.querySelector('[data-theme-switch]');
   if (!button) return;
@@ -42,7 +42,7 @@ document.documentElement.classList.add('js');
   function show() { button.setAttribute('aria-pressed', dark()); }
   button.addEventListener('click', function () { root.dataset.theme = dark() ? 'light' : 'dark'; show(); });
   system.addEventListener('change', show);
-  button.hidden = false;
+  button.parentNode.hidden = false;
   show();
 })();
 

@@ -9,8 +9,8 @@
   "nav": {
     "skip": "Skip to the content",
     "home": "sparc, home",
-    "label": "Sections and language",
-    "dark": "Dark",
+    "label": "Sections, language and color scheme",
+    "dark": "Dark mode",
     "sections": [
       {
         "id": "loop",

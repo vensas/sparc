@@ -14,10 +14,10 @@ See proposal.md, "Why". `website/assets/site.css` already has the dark tokens un
 
 ADRs: none. A display control is not central to the idea of sparc (see `rules/adr.md`).
 
-- **Control.** One `<button type="button" aria-pressed>` with an icon and the text "Dark" ("Dunkel"). Pressed means dark. Options: a tab list "Light | Dark" like the agent switch (rejected: two items in a full masthead), a link (rejected: it changes no location). A native button gives Enter, Space and the focus without more code.
+- **Control.** One `<button type="button" aria-pressed>` with an icon only: a moon in the light scheme, a sun in the dark scheme. Its name "Dark mode" ("Dunkler Modus") is in `aria-label` and `title`. Pressed means dark. Options: a button with the text "Dark" ("Dunkel") in a frame (rejected by the user on 2026-11-18 after the first build: "not really visually appealing"), a tab list "Light | Dark" like the agent switch (rejected: two items in a full masthead), a link (rejected: it changes no location). A native button gives Enter, Space and the focus without more code.
 - **State.** The script reads `data-theme` on `<html>`. Without a value, the state is the system preference (`matchMedia('(prefers-color-scheme: dark)')`). A click sets `data-theme` to the other scheme. A change of the system preference updates `aria-pressed` while the visitor did not select a scheme.
-- **No JavaScript.** The button has `hidden` in the HTML. The script removes it, like the agent switch.
-- **Place and style.** In the masthead index, after the language switch, in the same style: small bold text, a hairline frame; pressed has the ink fill like the current language. Mockup: `docs/mockups/add-theme-switch/index.html`.
+- **No JavaScript.** The list item of the button has `hidden` in the HTML, so no empty item stays in the list. The script removes it, like the agent switch.
+- **Place and style.** In the masthead index, after the language switch, in ink; hover shows a hairline frame. The name of the navigation becomes "Sections, language and color scheme". Mockup: `docs/mockups/add-theme-switch/index.html`.
 - **Test tool.** `node --test 'scripts/*.test.mjs'` (node:test). The tests run the real `site.js` against a small stand-in of the DOM, as for the agent switch. The visual check of both schemes and of the focus is a manual check in `qa.md`.
 
 ## C4 impact
