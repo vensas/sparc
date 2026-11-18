@@ -19,9 +19,9 @@ The website SHALL have a landing page, an imprint and a privacy policy in Englis
 - **WHEN** a visitor opens `/fr/index.html`
 - **THEN** the page has `<html lang="fr">` and `<link rel="alternate">` entries with `hreflang` `en`, `de` and `fr`
 
-### Requirement: Content of the landing page
+### Requirement: First viewport of the landing page
 
-The landing page SHALL show the sparc logo, a short statement of what sparc does, the CLI commands to add the marketplace and install sparc, and a link to the repository on GitHub, in the first viewport at a width of 1440 px. Below the first viewport, it SHALL show the steps of a change, the roles, the document set, the record of sparc and the install steps.
+The landing page SHALL show the sparc logo, a short statement of what sparc does, the CLI commands to add the marketplace and install sparc, and a link to the repository on GitHub, in the first viewport at a width of 1440 px.
 
 #### Scenario: First viewport
 
@@ -32,6 +32,29 @@ The landing page SHALL show the sparc logo, a short statement of what sparc does
 
 - **WHEN** a visitor clicks "Copy" next to the install commands
 - **THEN** the clipboard holds the two commands, one on each line
+
+### Requirement: Sections of the landing page
+
+Below the first viewport, the landing page SHALL show in this order: why (the problems that sparc solves, each with what sparc does about it), the steps of a change, the roles, the document set, the record of sparc, a FAQ and the install steps. The problems and the FAQ answers SHALL state only facts that the README or the canvas also states.
+
+#### Scenario: Problems and answers
+
+- **WHEN** a visitor scrolls below the first viewport
+- **THEN** the section "Why" comes first and pairs each problem with what sparc does about it
+
+#### Scenario: Order of the sections
+
+- **WHEN** a visitor reads the landing page from top to bottom
+- **THEN** the sections are why, loop, roles, documents, record, FAQ and install
+
+### Requirement: FAQ
+
+The FAQ SHALL show each question as a control that opens and closes its answer with a pointer and with the keyboard.
+
+#### Scenario: Open a FAQ answer with the keyboard
+
+- **WHEN** a visitor moves the focus to a FAQ question with Tab and presses Enter
+- **THEN** the answer opens, and a second Enter closes it
 
 ### Requirement: Record from the repository
 
@@ -122,7 +145,7 @@ A script without npm dependencies SHALL build the site from `website/` into one 
 
 #### Scenario: Build without dependencies
 
-- **WHEN** a developer runs the build command in a clean checkout with Node.js 20 or later and no `npm install`
+- **WHEN** a developer runs the build command in a clean checkout with Node.js and no `npm install`
 - **THEN** the build completes and writes the site
 
 #### Scenario: Deploy after a change

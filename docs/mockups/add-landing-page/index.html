@@ -19,10 +19,11 @@
   --ink: #16121c;
   --ink-2: #4a4354;
   --rule: #d9d3e0;
-  --field: #552583;
-  --field-ink: #ffffff;
-  --field-ink-2: #e2d6f1;
-  --field-rule: #7a4fa6;
+  --field: #ffffff;
+  --field-ink: #16121c;
+  --field-ink-2: #4a4354;
+  --field-rule: #d9d3e0;
+  --grid: #f0ecf4;
   --accent: #552583;
   --spark: #fdb927;
   --spark-ink: #16121c;
@@ -37,10 +38,11 @@
     --ink: #ece8f2;
     --ink-2: #b4abc0;
     --rule: #2e2738;
-    --field: #24133a;
-    --field-ink: #f5f0fb;
-    --field-ink-2: #cbb9e4;
-    --field-rule: #45305f;
+    --field: #0f0c14;
+    --field-ink: #ece8f2;
+    --field-ink-2: #b4abc0;
+    --field-rule: #2e2738;
+    --grid: #16121d;
     --accent: #b08be0;
     --code-bg: #1a1522;
     color-scheme: dark;
@@ -51,10 +53,11 @@
   --ink: #ece8f2;
   --ink-2: #b4abc0;
   --rule: #2e2738;
-  --field: #24133a;
-  --field-ink: #f5f0fb;
-  --field-ink-2: #cbb9e4;
-  --field-rule: #45305f;
+  --field: #0f0c14;
+  --field-ink: #ece8f2;
+  --field-ink-2: #b4abc0;
+  --field-rule: #2e2738;
+  --grid: #16121d;
   --accent: #b08be0;
   --code-bg: #1a1522;
   color-scheme: dark;
@@ -67,6 +70,7 @@ body {
   margin: 0;
   background: var(--sheet);
   color: var(--ink);
+  border-top: 4px solid var(--accent);
   font: 400 1.0625rem/1.6 "Archivo", system-ui, sans-serif;
   font-stretch: 100%;
   font-variant-numeric: tabular-nums;
@@ -84,12 +88,16 @@ code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; fo
 
 /* ---------- Field (first viewport) ---------- */
 .field {
-  background: var(--field);
+  background-color: var(--field);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: -1px -1px;
   color: var(--field-ink);
   position: relative;
   overflow: hidden;
 }
 .field a { color: var(--field-ink); }
+.hero-links a, .install a { color: var(--accent); }
 .masthead {
   position: relative; z-index: 1;
   display: grid;
@@ -115,12 +123,6 @@ code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; fo
 .lang a { padding: 6px 8px; font-weight: 600; letter-spacing: 0.04em; font-size: 0.8125rem; }
 .lang a[aria-current="true"] { background: var(--field-ink); color: var(--field); }
 
-.spark-mark {
-  position: absolute;
-  top: 112px; right: max(-48px, calc((100vw - var(--max)) / 2 - 96px));
-  width: 300px; height: 300px;
-  pointer-events: none;
-}
 .hero {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -131,46 +133,57 @@ code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; fo
 .hero > * { min-width: 0; }
 .hero h1 {
   position: relative;
-  grid-column: 1 / span 10;
+  grid-column: 1 / span 7;
   margin: 0;
-  font-weight: 800;
+  font-weight: 700;
   font-stretch: 87.5%;
-  font-size: clamp(2.75rem, 7.2vw, 6rem);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.25rem, 4.6vw, 3.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 .hero .lede {
-  grid-column: 1 / span 6;
-  margin: 32px 0 0;
-  font-size: clamp(1.125rem, 1.6vw, 1.3125rem);
+  grid-column: 1 / span 7;
+  margin: 24px 0 0;
+  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
   line-height: 1.5;
   color: var(--field-ink-2);
   max-width: 38em;
 }
 .install {
-  grid-column: 7 / span 6;
-  align-self: end;
+  grid-column: 1 / span 7;
   margin-top: 32px;
-  border: 1px solid var(--field-rule);
-  background: color-mix(in srgb, var(--field) 70%, #000);
+  border: 1px solid var(--rule);
+  background: var(--code-bg);
 }
+.titleblock {
+  grid-column: 9 / span 4; grid-row: 1 / span 4; align-self: start;
+  margin: 0; border: 1px solid var(--ink); background: var(--sheet);
+  font-size: 0.875rem;
+}
+.titleblock dl { margin: 0; }
+.titleblock dl div { display: grid; grid-template-columns: 7.5em 1fr; border-top: 1px solid var(--rule); }
+.titleblock dl div:first-child { border-top: 0; }
+.titleblock dt, .titleblock dd { margin: 0; padding: 8px 12px; }
+.titleblock dt { color: var(--ink-2); border-right: 1px solid var(--rule); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; align-self: center; }
+.titleblock dd { font-weight: 600; }
+.titleblock .tb-head { background: var(--accent); color: var(--sheet); margin: 0; padding: 8px 12px; font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; display: flex; justify-content: space-between; }
 .install-head {
   display: flex; justify-content: space-between; align-items: center;
   padding: 8px 8px 8px 16px;
-  border-bottom: 1px solid var(--field-rule);
+  border-bottom: 1px solid var(--rule);
   font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--field-ink-2);
 }
-.install pre { margin: 0; padding: 16px; overflow-x: auto; line-height: 1.8; color: var(--field-ink); }
-.install pre .p { color: var(--spark); user-select: none; }
+.install pre { margin: 0; padding: 16px; overflow-x: auto; line-height: 1.8; color: var(--ink); }
+.install pre .p { color: var(--accent); user-select: none; }
 .copy {
   font: inherit; font-size: 0.8125rem; letter-spacing: 0.04em;
-  background: var(--spark); color: var(--spark-ink); border: 0;
-  padding: 8px 14px; cursor: pointer; font-weight: 700;
+  background: transparent; color: var(--accent); border: 1px solid var(--accent);
+  padding: 6px 14px; cursor: pointer; font-weight: 700;
 }
-.copy:hover { background: #ffcd52; }
-.hero-links { grid-column: 1 / span 6; margin-top: 32px; display: flex; gap: 24px; flex-wrap: wrap; font-weight: 600; }
+.copy:hover { background: var(--accent); color: var(--sheet); }
+.hero-links { grid-column: 1 / span 7; margin: 24px 0 0; display: flex; gap: 24px; flex-wrap: wrap; font-weight: 600; }
 
 /* ---------- Sections ---------- */
 section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw, 120px) clamp(48px, 6vw, 80px); }
@@ -180,14 +193,14 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 }
 .part-head .addr {
   grid-column: 1 / span 2;
-  font-weight: 700; font-stretch: 87.5%; font-size: 1.5rem; color: var(--accent);
+  font-weight: 600; font-stretch: 87.5%; font-size: 1.25rem; color: var(--accent);
   line-height: 1.2;
 }
 .part-head h2 {
   grid-column: 3 / span 7;
   margin: 0;
-  font-weight: 800; font-stretch: 87.5%;
-  font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.04; letter-spacing: -0.025em;
+  font-weight: 700; font-stretch: 87.5%;
+  font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.08; letter-spacing: -0.025em;
   text-wrap: balance;
 }
 .part-head p { grid-column: 3 / span 6; margin: 16px 0 0; color: var(--ink-2); max-width: 40em; }
@@ -211,17 +224,15 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 .loop li:last-child { border-right: 0; }
 .loop li::before {
   content: counter(step);
-  font-weight: 800; font-stretch: 87.5%; font-size: 2.5rem; line-height: 1;
+  font-weight: 600; font-stretch: 87.5%; font-size: 1.75rem; line-height: 1;
   color: var(--accent);
 }
 .loop h3 { margin: 12px 0 0; font-size: 1.125rem; font-weight: 700; }
 .loop .cmd { font-size: 0.8125rem; color: var(--ink-2); }
 .loop p { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
 .loop .who { margin-top: auto; font-size: 0.8125rem; font-weight: 600; color: var(--ink); padding-top: 12px; border-top: 1px solid var(--rule); }
-.loop li.is-active { background: var(--spark); color: var(--spark-ink); }
-.loop li.is-active::before, .loop li.is-active p, .loop li.is-active .cmd, .loop li.is-active .who { color: var(--spark-ink); }
-.loop li.is-active .who { border-top-color: rgba(22,18,28,.25); }
-.loop li.is-next { box-shadow: inset 0 0 0 2px var(--accent); }
+.loop li.is-active { background: var(--code-bg); box-shadow: inset 0 4px 0 var(--spark); }
+.loop li.is-next { box-shadow: inset 0 0 0 1px var(--accent); }
 .loop-note { margin: 16px 0 0; font-size: 0.9375rem; color: var(--ink-2); }
 
 /* Spec tables */
@@ -248,29 +259,52 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 .tally dt { font-size: 0.875rem; color: var(--ink-2); }
 .tally dd { margin: 4px 0 0; font-weight: 700; font-size: 1.25rem; }
 
+/* Pains */
+.pains tbody th { width: 40%; font-weight: 600; }
+
+/* FAQ */
+.faq details { border-top: 1px solid var(--rule); }
+.faq details:last-child { border-bottom: 1px solid var(--rule); }
+.faq summary {
+  list-style: none; cursor: pointer;
+  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
+  padding: 18px 0; font-weight: 600; font-size: 1.0625rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; width: 12px; height: 12px;
+  border-right: 2px solid var(--accent); border-bottom: 2px solid var(--accent);
+  transform: translateY(-3px) rotate(45deg); transition: transform 240ms cubic-bezier(.16,1,.3,1);
+}
+.faq details[open] summary::after { transform: translateY(3px) rotate(-135deg); }
+.faq summary:hover { color: var(--accent); }
+.faq details p { margin: 0 0 20px; max-width: 68ch; color: var(--ink-2); }
+.faq code { background: var(--code-bg); padding: 1px 5px; }
+@media (prefers-reduced-motion: reduce) { .faq summary::after { transition: none; } }
+
 /* Install part */
 .steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
 .steps li { counter-increment: s; display: grid; grid-template-columns: 48px 1fr; gap: 0 16px; padding: 20px 0; border-top: 1px solid var(--rule); }
-.steps li::before { content: counter(s); font-weight: 800; font-stretch: 87.5%; font-size: 1.5rem; color: var(--accent); line-height: 1.2; }
+.steps li::before { content: counter(s); font-weight: 600; font-stretch: 87.5%; font-size: 1.5rem; color: var(--accent); line-height: 1.2; }
 .steps pre { margin: 12px 0 0; padding: 14px 16px; background: var(--code-bg); overflow-x: auto; line-height: 1.7; }
 .steps p { margin: 0; }
 .steps li > div, .cols > .main, .record .ledger { min-width: 0; }
 .prereq { color: var(--ink-2); margin: 0 0 24px; }
 
 /* Billing block */
-.billing { background: var(--field); color: var(--field-ink); margin-top: clamp(64px, 9vw, 120px); }
-.billing a { color: var(--field-ink); }
+.billing { background: var(--code-bg); color: var(--ink); border-top: 1px solid var(--rule); margin-top: clamp(64px, 9vw, 120px); }
+.billing a { color: var(--ink); }
 .billing .wrap { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; padding-block: 48px 32px; }
 .billing .b-brand { grid-column: 1 / span 4; }
-.billing .b-brand p { color: var(--field-ink-2); margin: 16px 0 0; font-size: 0.9375rem; max-width: 26em; }
+.billing .b-brand p { color: var(--ink-2); margin: 16px 0 0; font-size: 0.9375rem; max-width: 26em; }
 .billing nav { grid-column: span 2; font-size: 0.9375rem; }
-.billing h2 { font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 12px; color: var(--field-ink-2); font-weight: 600; }
+.billing h2 { font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 12px; color: var(--ink-2); font-weight: 600; }
 .billing ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .billing .agate {
   grid-column: 1 / -1;
-  border-top: 1px solid var(--field-rule); padding-top: 20px;
+  border-top: 1px solid var(--rule); padding-top: 20px;
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;
-  font-size: 0.8125rem; color: var(--field-ink-2);
+  font-size: 0.8125rem; color: var(--ink-2);
 }
 
 /* ---------- Legal views (mockup: :target) ---------- */
@@ -279,7 +313,7 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 body:has(.view-legal:target) .view-home { display: none; }
 .legal { padding-block: 56px 0; }
 .legal .cols > .main { grid-column: 3 / span 7; }
-.legal h1 { font-weight: 800; font-stretch: 87.5%; font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1.04; letter-spacing: -0.025em; margin: 0 0 8px; }
+.legal h1 { font-weight: 700; font-stretch: 87.5%; font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1.04; letter-spacing: -0.025em; margin: 0 0 8px; }
 .legal h2 { font-size: 1.25rem; margin: 40px 0 8px; }
 .legal p, .legal li { max-width: 68ch; }
 .legal address { font-style: normal; }
@@ -300,9 +334,9 @@ body:has(.view-legal:target) .view-home { display: none; }
   .install-head { gap: 12px; }
   .index .lang { border-left: 0; padding-left: 0; }
   .hero h1, .hero .lede, .install, .hero-links { grid-column: 1 / -1; }
+  .titleblock { grid-column: 1 / -1; grid-row: auto; margin-top: 32px; order: 5; }
   .part-head .addr, .part-head h2, .part-head p, .cols > .main, .record .ledger, .legal .cols > .main { grid-column: 1 / -1; }
   .part-head .addr { margin-bottom: 8px; }
-  .spark-mark { width: 160px; height: 160px; top: auto; bottom: 24px; right: -56px; }
   .tally { grid-template-columns: repeat(2, 1fr); }
   .tally div:nth-child(2) { border-right: 0; }
   .tally div:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
@@ -333,7 +367,6 @@ body:has(.view-legal:target) .view-home { display: none; }
 <!-- ================= Home ================= -->
 <div class="view-home">
 <header class="field">
-  <svg class="spark-mark" viewBox="-12 -12 24 24" aria-hidden="true"><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" fill="#fdb927"/></svg>
   <div class="wrap">
     <div class="masthead">
       <a class="brand" href="#top" aria-label="sparc, home">
@@ -345,11 +378,13 @@ body:has(.view-legal:target) .view-home { display: none; }
       </a>
       <nav aria-label="Sections">
         <ul class="index">
-          <li><a href="#loop"><b>1.0</b> Loop</a></li>
-          <li><a href="#roles"><b>2.0</b> Roles</a></li>
-          <li><a href="#documents"><b>3.0</b> Documents</a></li>
-          <li><a href="#record"><b>4.0</b> Record</a></li>
-          <li><a href="#install"><b>5.0</b> Install</a></li>
+          <li><a href="#why"><b>1.0</b> Why</a></li>
+          <li><a href="#loop"><b>2.0</b> Loop</a></li>
+          <li><a href="#roles"><b>3.0</b> Roles</a></li>
+          <li><a href="#documents"><b>4.0</b> Documents</a></li>
+          <li><a href="#record"><b>5.0</b> Record</a></li>
+          <li><a href="#faq"><b>6.0</b> FAQ</a></li>
+          <li><a href="#install"><b>7.0</b> Install</a></li>
           <li class="lang" aria-label="Language">
             <a href="#" aria-current="true" lang="en" hreflang="en">EN</a>
             <a href="#" lang="de" hreflang="de">DE</a>
@@ -361,6 +396,16 @@ body:has(.view-legal:target) .view-home { display: none; }
 
     <div class="hero" id="top">
       <h1>Specs, architecture and code. In sync at each step.</h1>
+      <div class="titleblock">
+        <p class="tb-head"><span>sparc</span><span>Sheet 1</span></p>
+        <dl>
+        <div><dt>Type</dt><dd>Claude Code plugin</dd></div>
+        <div><dt>Built on</dt><dd><a href="https://openspec.dev">OpenSpec</a></dd></div>
+        <div><dt>Formats</dt><dd>C4, MADR, Keep a Changelog</dd></div>
+        <div><dt>Requires</dt><dd>Claude Code, Node.js, git</dd></div>
+        <div><dt>Version</dt><dd>0.8.0</dd></div>
+        <div><dt>License</dt><dd>MIT</dd></div>
+      </dl></div>
       <p class="lede">sparc is a Claude Code plugin for spec-driven work with agents. A team of five roles takes each idea from a spark to a reviewed and tested change. The specs, the decisions and the documents agree with the code.</p>
       <div class="install" aria-labelledby="install-label">
         <div class="install-head">
@@ -379,11 +424,35 @@ body:has(.view-legal:target) .view-home { display: none; }
 </header>
 
 <main id="main">
-  <!-- 1.0 Loop -->
-  <section class="part" id="loop" aria-labelledby="loop-h">
+  <!-- 1.0 Why -->
+  <section class="part" id="why" aria-labelledby="why-h">
     <div class="wrap">
       <div class="part-head">
         <span class="addr" aria-hidden="true">1.0</span>
+        <h2 id="why-h">Agents write code fast. The rest falls behind.</h2>
+        <p>Specs, decisions and documents get old after a few changes. An agent says "done" without proof and fills gaps with guesses. sparc puts a fixed process and two checks around the agent.</p>
+      </div>
+      <div class="cols"><div class="main">
+        <table class="spec pains">
+          <thead><tr><th scope="col">The pain</th><th scope="col">What sparc does</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">The documents do not agree with the code.</th><td>Each fact has one home. Archive brings the specs, changelog, backlog, C4 diagrams and canvas in sync. A check without an LLM finds drift.</td></tr>
+            <tr><th scope="row">The agent says "done", but nothing proves it.</th><td>The verifier runs lint, tests and the spec evidence. The agent cannot stop until they pass.</td></tr>
+            <tr><th scope="row">The agent reviews its own work with its own bias.</th><td>A reviewer in a fresh context reads the diff. A QA engineer writes a test for each spec scenario.</td></tr>
+            <tr><th scope="row">Decisions get lost or change without a trace.</th><td>Each major decision is an ADR in MADR format. The check uses git history to find a change to a decided ADR.</td></tr>
+            <tr><th scope="row">The agent fills gaps with guesses.</th><td>A rule tells the agent to write only what it knows. Open points go to the architecture canvas.</td></tr>
+            <tr><th scope="row">Each project invents its own process.</th><td>One plugin gives all projects the same loop, roles and document set, in known formats.</td></tr>
+          </tbody>
+        </table>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 2.0 Loop -->
+  <section class="part" id="loop" aria-labelledby="loop-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">2.0</span>
         <h2 id="loop-h">One loop for each change</h2>
         <p>Agents write code fast, but the specs and documents fall behind. In sparc, each feature or fix goes through the same steps. Running apply approves the change, so you do not type an approval.</p>
       </div>
@@ -400,11 +469,11 @@ body:has(.view-legal:target) .view-home { display: none; }
     </div>
   </section>
 
-  <!-- 2.0 Roles -->
+  <!-- 3.0 Roles -->
   <section class="part" id="roles" aria-labelledby="roles-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">2.0</span>
+        <span class="addr" aria-hidden="true">3.0</span>
         <h2 id="roles-h">Five roles, one owner for each document</h2>
         <p>A role is a rule file that a skill follows. Each role owns its documents, so each fact has one home.</p>
       </div>
@@ -423,11 +492,11 @@ body:has(.view-legal:target) .view-home { display: none; }
     </div>
   </section>
 
-  <!-- 3.0 Documents -->
+  <!-- 4.0 Documents -->
   <section class="part" id="documents" aria-labelledby="docs-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">3.0</span>
+        <span class="addr" aria-hidden="true">4.0</span>
         <h2 id="docs-h">A fixed document set in known formats</h2>
         <p><code>/sparc:init</code> adds these files to your project. Two checks without an LLM find drift and stop an incomplete change.</p>
       </div>
@@ -447,11 +516,11 @@ body:has(.view-legal:target) .view-home { display: none; }
     </div>
   </section>
 
-  <!-- 4.0 Record -->
+  <!-- 5.0 Record -->
   <section class="part" id="record" aria-labelledby="record-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">4.0</span>
+        <span class="addr" aria-hidden="true">5.0</span>
         <h2 id="record-h">sparc is built with sparc</h2>
         <p>Each change to sparc went through its own loop. The record is public in the repository.</p>
       </div>
@@ -476,13 +545,34 @@ body:has(.view-legal:target) .view-home { display: none; }
     </div>
   </section>
 
-  <!-- 5.0 Install -->
+  <!-- 6.0 FAQ -->
+  <section class="part" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="part-head">
+        <span class="addr" aria-hidden="true">6.0</span>
+        <h2 id="faq-h">Questions</h2>
+      </div>
+      <div class="cols"><div class="main faq">
+        <details><summary>Does sparc work with other coding agents?</summary><p>No. sparc is a Claude Code plugin. It uses the skills and hooks of Claude Code, in the CLI and in Claude Desktop.</p></details>
+        <details><summary>Do I need OpenSpec?</summary><p>Yes. sparc adds its rules to OpenSpec through <code>openspec/config.yaml</code> and calls the OpenSpec CLI. Install it with <code>npm install -g @fission-ai/openspec</code>.</p></details>
+        <details><summary>Can I use sparc in an existing code base?</summary><p>Yes. Run <code>/sparc:init</code> in the folder of the project. The architect documents what it finds in the code.</p></details>
+        <details><summary>Must a small fix go through the full loop?</summary><p>Yes. Each change of behavior goes through propose, apply and archive. This is the cost of specs and documents that stay correct.</p></details>
+        <details><summary>What does sparc cost?</summary><p>sparc is free under the MIT license. It uses more tokens: the fresh-context review starts one more agent for each change. One measured change used 60,560 tokens and 36 seconds for the review.</p></details>
+        <details><summary>Does sparc work with pull requests?</summary><p>Yes. Choose the workflow <code>trunk</code> or <code>pull-request</code> in <code>openspec/config.yaml</code>. In the pull request workflow, the review or the merge is the approval.</p></details>
+        <details><summary>Can I add the rules of my team?</summary><p>Yes. Write each rule in its home: a rule for each change in <code>AGENTS.md</code>, a quality requirement in the canvas, a testable behavior as a spec scenario, and a check as a <code>Verify</code> command.</p></details>
+        <details><summary>Why is the English so plain?</summary><p>All English text in sparc follows ASD-STE100 Simplified Technical English on purpose. Short sentences and one word for one meaning give agents and readers one clear meaning.</p></details>
+        <details><summary>How do I update sparc?</summary><p>Run <code>claude plugin marketplace update sparc</code> and <code>claude plugin update sparc@sparc</code>. Then run <code>/sparc:update</code> in each project.</p></details>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 7.0 Install -->
   <section class="part" id="install" aria-labelledby="install-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">5.0</span>
+        <span class="addr" aria-hidden="true">7.0</span>
         <h2 id="install-h">Install and start a project</h2>
-        <p>Prerequisites: Claude Code, Node.js 20 or later, git and OpenSpec.</p>
+        <p>Prerequisites: Claude Code, Node.js, git and OpenSpec.</p>
       </div>
       <div class="cols"><div class="main">
         <ol class="steps">

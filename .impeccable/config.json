@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "docs/mockups/add-landing-page/index.html"
+        ],
+        "createdAt": "2026-11-16T15:20:22.097Z",
+        "reason": "Claude triage: the flagged borders are hairline section and masthead dividers, not containers; masthead has 24px block padding and sections 64-120px; screenshots at 1440/390 show no cramped text"
+      }
+    ]
+  }
+}
