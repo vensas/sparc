@@ -36,5 +36,5 @@ None.
 
 - New: `website/` (pages, texts, nginx container, Aspire AppHost, container test), `scripts/build-website.mjs`, `scripts/website.test.mjs`, `.github/workflows/website.yml`, `.gitignore`.
 - New tools for the website only: Docker or Podman, the .NET SDK and the Aspire CLI. The plugin itself does not need them.
-- New for design work: `PRODUCT.md` and `.impeccable/surfaces/` (product facts and the direction contract for impeccable).
+- New for design work: `PRODUCT.md`, `DESIGN.md` and `.impeccable/` (product facts, design system, direction contract, critique, detector settings and the design data file for impeccable).
 - `README.md`, `AGENTS.md`, `CHANGELOG.md`, `docs/architecture/c4.md`, `docs/architecture/canvas.md`, `docs/backlog.md`.

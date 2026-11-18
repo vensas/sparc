@@ -60,7 +60,7 @@ Test tools (design.md, "Test tool"): `scripts/website.test.mjs` (node:test, buil
 
 ### Build and deployment: Deploy after a change
 
-- Reason: the deployment needs the repository secrets `DEPLOY_HOST` and `SSH_PRIVATE_KEY` and the DNS record, which do not exist yet (workflow follow-up in tasks.md).
+- Reason: the deployment needs the repository secrets `DEPLOY_HOST`, `SSH_PRIVATE_KEY` and `SSH_KNOWN_HOSTS` and the DNS record, which do not exist yet (workflow follow-up in tasks.md).
 - Steps: add the secrets and the DNS record, push a change in `website/` to `main`, watch the workflow `Website`.
 - Expected result: the job `test` passes, then the job `deploy` builds, scans and deploys the image, and https://sparc.apps.vensas.de shows the page.
 - Result: open. Done so far: `actionlint` passes, the job `test` passes locally with act, and `kamal config` (Kamal 2.12.0 container) loads the generated `config/deploy.yml`.

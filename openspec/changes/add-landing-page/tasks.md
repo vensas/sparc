@@ -25,5 +25,5 @@
 
 ## Workflow follow-up
 
-- Add the repository secrets `DEPLOY_HOST` and `SSH_PRIVATE_KEY` and the DNS record, then start the workflow `Website` (see design.md, "Migration Plan").
+- Add the repository secrets `DEPLOY_HOST`, `SSH_PRIVATE_KEY` and `SSH_KNOWN_HOSTS` and the DNS record, then start the workflow `Website` (see design.md, "Migration Plan").
 - Get a legal review of the imprint and the privacy policy before the repository becomes public.
