@@ -60,7 +60,7 @@ const sync = () => read('skills/sync/SKILL.md');
 
 test('Sync updates the documents of each trigger: Change archived', () => {
   const skill = sync();
-  assert.match(skill, /The document set, the owners and the triggers are in \$\{CLAUDE_PLUGIN_ROOT\}\/rules\/docs\.md/);
+  assert.match(skill, /The document set, the owners and the triggers are in \.\.\/\.\.\/rules\/docs\.md/);
   assert.match(skill, /For each trigger in the sync table that applies, find the document that must change/);
   assert.match(skill, /the architect role [^\n]* for README, AGENTS\.md, C4, canvas and ADRs/);
   assert.match(read('rules/docs.md'), /\| Change archived \|[^\n]*README key features/);

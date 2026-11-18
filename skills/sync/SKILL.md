@@ -8,12 +8,16 @@ argument-hint: "[change-id]"
 
 Bring the documents in sync. Scope: $ARGUMENTS (if empty: the whole project).
 
-The document set, the owners and the triggers are in ${CLAUDE_PLUGIN_ROOT}/rules/docs.md. Read it first.
+If the text after the colon above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill.
 
-1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. Keep the list of findings.
+Paths that start with `../../` lead from the folder of this file to the root of the sparc plugin. Make them absolute before you use them in a command.
+
+The document set, the owners and the triggers are in ../../rules/docs.md. Read it first.
+
+1. Run `node ../../scripts/check.mjs`. Keep the list of findings.
 2. Find what changed: run `git status --porcelain` and `git diff --stat`. For a change id, read its proposal, design and tasks.
 3. For each trigger in the sync table that applies, find the document that must change.
-4. Update each document as its owner role tells: the product owner role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/product-owner.md`) for the backlog and the changelog, the architect role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/architect.md`) for README, AGENTS.md, C4, canvas and ADRs. Write only facts with evidence.
+4. Update each document as its owner role tells: the product owner role (`../../rules/roles/product-owner.md`) for the backlog and the changelog, the architect role (`../../rules/roles/architect.md`) for README, AGENTS.md, C4, canvas and ADRs. Write only facts with evidence.
 5. Run the check again. Repeat until there is no finding, or until each remaining finding has a reason.
 6. Report each document that changed, in one line for each.
 

@@ -9,13 +9,17 @@ disable-model-invocation: true
 
 Make a release. Version from the user (optional): $ARGUMENTS
 
-Read ${CLAUDE_PLUGIN_ROOT}/rules/release.md and ${CLAUDE_PLUGIN_ROOT}/rules/approval.md first. Obey them.
+If the text after the colon above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill.
+
+Paths that start with `../../` lead from the folder of this file to the root of the sparc plugin. Make them absolute before you use them in a command.
+
+Read ../../rules/release.md and ../../rules/approval.md first. Obey them.
 
 ## 1. Check the start conditions
 
 1. Switch to the default branch and get the latest state. Do not release from a change branch.
 2. Run all tests. If a test fails, stop.
-3. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. If there is a finding, stop and report it.
+3. Run `node ../../scripts/check.mjs`. If there is a finding, stop and report it.
 4. Read `## [Unreleased]` in `CHANGELOG.md`. If it is empty, stop. There is nothing to release.
 
 ## 2. Calculate the version
@@ -30,6 +34,6 @@ Read ${CLAUDE_PLUGIN_ROOT}/rules/release.md and ${CLAUDE_PLUGIN_ROOT}/rules/appr
 1. In the workflow `pull-request` only, make the branch `chore/release-<version>`.
 2. In `CHANGELOG.md`, rename `## [Unreleased]` to `## [<version>] - <today>`. Add a new empty `## [Unreleased]` above it.
 3. Set the same version in the manifest (`package.json` or `.claude-plugin/plugin.json`) and in each other version file of the project.
-4. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. It must report no finding.
+4. Run `node ../../scripts/check.mjs`. It must report no finding.
 5. Commit: `chore(release): <version>`.
 6. Complete the release as the workflow in the release rule tells. In the workflow `trunk`, tag the release commit. In the workflow `pull-request`, open a pull request and tag the merge commit after the merge. Use `git tag v<version>`. Ask the user before you push the tag.

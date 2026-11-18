@@ -2,7 +2,7 @@
 
 ## 1. Skills for each supported agent
 
-- [ ] 1.1 In the 8 skills, replace each `${CLAUDE_PLUGIN_ROOT}/...` with the path relative to the folder of the `SKILL.md`, and add the sentence for a literal `$ARGUMENTS` (design.md, "Input of a skill"). Change the tests that read the old paths. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for "Skill text without a plugin variable" (also: each relative path exists) and "Agent does not replace the arguments", and `claude --plugin-dir .` still starts `/sparc:sync` in a test project. Documents: none.
+- [x] 1.1 In the 8 skills, replace each `${CLAUDE_PLUGIN_ROOT}/...` with the path relative to the folder of the `SKILL.md`, and add the sentence for a literal `$ARGUMENTS` (design.md, "Input of a skill"). Change the tests that read the old paths. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for "Skill text without a plugin variable" (also: each relative path exists) and "Agent does not replace the arguments", and `claude --plugin-dir .` still starts `/sparc:sync` in a test project. Documents: none.
 
 ## 2. Check GitHub Copilot CLI
 

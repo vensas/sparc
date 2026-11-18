@@ -34,7 +34,7 @@ test('Prerequisites before setup: Any installed Node.js version', () => {
 });
 
 test('Template files without overwrite: New project', () => {
-  assert.match(init(), /Copy each file from `\$\{CLAUDE_PLUGIN_ROOT\}\/templates\/project\/` into the project\. Keep the relative paths/);
+  assert.match(init(), /Copy each file from `\.\.\/\.\.\/templates\/project\/` into the project\. Keep the relative paths/);
 });
 
 test('Template files without overwrite: Project has a README', () => {

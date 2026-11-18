@@ -8,13 +8,17 @@ argument-hint: "<new|accept|reject|deprecate|amend|supersede> [ADR number] [titl
 
 Action: $ARGUMENTS
 
-Read ${CLAUDE_PLUGIN_ROOT}/rules/adr.md and ${CLAUDE_PLUGIN_ROOT}/rules/approval.md first. Obey them.
+If the text after the colon above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill.
+
+Paths that start with `../../` lead from the folder of this file to the root of the sparc plugin. Make them absolute before you use them in a command.
+
+Read ../../rules/adr.md and ../../rules/approval.md first. Obey them.
 
 ## new
 
 1. Find the next free number in `docs/adr/`.
-2. Copy `docs/adr/0000-template.md` (or `${CLAUDE_PLUGIN_ROOT}/templates/project/docs/adr/0000-template.md`) to `docs/adr/NNNN-<kebab-title>.md`.
-3. Fill it as the architect role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/architect.md`) tells. The status is `proposed`. The date is today.
+2. Copy `docs/adr/0000-template.md` (or `../../templates/project/docs/adr/0000-template.md`) to `docs/adr/NNNN-<kebab-title>.md`.
+3. Fill it as the architect role (`../../rules/roles/architect.md`) tells. The status is `proposed`. The date is today.
 
 ## accept | reject
 
@@ -43,4 +47,4 @@ Read ${CLAUDE_PLUGIN_ROOT}/rules/adr.md and ${CLAUDE_PLUGIN_ROOT}/rules/approval
 
 ## Last step
 
-Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs` and fix each ADR finding.
+Run `node ../../scripts/check.mjs` and fix each ADR finding.

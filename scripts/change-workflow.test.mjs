@@ -29,7 +29,7 @@ test('Change id and branch: Pull request workflow', () => {
 });
 
 test('Change id and branch: Trunk workflow', () => {
-  assert.match(skill('propose'), /Obey \$\{CLAUDE_PLUGIN_ROOT\}\/rules\/release\.md/);
+  assert.match(skill('propose'), /Obey \.\.\/\.\.\/rules\/release\.md/);
   assert.match(read('rules/release.md'), /### Workflow `trunk`\n\n- Commit each step on the default branch\. Do not make a branch/);
 });
 

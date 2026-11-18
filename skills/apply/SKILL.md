@@ -9,30 +9,34 @@ disable-model-invocation: true
 
 Implement the change: $ARGUMENTS
 
-The roles are in `${CLAUDE_PLUGIN_ROOT}/rules/roles/`. Read each role file when its step starts, and obey it.
+If the text after the colon above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill.
+
+Paths that start with `../../` lead from the folder of this file to the root of the sparc plugin. Make them absolute before you use them in a command.
+
+The roles are in `../../rules/roles/`. Read each role file when its step starts, and obey it.
 
 ## 1. Check the start conditions
 
 1. Run `openspec status --change <id>` and `openspec validate <id>`. All planning artifacts must be complete and valid.
-2. Running this skill approves the change and its `proposed` ADRs (see ${CLAUDE_PLUGIN_ROOT}/rules/approval.md). Do not ask for an approval.
+2. Running this skill approves the change and its `proposed` ADRs (see ../../rules/approval.md). Do not ask for an approval.
 3. Run `openspec instructions apply --change <id>` and read `tasks.md`.
 
 ## 2. Task groups
 
-Follow the software engineer role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/software-engineer.md`). Do the open task groups (`## N.` headings with unchecked tasks). A group can depend on the groups before it.
+Follow the software engineer role (`../../rules/roles/software-engineer.md`). Do the open task groups (`## N.` headings with unchecked tasks). A group can depend on the groups before it.
 
 For each task group:
 
-1. Do each task as the role tells you: test first, smallest code, refactor, one Conventional Commit for each task (see ${CLAUDE_PLUGIN_ROOT}/rules/release.md).
+1. Do each task as the role tells you: test first, smallest code, refactor, one Conventional Commit for each task (see ../../rules/release.md).
 2. Run all tests of the project. If a test fails, fix it before the next group.
-3. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/check.mjs`. If a document finding relates to this group, use the sparc sync skill.
+3. Run `node ../../scripts/check.mjs`. If a document finding relates to this group, use the sparc sync skill.
 
 ## 3. Code review
 
 When all tasks are checked, do the code review of the software engineer role. By default, the review runs in a fresh context:
 
 1. Get the commit range of the change as the role tells.
-2. Start one general-purpose subagent. Give it only the change id, the commit range, the path `${CLAUDE_PLUGIN_ROOT}/rules/roles/software-engineer.md` and the paths of `proposal.md`, `design.md`, `tasks.md` and the spec deltas of the change. Do not give it the conversation.
+2. Start one general-purpose subagent. Give it only the change id, the commit range, the path `../../rules/roles/software-engineer.md` and the paths of `proposal.md`, `design.md`, `tasks.md` and the spec deltas of the change. Do not give it the conversation.
 3. Tell it to do steps 1 and 2 of the section "Code review" of the role, to report each finding with the file, the line and the reason, and not to change files and not to commit.
 4. Do steps 3 and 4 of the role in this session: fix each finding, and write the result into `## Code review` of `openspec/changes/<id>/qa.md` with `Context: fresh`.
 
@@ -41,7 +45,7 @@ If you cannot start the subagent, do the full review in the current session and 
 
 ## 4. QA
 
-Follow the QA engineer role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/qa-engineer.md`).
+Follow the QA engineer role (`../../rules/roles/qa-engineer.md`).
 
 1. If the role finds no suitable test tool, stop. Tell the user that the tool needs a change whose `design.md` names it.
 2. Make sure that the QA commits change only test files and `openspec/changes/<id>/qa.md`.
@@ -49,7 +53,7 @@ Follow the QA engineer role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/qa-engineer.md`)
 
 ## 5. Acceptance
 
-Follow the product owner role (`${CLAUDE_PLUGIN_ROOT}/rules/roles/product-owner.md`). Accept the change from `qa.md` and do only the manual checks. Accept the change only when no scenario has the result `failed` and the code review has no open finding.
+Follow the product owner role (`../../rules/roles/product-owner.md`). Accept the change from `qa.md` and do only the manual checks. Accept the change only when no scenario has the result `failed` and the code review has no open finding.
 
 ## 6. Optional fresh-context check
 

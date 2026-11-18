@@ -14,7 +14,7 @@ const section = (name) => adr().split(/^## /m).find((s) => s.startsWith(name));
 test('New ADR from the template: Next free number', () => {
   const step = section('new');
   assert.match(step, /Find the next free number in `docs\/adr\/`/);
-  assert.match(step, /Copy `docs\/adr\/0000-template\.md` \(or `\$\{CLAUDE_PLUGIN_ROOT\}\/templates\/project\/docs\/adr\/0000-template\.md`\) to `docs\/adr\/NNNN-<kebab-title>\.md`/);
+  assert.match(step, /Copy `docs\/adr\/0000-template\.md` \(or `\.\.\/\.\.\/templates\/project\/docs\/adr\/0000-template\.md`\) to `docs\/adr\/NNNN-<kebab-title>\.md`/);
   assert.match(step, /The status is `proposed`\. The date is today/);
 });
 
