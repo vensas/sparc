@@ -79,10 +79,12 @@ body {
 a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 3px solid var(--spark); outline-offset: 3px; border-radius: 2px; }
+p, li, dd, td, th, summary { text-wrap: pretty; }
 code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.9em; }
 
 .skip { position: absolute; left: -999px; top: 0; background: var(--spark); color: var(--spark-ink); padding: 8px 12px; z-index: 10; }
 .skip:focus { left: 8px; top: 8px; }
+.defs { position: absolute; }
 
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
 
@@ -230,10 +232,25 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 .loop h3 { margin: 12px 0 0; font-size: 1.125rem; font-weight: 700; }
 .loop .cmd { font-size: 0.8125rem; color: var(--ink-2); }
 .loop p { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
+.loop .pain { margin: 0; font-size: 0.8125rem; line-height: 1.4; color: var(--ink); }
+.loop .pain span { display: block; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
 .loop .who { margin-top: auto; font-size: 0.8125rem; font-weight: 600; color: var(--ink); padding-top: 12px; border-top: 1px solid var(--rule); }
 .loop li.is-active { background: var(--code-bg); box-shadow: inset 0 4px 0 var(--spark); }
 .loop li.is-next { box-shadow: inset 0 0 0 1px var(--accent); }
-.loop-note { margin: 16px 0 0; font-size: 0.9375rem; color: var(--ink-2); }
+/* The rule back from the last step to the first: the next change starts the loop again. */
+.loop-return {
+  position: relative; height: 28px; margin: 0 calc(100% / 14);
+  border: 1px solid var(--accent); border-top: 0;
+}
+.loop-return::before {
+  content: ""; position: absolute; left: -5px; top: -1px;
+  border: 5px solid transparent; border-bottom: 7px solid var(--accent); border-top: 0;
+}
+.loop-return span {
+  position: absolute; left: 50%; bottom: -0.7em; transform: translateX(-50%);
+  background: var(--sheet); padding: 0 12px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent);
+}
 
 /* Spec tables */
 .spec { width: 100%; border-collapse: collapse; font-size: 1rem; }
@@ -258,9 +275,6 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 .tally div:last-child { border-right: 0; }
 .tally dt { font-size: 0.875rem; color: var(--ink-2); }
 .tally dd { margin: 4px 0 0; font-weight: 700; font-size: 1.25rem; }
-
-/* Pains */
-.pains tbody th { width: 40%; font-weight: 600; }
 
 /* FAQ */
 .faq details { border-top: 1px solid var(--rule); }
@@ -307,10 +321,7 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
   font-size: 0.8125rem; color: var(--ink-2);
 }
 
-/* ---------- Legal views (mockup: :target) ---------- */
-.view-legal { display: none; }
-.view-legal:target { display: block; }
-body:has(.view-legal:target) .view-home { display: none; }
+/* ---------- Legal pages ---------- */
 .legal { padding-block: 56px 0; }
 .legal .cols > .main { grid-column: 3 / span 7; }
 .legal h1 { font-weight: 700; font-stretch: 87.5%; font-size: clamp(2.25rem, 5vw, 3.5rem); line-height: 1.04; letter-spacing: -0.025em; margin: 0 0 8px; }
@@ -319,13 +330,13 @@ body:has(.view-legal:target) .view-home { display: none; }
 .legal address { font-style: normal; }
 .binding { border: 1px solid var(--rule); padding: 12px 16px; color: var(--ink-2); font-size: 0.9375rem; margin: 16px 0 32px; }
 .back { display: inline-block; margin-bottom: 32px; font-weight: 600; }
-.mock-note { font-size: 0.8125rem; color: var(--ink-2); border-top: 1px dashed var(--rule); padding-top: 12px; margin-top: 48px; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1080px) {
   .loop { grid-template-columns: repeat(4, 1fr); }
   .loop li:nth-child(4) { border-right: 0; }
   .loop li:nth-child(-n+4) { border-bottom: 1px solid var(--rule); }
+  .loop-return { margin: 0 calc(100% / 8); }
 }
 @media (max-width: 860px) {
   .masthead { grid-template-columns: 1fr auto; }
@@ -345,11 +356,13 @@ body:has(.view-legal:target) .view-home { display: none; }
 }
 @media (max-width: 560px) {
   .loop { grid-template-columns: 1fr; }
-  .loop li { border-right: 0; border-bottom: 1px solid var(--rule); min-height: 0; display: grid; grid-template-columns: 40px 1fr; gap: 4px 12px; }
+  .loop li { border-right: 0; border-bottom: 1px solid var(--rule); min-height: 0; display: grid; grid-template-columns: 32px 1fr; gap: 2px 12px; padding: 14px 16px; }
   .loop li:last-child { border-bottom: 0; }
-  .loop li::before { grid-row: span 4; font-size: 1.75rem; }
-  .loop h3 { margin: 0; }
-  .loop .who { margin-top: 8px; }
+  .loop li::before { grid-row: span 4; font-size: 1.5rem; }
+  .loop h3 { margin: 0; display: flex; align-items: baseline; gap: 12px; }
+  .loop .pain span { display: inline; margin-right: 4px; }
+  .loop .who { display: none; }
+  .loop-return { display: none; }
   .spec thead { display: none; }
   .spec tbody tr { display: block; border-top: 1px solid var(--rule); padding: 12px 0; }
   .spec tbody th, .spec tbody td { display: block; border: 0; padding: 2px 0; width: auto; }
@@ -359,60 +372,55 @@ body:has(.view-legal:target) .view-home { display: none; }
   .loop li { transition: none; }
 }
 </style>
+<link rel="alternate" hreflang="en" href="https://sparc.apps.vensas.de/">
+<link rel="alternate" hreflang="de" href="https://sparc.apps.vensas.de/de/">
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><circle cx="46" cy="18" r="15" fill="#000"/></mask></svg>
-
-<!-- ================= Home ================= -->
-<div class="view-home">
+<!-- Mockup: generated from the built English landing page after the design critique of 2026-11-18. The imprint and the privacy policy are pages of the site. -->
+<svg class="defs" width="0" height="0" aria-hidden="true"><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><circle cx="46" cy="18" r="15" fill="#000"/></mask></svg>
 <header class="field">
   <div class="wrap">
     <div class="masthead">
-      <a class="brand" href="#top" aria-label="sparc, home">
-        <svg width="44" height="44" viewBox="4 2 56 56" aria-hidden="true">
-                    <rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/>
-          <path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/>
-        </svg>
+      <a class="brand" href="/" aria-label="sparc, home">
+        <svg width="44" height="44" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg>
         <span>sparc</span>
       </a>
-      <nav aria-label="Sections">
+      <nav aria-label="Sections and language">
         <ul class="index">
-          <li><a href="#why"><b>1.0</b> Why</a></li>
-          <li><a href="#loop"><b>2.0</b> Loop</a></li>
-          <li><a href="#roles"><b>3.0</b> Roles</a></li>
-          <li><a href="#documents"><b>4.0</b> Documents</a></li>
-          <li><a href="#record"><b>5.0</b> Record</a></li>
-          <li><a href="#faq"><b>6.0</b> FAQ</a></li>
-          <li><a href="#install"><b>7.0</b> Install</a></li>
-          <li class="lang" aria-label="Language">
-            <a href="#" aria-current="true" lang="en" hreflang="en">EN</a>
-            <a href="#" lang="de" hreflang="de">DE</a>
-            <a href="#" lang="fr" hreflang="fr">FR</a>
-          </li>
+          <li><a href="#loop"><b>1.0</b> Loop</a></li>
+          <li><a href="#documents"><b>2.0</b> Documents</a></li>
+          <li><a href="#record"><b>3.0</b> Record</a></li>
+          <li><a href="#faq"><b>4.0</b> FAQ</a></li>
+          <li><a href="#start"><b>5.0</b> Start</a></li>
+          <li class="lang">
+            <a href="/" lang="en" hreflang="en" aria-current="true">EN</a>
+            <a href="/de/" lang="de" hreflang="de">DE</a>
+            </li>
         </ul>
       </nav>
     </div>
-
     <div class="hero" id="top">
       <h1>Specs, architecture and code. In sync at each step.</h1>
       <div class="titleblock">
         <p class="tb-head"><span>sparc</span><span>Sheet 1</span></p>
         <dl>
-        <div><dt>Type</dt><dd>Claude Code plugin</dd></div>
-        <div><dt>Built on</dt><dd><a href="https://openspec.dev">OpenSpec</a></dd></div>
-        <div><dt>Formats</dt><dd>C4, MADR, Keep a Changelog</dd></div>
-        <div><dt>Requires</dt><dd>Claude Code, Node.js, git</dd></div>
-        <div><dt>Version</dt><dd>0.8.0</dd></div>
-        <div><dt>License</dt><dd>MIT</dd></div>
-      </dl></div>
-      <p class="lede">sparc is a Claude Code plugin for spec-driven work with agents. A team of five roles takes each idea from a spark to a reviewed and tested change. The specs, the decisions and the documents agree with the code.</p>
-      <div class="install" aria-labelledby="install-label">
+          <div><dt>Type</dt><dd>Claude Code plugin</dd></div>
+          <div><dt>Built on</dt><dd><a href="https://openspec.dev">OpenSpec</a></dd></div>
+          <div><dt>Formats</dt><dd>C4, MADR, Keep a Changelog</dd></div>
+          <div><dt>Requires</dt><dd>Claude Code, OpenSpec, Node.js, git</dd></div>
+          <div><dt>Version</dt><dd>0.8.0</dd></div>
+          <div><dt>License</dt><dd>MIT</dd></div>
+        </dl>
+      </div>
+      <p class="lede">A Claude Code plugin on OpenSpec. Five roles take each idea to a reviewed and tested change.</p>
+      <div class="install" role="group" aria-labelledby="install-label">
         <div class="install-head">
-          <span id="install-label">Install with the Claude Code CLI</span>
-          <button class="copy" type="button" data-copy="claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc">Copy</button>
+          <span id="install-label">Install</span>
+          <button class="copy" type="button" data-copy="npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc" data-copied="Copied" data-failed="Select and copy">Copy</button>
         </div>
-<pre><code><span class="p">$ </span>claude plugin marketplace add vensas/sparc
+<pre><code><span class="p">$ </span>npm install -g @fission-ai/openspec
+<span class="p">$ </span>claude plugin marketplace add vensas/sparc
 <span class="p">$ </span>claude plugin install sparc@sparc</code></pre>
       </div>
       <p class="hero-links">
@@ -420,231 +428,117 @@ body:has(.view-legal:target) .view-home { display: none; }
         <a href="#loop">See how a change works</a>
       </p>
     </div>
+
   </div>
 </header>
-
 <main id="main">
-  <!-- 1.0 Why -->
-  <section class="part" id="why" aria-labelledby="why-h">
-    <div class="wrap">
-      <div class="part-head">
-        <span class="addr" aria-hidden="true">1.0</span>
-        <h2 id="why-h">Agents write code fast. The rest falls behind.</h2>
-        <p>Specs, decisions and documents get old after a few changes. An agent says "done" without proof and fills gaps with guesses. sparc puts a fixed process and two checks around the agent.</p>
-      </div>
-      <div class="cols"><div class="main">
-        <table class="spec pains">
-          <thead><tr><th scope="col">The pain</th><th scope="col">What sparc does</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">The documents do not agree with the code.</th><td>Each fact has one home. Archive brings the specs, changelog, backlog, C4 diagrams and canvas in sync. A check without an LLM finds drift.</td></tr>
-            <tr><th scope="row">The agent says "done", but nothing proves it.</th><td>The verifier runs lint, tests and the spec evidence. The agent cannot stop until they pass.</td></tr>
-            <tr><th scope="row">The agent reviews its own work with its own bias.</th><td>A reviewer in a fresh context reads the diff. A QA engineer writes a test for each spec scenario.</td></tr>
-            <tr><th scope="row">Decisions get lost or change without a trace.</th><td>Each major decision is an ADR in MADR format. The check uses git history to find a change to a decided ADR.</td></tr>
-            <tr><th scope="row">The agent fills gaps with guesses.</th><td>A rule tells the agent to write only what it knows. Open points go to the architecture canvas.</td></tr>
-            <tr><th scope="row">Each project invents its own process.</th><td>One plugin gives all projects the same loop, roles and document set, in known formats.</td></tr>
-          </tbody>
-        </table>
-      </div></div>
-    </div>
-  </section>
-
-  <!-- 2.0 Loop -->
   <section class="part" id="loop" aria-labelledby="loop-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">2.0</span>
+        <span class="addr" aria-hidden="true">1.0</span>
         <h2 id="loop-h">One loop for each change</h2>
-        <p>Agents write code fast, but the specs and documents fall behind. In sparc, each feature or fix goes through the same steps. Running apply approves the change, so you do not type an approval.</p>
+        <p>Running apply approves the change.</p>
       </div>
       <ol class="loop" data-loop>
-        <li><h3>Propose</h3><span class="cmd"><code>/sparc:propose</code></span><p>Proposal, specs, design, tasks and mockups.</p><span class="who">Product owner, architect, UX designer</span></li>
-        <li><h3>Apply</h3><span class="cmd"><code>/sparc:apply</code></span><p>Tests first, then the code for each task.</p><span class="who">Software engineer</span></li>
-        <li><h3>Review</h3><span class="cmd">Fresh context</span><p>A reviewer without the session history reads the diff.</p><span class="who">Software engineer</span></li>
-        <li><h3>QA</h3><span class="cmd"><code>qa.md</code></span><p>An automated test for each spec scenario.</p><span class="who">QA engineer</span></li>
-        <li><h3>Verify</h3><span class="cmd">Stop hook</span><p>Lint, tests and evidence must pass before the agent can stop.</p><span class="who">Verifier, no LLM</span></li>
-        <li><h3>Archive</h3><span class="cmd"><code>/sparc:archive</code></span><p>Specs, changelog, backlog, C4 and canvas in sync.</p><span class="who">Product owner, architect</span></li>
-        <li><h3>Release</h3><span class="cmd"><code>/sparc:release</code></span><p>Version, changelog and tag with Conventional Commits.</p><span class="who">You</span></li>
-      </ol>
-      <p class="loop-note">sparc adds the roles, the document set and two checks on top of <a href="https://openspec.dev">OpenSpec</a>.</p>
+        <li><h3>Propose</h3><span class="cmd"><code>/sparc:propose</code></span><p>Proposal, specs, design and tasks.</p><p class="pain"><span>Stops:</span> Decisions get lost.</p><span class="who">Product owner, architect, UX designer</span></li>
+        <li><h3>Apply</h3><span class="cmd"><code>/sparc:apply</code></span><p>Tests first, then the code.</p><p class="pain"><span>Stops:</span> The agent guesses.</p><span class="who">Software engineer</span></li>
+        <li><h3>Review</h3><span class="cmd"><code>qa.md</code></span><p>A fresh agent reads the diff.</p><p class="pain"><span>Stops:</span> The agent reviews its own work.</p><span class="who">Software engineer</span></li>
+        <li><h3>QA</h3><span class="cmd"><code>qa.md</code></span><p>A test for each scenario.</p><p class="pain"><span>Stops:</span> No test proves the spec.</p><span class="who">QA engineer</span></li>
+        <li><h3>Verify</h3><span class="cmd"><code>Stop hook</code></span><p>Lint, tests and evidence must pass.</p><p class="pain"><span>Stops:</span> "Done" without proof.</p><span class="who">Verifier, no LLM</span></li>
+        <li><h3>Archive</h3><span class="cmd"><code>/sparc:archive</code></span><p>Specs and documents in sync.</p><p class="pain"><span>Stops:</span> Documents drift from the code.</p><span class="who">Product owner, architect</span></li>
+        <li><h3>Release</h3><span class="cmd"><code>/sparc:release</code></span><p>Version, changelog and tag.</p><p class="pain"><span>Stops:</span> Version and changelog disagree.</p><span class="who">You</span></li>
+        </ol>
+      <div class="loop-return" aria-hidden="true"><span>Next change</span></div>
     </div>
   </section>
 
-  <!-- 3.0 Roles -->
-  <section class="part" id="roles" aria-labelledby="roles-h">
-    <div class="wrap">
-      <div class="part-head">
-        <span class="addr" aria-hidden="true">3.0</span>
-        <h2 id="roles-h">Five roles, one owner for each document</h2>
-        <p>A role is a rule file that a skill follows. Each role owns its documents, so each fact has one home.</p>
-      </div>
-      <div class="cols"><div class="main">
-        <table class="spec">
-          <thead><tr><th scope="col">Role</th><th scope="col">Does</th><th scope="col">Owns</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Product owner</th><td>Writes testable requirements. Accepts the change from the QA report.</td><td><code>docs/backlog.md</code>, proposal, specs</td></tr>
-            <tr><th scope="row">Architect</th><td>Designs the simplest structure. Writes decisions with their options.</td><td>README, C4, canvas, ADRs, design, tasks</td></tr>
-            <tr><th scope="row">UX designer</th><td>Validates an interface with static mockups first.</td><td><code>docs/mockups/</code></td></tr>
-            <tr><th scope="row">Software engineer</th><td>Implements test first. Reviews the change in a fresh context.</td><td>Code and tests</td></tr>
-            <tr><th scope="row">QA engineer</th><td>Proves each spec scenario with an automated test.</td><td><code>qa.md</code></td></tr>
-          </tbody>
-        </table>
-      </div></div>
-    </div>
-  </section>
-
-  <!-- 4.0 Documents -->
   <section class="part" id="documents" aria-labelledby="docs-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">4.0</span>
-        <h2 id="docs-h">A fixed document set in known formats</h2>
-        <p><code>/sparc:init</code> adds these files to your project. Two checks without an LLM find drift and stop an incomplete change.</p>
+        <span class="addr" aria-hidden="true">2.0</span>
+        <h2 id="docs-h">Each document has one owner</h2>
+        <p><code>/sparc:init</code> adds these files. A role is a rule file that a skill follows.</p>
       </div>
       <div class="cols"><div class="main">
         <table class="spec">
-          <thead><tr><th scope="col">File</th><th scope="col">Home of</th><th scope="col">Format</th></tr></thead>
+          <thead><tr><th scope="col">File</th><th scope="col">Holds</th><th scope="col">Format</th><th scope="col">Owner</th></tr></thead>
           <tbody>
-            <tr><th scope="row"><code>openspec/specs/</code></th><td>Required behavior</td><td>OpenSpec</td></tr>
-            <tr><th scope="row"><code>docs/adr/</code></th><td>Decisions with their options</td><td>MADR</td></tr>
-            <tr><th scope="row"><code>docs/architecture/c4.md</code></th><td>System context and containers</td><td>C4 in Mermaid</td></tr>
-            <tr><th scope="row"><code>docs/architecture/canvas.md</code></th><td>Architecture, risks and open points</td><td>Architecture Communication Canvas</td></tr>
-            <tr><th scope="row"><code>docs/backlog.md</code></th><td>Goal and open items</td><td>Markdown</td></tr>
-            <tr><th scope="row"><code>CHANGELOG.md</code></th><td>Done work for each release</td><td>Keep a Changelog, SemVer</td></tr>
-          </tbody>
+            <tr><th scope="row"><code>openspec/specs/</code></th><td>Required behavior</td><td>OpenSpec</td><td>Product owner</td></tr>
+            <tr><th scope="row"><code>docs/backlog.md</code></th><td>Open items</td><td>Markdown</td><td>Product owner</td></tr>
+            <tr><th scope="row"><code>docs/adr/</code></th><td>Decisions</td><td>MADR</td><td>Architect</td></tr>
+            <tr><th scope="row"><code>docs/architecture/</code></th><td>Context, containers, risks</td><td>C4, canvas</td><td>Architect</td></tr>
+            <tr><th scope="row"><code>docs/mockups/</code></th><td>Interface drafts</td><td>HTML</td><td>UX designer</td></tr>
+            <tr><th scope="row"><code>qa.md</code></th><td>Proof for each scenario</td><td>Markdown</td><td>QA engineer</td></tr>
+            <tr><th scope="row"><code>CHANGELOG.md</code></th><td>Done work for each release</td><td>Keep a Changelog</td><td>Product owner</td></tr>
+            </tbody>
         </table>
       </div></div>
     </div>
   </section>
 
-  <!-- 5.0 Record -->
   <section class="part" id="record" aria-labelledby="record-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">5.0</span>
+        <span class="addr" aria-hidden="true">3.0</span>
         <h2 id="record-h">sparc is built with sparc</h2>
-        <p>Each change to sparc went through its own loop. The record is public in the repository.</p>
+        <p>Each change to sparc went through this loop.</p>
       </div>
       <div class="record"><div class="ledger">
         <dl class="tally">
           <div><dt>Decisions</dt><dd><a href="https://github.com/vensas/sparc/tree/main/docs/adr">17 ADRs</a></dd></div>
-          <div><dt>Changes archived</dt><dd><a href="https://github.com/vensas/sparc/tree/main/openspec/changes/archive">17</a></dd></div>
+          <div><dt>Changes archived</dt><dd><a href="https://github.com/vensas/sparc/tree/main/openspec/changes/archive">18</a></dd></div>
           <div><dt>Releases</dt><dd><a href="https://github.com/vensas/sparc/blob/main/CHANGELOG.md">8, latest 0.8.0</a></dd></div>
           <div><dt>Check dependencies</dt><dd>0 npm packages</dd></div>
         </dl>
         <table class="spec">
           <thead><tr><th scope="col">Archived</th><th scope="col">Change</th></tr></thead>
           <tbody>
+            <tr><th scope="row">2026-11-18</th><td><a href="https://github.com/vensas/sparc/tree/main/openspec/changes/archive/2026-11-18-use-node-lts">use-node-lts</a></td></tr>
             <tr><th scope="row">2026-11-16</th><td><a href="https://github.com/vensas/sparc/tree/main/openspec/changes/archive/2026-11-16-raise-the-adr-threshold">raise-the-adr-threshold</a></td></tr>
             <tr><th scope="row">2026-11-16</th><td><a href="https://github.com/vensas/sparc/tree/main/openspec/changes/archive/2026-11-16-improve-first-read">improve-first-read</a></td></tr>
-            <tr><th scope="row">2026-11-16</th><td><a href="https://github.com/vensas/sparc/tree/main/openspec/changes/archive/2026-11-16-ignore-superseded-adrs">ignore-superseded-adrs</a></td></tr>
-            <tr><th scope="row">2026-11-16</th><td><a href="https://github.com/vensas/sparc/tree/main/openspec/changes/archive/2026-11-16-fresh-context-code-review">fresh-context-code-review</a></td></tr>
-            <tr><th scope="row">2026-11-16</th><td><a href="https://github.com/vensas/sparc/tree/main/openspec/changes/archive/2026-11-16-add-verifier-hook">add-verifier-hook</a></td></tr>
-          </tbody>
+            </tbody>
         </table>
       </div></div>
     </div>
   </section>
 
-  <!-- 6.0 FAQ -->
   <section class="part" id="faq" aria-labelledby="faq-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">6.0</span>
+        <span class="addr" aria-hidden="true">4.0</span>
         <h2 id="faq-h">Questions</h2>
       </div>
       <div class="cols"><div class="main faq">
         <details><summary>Does sparc work with other coding agents?</summary><p>No. sparc is a Claude Code plugin. It uses the skills and hooks of Claude Code, in the CLI and in Claude Desktop.</p></details>
-        <details><summary>Do I need OpenSpec?</summary><p>Yes. sparc adds its rules to OpenSpec through <code>openspec/config.yaml</code> and calls the OpenSpec CLI. Install it with <code>npm install -g @fission-ai/openspec</code>.</p></details>
         <details><summary>Can I use sparc in an existing code base?</summary><p>Yes. Run <code>/sparc:init</code> in the folder of the project. The architect documents what it finds in the code.</p></details>
         <details><summary>Must a small fix go through the full loop?</summary><p>Yes. Each change of behavior goes through propose, apply and archive. This is the cost of specs and documents that stay correct.</p></details>
         <details><summary>What does sparc cost?</summary><p>sparc is free under the MIT license. It uses more tokens: the fresh-context review starts one more agent for each change. One measured change used 60,560 tokens and 36 seconds for the review.</p></details>
         <details><summary>Does sparc work with pull requests?</summary><p>Yes. Choose the workflow <code>trunk</code> or <code>pull-request</code> in <code>openspec/config.yaml</code>. In the pull request workflow, the review or the merge is the approval.</p></details>
-        <details><summary>Can I add the rules of my team?</summary><p>Yes. Write each rule in its home: a rule for each change in <code>AGENTS.md</code>, a quality requirement in the canvas, a testable behavior as a spec scenario, and a check as a <code>Verify</code> command.</p></details>
-        <details><summary>Why is the English so plain?</summary><p>All English text in sparc follows ASD-STE100 Simplified Technical English on purpose. Short sentences and one word for one meaning give agents and readers one clear meaning.</p></details>
-        <details><summary>How do I update sparc?</summary><p>Run <code>claude plugin marketplace update sparc</code> and <code>claude plugin update sparc@sparc</code>. Then run <code>/sparc:update</code> in each project.</p></details>
-      </div></div>
+        </div></div>
     </div>
   </section>
 
-  <!-- 7.0 Install -->
-  <section class="part" id="install" aria-labelledby="install-h">
+  <section class="part" id="start" aria-labelledby="start-h">
     <div class="wrap">
       <div class="part-head">
-        <span class="addr" aria-hidden="true">7.0</span>
-        <h2 id="install-h">Install and start a project</h2>
-        <p>Prerequisites: Claude Code, Node.js, git and OpenSpec.</p>
+        <span class="addr" aria-hidden="true">5.0</span>
+        <h2 id="start-h">Start a project</h2>
+        <p>In Claude Desktop, add sparc with <b>Plugins</b>, then <b>Add from repo</b>.</p>
       </div>
       <div class="cols"><div class="main">
         <ol class="steps">
-          <li><div><p>Install OpenSpec.</p><pre><code>npm install -g @fission-ai/openspec</code></pre></div></li>
-          <li><div><p>Add the marketplace and install sparc. In Claude Desktop, use <b>Plugins</b>, then <b>Add from repo</b>.</p><pre><code>claude plugin marketplace add vensas/sparc
-claude plugin install sparc@sparc</code></pre></div></li>
-          <li><div><p>Open the folder of your project and tell the idea one time.</p><pre><code>/sparc:init &lt;project idea&gt;</code></pre></div></li>
+          <li><div><p>Open the folder of your project. Tell the idea one time.</p><pre><code>/sparc:init &lt;project idea&gt;</code></pre></div></li>
           <li><div><p>Propose each feature or fix. Then apply and archive it.</p><pre><code>/sparc:propose &lt;feature&gt;</code></pre></div></li>
-        </ol>
+          </ol>
       </div></div>
     </div>
   </section>
 </main>
-</div>
 
-<!-- ================= Imprint ================= -->
-<div class="view-legal" id="imprint">
-  <header class="field"><div class="wrap"><div class="masthead">
-    <a class="brand" href="#top" aria-label="sparc, home"><svg width="44" height="44" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg><span>sparc</span></a>
-    <nav aria-label="Language"><ul class="index"><li class="lang"><a href="#imprint" aria-current="true">EN</a><a href="#imprint" lang="de">DE</a><a href="#imprint" lang="fr">FR</a></li></ul></nav>
-  </div></div></header>
-  <main class="legal"><div class="wrap"><div class="cols"><div class="main">
-    <a class="back" href="#top">Back to sparc</a>
-    <h1>Imprint</h1>
-    <p class="binding">Information according to § 5 DDG. The German text is binding.</p>
-    <h2>Provider</h2>
-    <address>vensas GmbH<br>Bahnhofstraße 31<br>66111 Saarbrücken<br>Germany</address>
-    <h2>Represented by</h2>
-    <p>Managing directors: [names from the <a href="https://vensas.de/de/imprint">vensas imprint</a>]</p>
-    <h2>Contact</h2>
-    <p>Phone: +49 681 30984780<br>E-mail: <a href="mailto:kontakt@vensas.de">kontakt@vensas.de</a></p>
-    <h2>Register</h2>
-    <p>Amtsgericht Saarbrücken, HRB 110062<br>VAT ID: DE366043924</p>
-    <h2>Consumer dispute resolution</h2>
-    <p>We are not obliged and not willing to take part in dispute resolution procedures before a consumer arbitration board.</p>
-    <h2>Liability for links</h2>
-    <p>This site links to other websites, for example GitHub. Their operators are responsible for their content.</p>
-    <p class="mock-note">Mockup: the build copies the real names of the managing directors from the vensas imprint. The text gets a legal review before go-live.</p>
-  </div></div></div></main>
-</div>
-
-<!-- ================= Privacy ================= -->
-<div class="view-legal" id="privacy">
-  <header class="field"><div class="wrap"><div class="masthead">
-    <a class="brand" href="#top" aria-label="sparc, home"><svg width="44" height="44" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg><span>sparc</span></a>
-    <nav aria-label="Language"><ul class="index"><li class="lang"><a href="#privacy" aria-current="true">EN</a><a href="#privacy" lang="de">DE</a><a href="#privacy" lang="fr">FR</a></li></ul></nav>
-  </div></div></header>
-  <main class="legal"><div class="wrap"><div class="cols"><div class="main">
-    <a class="back" href="#top">Back to sparc</a>
-    <h1>Privacy policy</h1>
-    <p class="binding">The German text is binding.</p>
-    <h2>1. Controller</h2>
-    <address>vensas GmbH, Bahnhofstraße 31, 66111 Saarbrücken, Germany<br>E-mail: <a href="mailto:kontakt@vensas.de">kontakt@vensas.de</a></address>
-    <h2>2. What this site does not do</h2>
-    <p>This site sets no cookies. It uses no analytics, no tracking and no content from other servers. Fonts and images come from this site.</p>
-    <h2>3. Hosting and server log</h2>
-    <p>Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Germany, hosts this site (<a href="https://www.hetzner.com/legal/privacy-policy/">privacy policy</a>). When you open a page, your browser sends technical data, and the server keeps it in its access log: your IP address, the date and time, the requested page and if the request was successful, and your browser and operating system. We use this data only to deliver the site and to keep it safe, for example to find attacks. We delete the log after [retention time]. The legal basis is Art. 6 (1) (f) GDPR: our legitimate interest in a safe and available website.</p>
-    <h2>4. Contact by e-mail</h2>
-    <p>If you send us an e-mail, we use your data only to answer you. The legal basis is Art. 6 (1) (b) or (f) GDPR. We delete the data when we do not need it any more and no law tells us to keep it.</p>
-    <h2>5. Links to GitHub</h2>
-    <p>Links to the repository open github.com. The GitHub privacy statement applies there.</p>
-    <h2>6. Your rights</h2>
-    <p>You have the right to access (Art. 15), rectification (Art. 16), erasure (Art. 17), restriction (Art. 18), data portability (Art. 20) and objection (Art. 21 GDPR). You can complain to a supervisory authority, for example the Unabhängiges Datenschutzzentrum Saarland.</p>
-    <p class="mock-note">Mockup: the text gets a legal review before go-live.</p>
-  </div></div></div></main>
-</div>
-
-<!-- ================= Billing block ================= -->
 <footer class="billing">
   <div class="wrap">
     <div class="b-brand">
-      <a class="brand" href="#top" aria-label="sparc, home"><svg width="36" height="36" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg><span>sparc</span></a>
+      <a class="brand" href="/" aria-label="sparc, home"><svg width="36" height="36" viewBox="4 2 56 56" aria-hidden="true"><rect x="8" y="16" width="40" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="5" mask="url(#cut)"/><path d="M0,-10 C1.2,-2.4 2.4,-1.2 10,0 C2.4,1.2 1.2,2.4 0,10 C-1.2,2.4 -2.4,1.2 -10,0 C-2.4,-1.2 -1.2,-2.4 0,-10 Z" transform="translate(46 18) scale(1.35)" fill="#fdb927"/></svg><span>sparc</span></a>
       <p>A harness for spec-driven work with agents in Claude Code. Made by <a href="https://vensas.de">vensas</a> in Saarbrücken.</p>
     </div>
     <nav aria-labelledby="f-proj"><h2 id="f-proj">Project</h2><ul>
@@ -653,37 +547,37 @@ claude plugin install sparc@sparc</code></pre></div></li>
       <li><a href="https://github.com/vensas/sparc/blob/main/LICENSE">MIT license</a></li>
     </ul></nav>
     <nav aria-labelledby="f-legal"><h2 id="f-legal">Legal</h2><ul>
-      <li><a href="#imprint">Imprint</a></li>
-      <li><a href="#privacy">Privacy policy</a></li>
+      <li><a href="/imprint.html">Imprint</a></li>
+      <li><a href="/privacy.html">Privacy policy</a></li>
     </ul></nav>
     <nav aria-labelledby="f-lang"><h2 id="f-lang">Language</h2><ul>
-      <li><a href="#" lang="en" aria-current="true">English</a></li>
-      <li><a href="#" lang="de">Deutsch</a></li>
-      <li><a href="#" lang="fr">Français</a></li>
-    </ul></nav>
+      <li><a href="/" lang="en" hreflang="en" aria-current="true">English</a></li>
+      <li><a href="/de/" lang="de" hreflang="de">Deutsch</a></li>
+      </ul></nav>
     <div class="agate">
       <span>sparc 0.8.0 · MIT license</span>
       <span>© 2026 <a href="https://vensas.de">vensas GmbH</a> · No cookies, no tracking</span>
     </div>
   </div>
 </footer>
-
 <script>
-// Copy the install commands.
-document.querySelectorAll('[data-copy]').forEach(function (b) {
-  b.addEventListener('click', function () {
-    navigator.clipboard.writeText(b.dataset.copy).then(function () {
-      b.textContent = 'Copied';
-      setTimeout(function () { b.textContent = 'Copy'; }, 1600);
-    }, function () { b.textContent = 'Select and copy'; });
+// Copy the install commands. The button holds the texts in the language of the page.
+document.querySelectorAll('[data-copy]').forEach(function (button) {
+  var label = button.textContent;
+  button.addEventListener('click', function () {
+    navigator.clipboard.writeText(button.dataset.copy).then(function () {
+      button.textContent = button.dataset.copied;
+      setTimeout(function () { button.textContent = label; }, 1600);
+    }, function () { button.textContent = button.dataset.failed; });
   });
 });
+
 // Step through the loop: the active frame is gold, the next frame is outlined.
+// No animation when the visitor prefers reduced motion.
 (function () {
   var loop = document.querySelector('[data-loop]');
-  if (!loop) return;
+  if (!loop || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var items = loop.querySelectorAll('li');
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var i = 0, timer = null;
   function show() {
     items.forEach(function (li, n) {

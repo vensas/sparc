@@ -2,19 +2,40 @@
   "meta": {
     "description": "sparc ist ein Plugin für Claude Code. Es hält Specs, Architektur und Dokumente mit dem Code synchron, während Agenten ihn schreiben."
   },
-  "languages": { "en": "English", "de": "Deutsch" },
+  "languages": {
+    "en": "English",
+    "de": "Deutsch"
+  },
   "nav": {
     "skip": "Zum Inhalt springen",
     "home": "sparc, Startseite",
     "label": "Abschnitte und Sprache",
     "sections": [
-      { "id": "why", "number": "1.0", "name": "Warum" },
-      { "id": "loop", "number": "2.0", "name": "Ablauf" },
-      { "id": "roles", "number": "3.0", "name": "Rollen" },
-      { "id": "documents", "number": "4.0", "name": "Dokumente" },
-      { "id": "record", "number": "5.0", "name": "Nachweis" },
-      { "id": "faq", "number": "6.0", "name": "FAQ" },
-      { "id": "install", "number": "7.0", "name": "Installation" }
+      {
+        "id": "loop",
+        "number": "1.0",
+        "name": "Ablauf"
+      },
+      {
+        "id": "documents",
+        "number": "2.0",
+        "name": "Dokumente"
+      },
+      {
+        "id": "record",
+        "number": "3.0",
+        "name": "Nachweis"
+      },
+      {
+        "id": "faq",
+        "number": "4.0",
+        "name": "FAQ"
+      },
+      {
+        "id": "start",
+        "number": "5.0",
+        "name": "Start"
+      }
     ]
   },
   "index": {
@@ -30,74 +51,126 @@
       "version": "Version",
       "license": "Lizenz"
     },
-    "lede": "sparc ist ein Plugin für Claude Code für spec-getriebene Arbeit mit Agenten. Ein Team aus fünf Rollen bringt jede Idee vom ersten Funken zu einer geprüften und getesteten Änderung. Specs, Entscheidungen und Dokumente stimmen mit dem Code überein.",
-    "installLabel": "Installation mit der Claude Code CLI",
+    "lede": "Ein Plugin für Claude Code auf Basis von OpenSpec. Fünf Rollen bringen jede Idee zu einer geprüften und getesteten Änderung.",
+    "installLabel": "Installation",
     "copy": "Kopieren",
     "copied": "Kopiert",
     "copyFailed": "Markieren und kopieren",
     "source": "Quellcode auf GitHub",
     "seeLoop": "So läuft eine Änderung ab"
   },
-  "why": {
-    "heading": "Agenten schreiben schnell Code. Der Rest bleibt zurück.",
-    "intro": "Specs, Entscheidungen und Dokumente veralten nach wenigen Änderungen. Ein Agent meldet „fertig“ ohne Nachweis und füllt Lücken mit Vermutungen. sparc legt einen festen Ablauf und zwei Prüfungen um den Agenten.",
-    "pain": "Das Problem",
-    "answer": "Was sparc tut",
-    "rows": [
-      { "pain": "Die Dokumente stimmen nicht mit dem Code überein.", "answer": "Jede Tatsache hat genau einen Ort. Archive bringt Specs, Changelog, Backlog, C4-Diagramme und Canvas in Einklang. Eine Prüfung ohne LLM findet Abweichungen." },
-      { "pain": "Der Agent meldet „fertig“, aber nichts belegt es.", "answer": "Der Verifier führt Lint, Tests und die Nachweise der Specs aus. Der Agent kann erst aufhören, wenn alles besteht." },
-      { "pain": "Der Agent prüft seine eigene Arbeit, mit seiner eigenen Voreingenommenheit.", "answer": "Ein Reviewer in einem frischen Kontext liest den Diff. Ein QA Engineer schreibt für jedes Szenario der Specs einen Test." },
-      { "pain": "Entscheidungen gehen verloren oder ändern sich ohne Spur.", "answer": "Jede wichtige Entscheidung ist ein ADR im Format MADR. Die Prüfung erkennt über die Git-Historie, wenn sich ein entschiedener ADR ändert." },
-      { "pain": "Der Agent füllt Lücken mit Vermutungen.", "answer": "Eine Regel verlangt, dass der Agent nur schreibt, was er weiß. Offene Punkte kommen in den Architecture Canvas." },
-      { "pain": "Jedes Projekt erfindet seinen eigenen Prozess.", "answer": "Ein Plugin gibt allen Projekten denselben Ablauf, dieselben Rollen und dieselben Dokumente, in bekannten Formaten." }
-    ]
-  },
   "loop": {
     "heading": "Ein Ablauf für jede Änderung",
-    "intro": "In sparc geht jedes Feature und jeder Fix durch dieselben Schritte. Wer apply startet, gibt die Änderung frei. Eine eigene Freigabe musst du nicht tippen.",
+    "intro": "Wer apply startet, gibt die Änderung frei.",
+    "stops": "Verhindert:",
+    "next": "Nächste Änderung",
     "steps": [
-      { "name": "Propose", "cmd": "<code>/sparc:propose</code>", "text": "Proposal, Specs, Design, Tasks und Mockups.", "who": "Product Owner, Architekt, UX Designer" },
-      { "name": "Apply", "cmd": "<code>/sparc:apply</code>", "text": "Erst die Tests, dann der Code für jeden Task.", "who": "Software Engineer" },
-      { "name": "Review", "cmd": "Frischer Kontext", "text": "Ein Reviewer ohne den Verlauf der Sitzung liest den Diff.", "who": "Software Engineer" },
-      { "name": "QA", "cmd": "<code>qa.md</code>", "text": "Ein automatisierter Test für jedes Szenario der Specs.", "who": "QA Engineer" },
-      { "name": "Verify", "cmd": "Stop-Hook", "text": "Lint, Tests und Nachweise müssen bestehen, bevor der Agent aufhören kann.", "who": "Verifier, ohne LLM" },
-      { "name": "Archive", "cmd": "<code>/sparc:archive</code>", "text": "Specs, Changelog, Backlog, C4 und Canvas im Einklang.", "who": "Product Owner, Architekt" },
-      { "name": "Release", "cmd": "<code>/sparc:release</code>", "text": "Version, Changelog und Tag mit Conventional Commits.", "who": "Du" }
-    ],
-    "note": "sparc ergänzt <a href=\"https://openspec.dev\">OpenSpec</a> um die Rollen, die Dokumente und zwei Prüfungen."
-  },
-  "roles": {
-    "heading": "Fünf Rollen, ein Verantwortlicher für jedes Dokument",
-    "intro": "Eine Rolle ist eine Regeldatei, der ein Skill folgt. Jede Rolle verantwortet ihre Dokumente. So hat jede Tatsache genau einen Ort.",
-    "role": "Rolle",
-    "does": "Aufgabe",
-    "owns": "Verantwortet",
-    "rows": [
-      { "role": "Product Owner", "does": "Schreibt testbare Anforderungen. Nimmt die Änderung anhand des QA-Berichts ab.", "owns": "<code>docs/backlog.md</code>, Proposal, Specs" },
-      { "role": "Architekt", "does": "Entwirft die einfachste Struktur. Hält Entscheidungen mit ihren Optionen fest.", "owns": "README, C4, Canvas, ADRs, Design, Tasks" },
-      { "role": "UX Designer", "does": "Prüft eine Oberfläche zuerst mit statischen Mockups.", "owns": "<code>docs/mockups/</code>" },
-      { "role": "Software Engineer", "does": "Implementiert testgetrieben. Prüft die Änderung in einem frischen Kontext.", "owns": "Code und Tests" },
-      { "role": "QA Engineer", "does": "Belegt jedes Szenario der Specs mit einem automatisierten Test.", "owns": "<code>qa.md</code>" }
+      {
+        "name": "Propose",
+        "cmd": "/sparc:propose",
+        "text": "Proposal, Specs, Design und Tasks.",
+        "pain": "Entscheidungen gehen verloren.",
+        "who": "Product Owner, Architekt, UX Designer"
+      },
+      {
+        "name": "Apply",
+        "cmd": "/sparc:apply",
+        "text": "Erst die Tests, dann der Code.",
+        "pain": "Der Agent rät.",
+        "who": "Software Engineer"
+      },
+      {
+        "name": "Review",
+        "cmd": "qa.md",
+        "text": "Ein frischer Agent liest den Diff.",
+        "pain": "Der Agent prüft sich selbst.",
+        "who": "Software Engineer"
+      },
+      {
+        "name": "QA",
+        "cmd": "qa.md",
+        "text": "Ein Test für jedes Szenario.",
+        "pain": "Kein Test belegt die Spec.",
+        "who": "QA Engineer"
+      },
+      {
+        "name": "Verify",
+        "cmd": "Stop-Hook",
+        "text": "Lint, Tests und Nachweise müssen bestehen.",
+        "pain": "„Fertig“ ohne Nachweis.",
+        "who": "Verifier, ohne LLM"
+      },
+      {
+        "name": "Archive",
+        "cmd": "/sparc:archive",
+        "text": "Specs und Dokumente im Einklang.",
+        "pain": "Dokumente weichen vom Code ab.",
+        "who": "Product Owner, Architekt"
+      },
+      {
+        "name": "Release",
+        "cmd": "/sparc:release",
+        "text": "Version, Changelog und Tag.",
+        "pain": "Version und Changelog passen nicht zusammen.",
+        "who": "Du"
+      }
     ]
   },
   "documents": {
-    "heading": "Feste Dokumente in bekannten Formaten",
-    "intro": "<code>/sparc:init</code> legt diese Dateien in deinem Projekt an. Zwei Prüfungen ohne LLM finden Abweichungen und stoppen eine unvollständige Änderung.",
+    "heading": "Jedes Dokument hat einen Verantwortlichen",
+    "intro": "<code>/sparc:init</code> legt diese Dateien an. Eine Rolle ist eine Regeldatei, der ein Skill folgt.",
     "file": "Datei",
-    "home": "Ort für",
+    "holds": "Inhalt",
     "format": "Format",
+    "owner": "Verantwortlich",
     "rows": [
-      { "file": "openspec/specs/", "home": "Gefordertes Verhalten", "format": "OpenSpec" },
-      { "file": "docs/adr/", "home": "Entscheidungen mit ihren Optionen", "format": "MADR" },
-      { "file": "docs/architecture/c4.md", "home": "Systemkontext und Container", "format": "C4 in Mermaid" },
-      { "file": "docs/architecture/canvas.md", "home": "Architektur, Risiken und offene Punkte", "format": "Architecture Communication Canvas" },
-      { "file": "docs/backlog.md", "home": "Ziel und offene Punkte", "format": "Markdown" },
-      { "file": "CHANGELOG.md", "home": "Erledigte Arbeit für jedes Release", "format": "Keep a Changelog, SemVer" }
+      {
+        "file": "openspec/specs/",
+        "holds": "Gefordertes Verhalten",
+        "format": "OpenSpec",
+        "owner": "Product Owner"
+      },
+      {
+        "file": "docs/backlog.md",
+        "holds": "Offene Punkte",
+        "format": "Markdown",
+        "owner": "Product Owner"
+      },
+      {
+        "file": "docs/adr/",
+        "holds": "Entscheidungen",
+        "format": "MADR",
+        "owner": "Architekt"
+      },
+      {
+        "file": "docs/architecture/",
+        "holds": "Kontext, Container, Risiken",
+        "format": "C4, Canvas",
+        "owner": "Architekt"
+      },
+      {
+        "file": "docs/mockups/",
+        "holds": "Entwürfe der Oberfläche",
+        "format": "HTML",
+        "owner": "UX Designer"
+      },
+      {
+        "file": "qa.md",
+        "holds": "Nachweis für jedes Szenario",
+        "format": "Markdown",
+        "owner": "QA Engineer"
+      },
+      {
+        "file": "CHANGELOG.md",
+        "holds": "Erledigte Arbeit je Release",
+        "format": "Keep a Changelog",
+        "owner": "Product Owner"
+      }
     ]
   },
   "record": {
     "heading": "sparc wird mit sparc gebaut",
-    "intro": "Jede Änderung an sparc ging durch ihren eigenen Ablauf. Der Nachweis ist öffentlich im Repository.",
+    "intro": "Jede Änderung an sparc ging durch diesen Ablauf.",
     "decisions": "Entscheidungen",
     "archived": "Archivierte Änderungen",
     "releases": "Releases",
@@ -110,25 +183,26 @@
   "faq": {
     "heading": "Fragen",
     "items": [
-      { "q": "Funktioniert sparc mit anderen Coding-Agenten?", "a": "Nein. sparc ist ein Plugin für Claude Code. Es nutzt die Skills und Hooks von Claude Code, in der CLI und in Claude Desktop." },
-      { "q": "Brauche ich OpenSpec?", "a": "Ja. sparc fügt seine Regeln über <code>openspec/config.yaml</code> zu OpenSpec hinzu und ruft die OpenSpec CLI auf. Installiere sie mit <code>npm install -g @fission-ai/openspec</code>." },
-      { "q": "Kann ich sparc in einer bestehenden Codebasis nutzen?", "a": "Ja. Starte <code>/sparc:init</code> im Ordner des Projekts. Der Architekt dokumentiert, was er im Code findet." },
-      { "q": "Muss auch ein kleiner Fix durch den ganzen Ablauf?", "a": "Ja. Jede Änderung am Verhalten geht durch propose, apply und archive. Das ist der Preis für Specs und Dokumente, die richtig bleiben." },
-      { "q": "Was kostet sparc?", "a": "sparc ist kostenlos unter der MIT-Lizenz. Es verbraucht mehr Tokens: Das Review im frischen Kontext startet für jede Änderung einen weiteren Agenten. Eine gemessene Änderung brauchte für das Review 60.560 Tokens und 36 Sekunden." },
-      { "q": "Funktioniert sparc mit Pull Requests?", "a": "Ja. Wähle den Workflow <code>trunk</code> oder <code>pull-request</code> in <code>openspec/config.yaml</code>. Im Pull-Request-Workflow ist das Review oder der Merge die Freigabe." },
-      { "q": "Kann ich die Regeln meines Teams ergänzen?", "a": "Ja. Schreib jede Regel an ihren Ort: eine Regel für jede Änderung in <code>AGENTS.md</code>, eine Qualitätsanforderung in den Canvas, ein testbares Verhalten als Szenario einer Spec und eine Prüfung als <code>Verify</code>-Befehl." },
-      { "q": "Warum ist das Englisch so einfach?", "a": "Alle englischen Texte in sparc folgen mit Absicht ASD-STE100 Simplified Technical English. Kurze Sätze und ein Wort für eine Bedeutung geben Agenten und Lesern eine klare Bedeutung." },
-      { "q": "Wie aktualisiere ich sparc?", "a": "Führe <code>claude plugin marketplace update sparc</code> und <code>claude plugin update sparc@sparc</code> aus. Starte danach <code>/sparc:update</code> in jedem Projekt." }
-    ]
-  },
-  "install": {
-    "heading": "Installieren und ein Projekt starten",
-    "prerequisites": "Voraussetzungen: Claude Code, Node.js, git und OpenSpec.",
-    "steps": [
-      { "text": "Installiere OpenSpec.", "code": "npm install -g @fission-ai/openspec" },
-      { "text": "Füge den Marketplace hinzu und installiere sparc. In Claude Desktop: <b>Plugins</b>, dann <b>Add from repo</b>.", "code": "claude plugin marketplace add vensas/sparc\nclaude plugin install sparc@sparc" },
-      { "text": "Öffne den Ordner deines Projekts und beschreibe die Idee einmal.", "code": "/sparc:init &lt;Idee des Projekts&gt;" },
-      { "text": "Schlag jedes Feature und jeden Fix mit propose vor. Dann apply und archive.", "code": "/sparc:propose &lt;Feature&gt;" }
+      {
+        "q": "Funktioniert sparc mit anderen Coding-Agenten?",
+        "a": "Nein. sparc ist ein Plugin für Claude Code. Es nutzt die Skills und Hooks von Claude Code, in der CLI und in Claude Desktop."
+      },
+      {
+        "q": "Kann ich sparc in einer bestehenden Codebasis nutzen?",
+        "a": "Ja. Starte <code>/sparc:init</code> im Ordner des Projekts. Der Architekt dokumentiert, was er im Code findet."
+      },
+      {
+        "q": "Muss auch ein kleiner Fix durch den ganzen Ablauf?",
+        "a": "Ja. Jede Änderung am Verhalten geht durch propose, apply und archive. Das ist der Preis für Specs und Dokumente, die richtig bleiben."
+      },
+      {
+        "q": "Was kostet sparc?",
+        "a": "sparc ist kostenlos unter der MIT-Lizenz. Es verbraucht mehr Tokens: Das Review im frischen Kontext startet für jede Änderung einen weiteren Agenten. Eine gemessene Änderung brauchte für das Review 60.560 Tokens und 36 Sekunden."
+      },
+      {
+        "q": "Funktioniert sparc mit Pull Requests?",
+        "a": "Ja. Wähle den Workflow <code>trunk</code> oder <code>pull-request</code> in <code>openspec/config.yaml</code>. Im Pull-Request-Workflow ist das Review oder der Merge die Freigabe."
+      }
     ]
   },
   "imprint": {
@@ -152,5 +226,19 @@
     "back": "Zurück zu sparc",
     "binding": "",
     "german": ""
+  },
+  "start": {
+    "heading": "Ein Projekt starten",
+    "intro": "In Claude Desktop fügst du sparc über <b>Plugins</b> und dann <b>Add from repo</b> hinzu.",
+    "steps": [
+      {
+        "text": "Öffne den Ordner deines Projekts. Beschreibe die Idee einmal.",
+        "code": "/sparc:init &lt;Idee des Projekts&gt;"
+      },
+      {
+        "text": "Schlag jedes Feature und jeden Fix mit propose vor. Dann apply und archive.",
+        "code": "/sparc:propose &lt;Feature&gt;"
+      }
+    ]
   }
 }

@@ -120,6 +120,7 @@ test('First viewport of the landing page: First viewport', () => {
   const head = header(page('index.html'));
   assert.match(head, /class="brand"[\s\S]*?<svg/, 'logo');
   assert.match(head, /<h1>[^<]+<\/h1>/, 'heading');
+  assert.ok(head.includes('npm install -g @fission-ai/openspec'));
   assert.ok(head.includes('claude plugin marketplace add vensas/sparc'));
   assert.ok(head.includes('claude plugin install sparc@sparc'));
   assert.ok(head.includes('href="https://github.com/vensas/sparc"'));
@@ -128,19 +129,25 @@ test('First viewport of the landing page: First viewport', () => {
 test('First viewport of the landing page: Copy the install commands', () => {
   const button = header(page('index.html')).match(/<button[^>]*data-copy="([^"]*)"/);
   assert.ok(button, 'copy button');
-  assert.equal(button[1], 'claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc');
+  assert.equal(button[1], 'npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc');
   assert.match(page('assets/site.js'), /navigator\.clipboard\.writeText\(\w+\.dataset\.copy\)/);
 });
 
 test('Sections of the landing page: Order of the sections', () => {
   const ids = [...page('index.html').matchAll(/<section[^>]*id="([^"]+)"/g)].map((m) => m[1]);
-  assert.deepEqual(ids, ['why', 'loop', 'roles', 'documents', 'record', 'faq', 'install']);
+  assert.deepEqual(ids, ['loop', 'documents', 'record', 'faq', 'start']);
 });
 
-test('Sections of the landing page: Problems and answers', () => {
-  const rows = [...section(page('index.html'), 'why').matchAll(/<tr><th scope="row">([^<]+)<\/th><td>([^<]+)/g)];
-  assert.ok(rows.length >= 3, `${rows.length} problems`);
-  for (const [, problem, answer] of rows) assert.ok(problem.trim() && answer.trim());
+test('Sections of the landing page: Problem of each step', () => {
+  for (const lang of ['en', 'de']) {
+    const steps = [...section(page(`${prefix(lang)}index.html`), 'loop').matchAll(/<li>([\s\S]*?)<\/li>/g)].map((m) => m[1]);
+    assert.equal(steps.length, 7, lang);
+    for (const step of steps) {
+      assert.match(step, /<h3>[^<]+<\/h3>/, `${lang}: name`);
+      assert.match(step, /class="cmd"><code>[^<]+<\/code>/, `${lang}: command or artifact`);
+      assert.match(step, /class="pain"><span>[^<]+<\/span> [^<]+<\/p>/, `${lang}: problem`);
+    }
+  }
 });
 
 test('FAQ: Open a FAQ answer with the keyboard', () => {
@@ -167,7 +174,7 @@ test('Record from the repository: Most recent archived changes', () => {
   const record = section(page('index.html', buildRepo(fixture({ archived }))), 'record');
   assert.match(record, />6</);
   const shown = [...record.matchAll(/archive\/(\d{4}-\d{2}-\d{2}-\w+)"/g)].map((m) => m[1]);
-  assert.deepEqual(shown, ['2026-11-06-f', '2026-11-05-e', '2026-11-04-d', '2026-11-03-c', '2026-11-02-b']);
+  assert.deepEqual(shown, ['2026-11-06-f', '2026-11-05-e', '2026-11-04-d']);
 });
 
 test('Footer: Footer of the English landing page', () => {

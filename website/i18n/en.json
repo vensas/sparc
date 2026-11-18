@@ -12,39 +12,29 @@
     "label": "Sections and language",
     "sections": [
       {
-        "id": "why",
-        "number": "1.0",
-        "name": "Why"
-      },
-      {
         "id": "loop",
-        "number": "2.0",
+        "number": "1.0",
         "name": "Loop"
       },
       {
-        "id": "roles",
-        "number": "3.0",
-        "name": "Roles"
-      },
-      {
         "id": "documents",
-        "number": "4.0",
+        "number": "2.0",
         "name": "Documents"
       },
       {
         "id": "record",
-        "number": "5.0",
+        "number": "3.0",
         "name": "Record"
       },
       {
         "id": "faq",
-        "number": "6.0",
+        "number": "4.0",
         "name": "FAQ"
       },
       {
-        "id": "install",
-        "number": "7.0",
-        "name": "Install"
+        "id": "start",
+        "number": "5.0",
+        "name": "Start"
       }
     ]
   },
@@ -61,171 +51,126 @@
       "version": "Version",
       "license": "License"
     },
-    "lede": "sparc is a Claude Code plugin for spec-driven work with agents. A team of five roles takes each idea from a spark to a reviewed and tested change. The specs, the decisions and the documents agree with the code.",
-    "installLabel": "Install with the Claude Code CLI",
+    "lede": "A Claude Code plugin on OpenSpec. Five roles take each idea to a reviewed and tested change.",
+    "installLabel": "Install",
     "copy": "Copy",
     "copied": "Copied",
     "copyFailed": "Select and copy",
     "source": "Read the source on GitHub",
     "seeLoop": "See how a change works"
   },
-  "why": {
-    "heading": "Agents write code fast. The rest falls behind.",
-    "intro": "Specs, decisions and documents get old after a few changes. An agent says \"done\" without proof and fills gaps with guesses. sparc puts a fixed process and two checks around the agent.",
-    "pain": "The pain",
-    "answer": "What sparc does",
-    "rows": [
-      {
-        "pain": "The documents do not agree with the code.",
-        "answer": "Each fact has one home. Archive brings the specs, changelog, backlog, C4 diagrams and canvas in sync. A check without an LLM finds drift."
-      },
-      {
-        "pain": "The agent says \"done\", but nothing proves it.",
-        "answer": "The verifier runs lint, tests and the spec evidence. The agent cannot stop until they pass."
-      },
-      {
-        "pain": "The agent reviews its own work with its own bias.",
-        "answer": "A reviewer in a fresh context reads the diff. A QA engineer writes a test for each spec scenario."
-      },
-      {
-        "pain": "Decisions get lost or change without a trace.",
-        "answer": "Each major decision is an ADR in MADR format. The check uses git history to find a change to a decided ADR."
-      },
-      {
-        "pain": "The agent fills gaps with guesses.",
-        "answer": "A rule tells the agent to write only what it knows. Open points go to the architecture canvas."
-      },
-      {
-        "pain": "Each project invents its own process.",
-        "answer": "One plugin gives all projects the same loop, roles and document set, in known formats."
-      }
-    ]
-  },
   "loop": {
     "heading": "One loop for each change",
-    "intro": "In sparc, each feature or fix goes through the same steps. Running apply approves the change, so you do not type an approval.",
+    "intro": "Running apply approves the change.",
+    "stops": "Stops:",
+    "next": "Next change",
     "steps": [
       {
         "name": "Propose",
-        "cmd": "<code>/sparc:propose</code>",
-        "text": "Proposal, specs, design, tasks and mockups.",
+        "cmd": "/sparc:propose",
+        "text": "Proposal, specs, design and tasks.",
+        "pain": "Decisions get lost.",
         "who": "Product owner, architect, UX designer"
       },
       {
         "name": "Apply",
-        "cmd": "<code>/sparc:apply</code>",
-        "text": "Tests first, then the code for each task.",
+        "cmd": "/sparc:apply",
+        "text": "Tests first, then the code.",
+        "pain": "The agent guesses.",
         "who": "Software engineer"
       },
       {
         "name": "Review",
-        "cmd": "Fresh context",
-        "text": "A reviewer without the session history reads the diff.",
+        "cmd": "qa.md",
+        "text": "A fresh agent reads the diff.",
+        "pain": "The agent reviews its own work.",
         "who": "Software engineer"
       },
       {
         "name": "QA",
-        "cmd": "<code>qa.md</code>",
-        "text": "An automated test for each spec scenario.",
+        "cmd": "qa.md",
+        "text": "A test for each scenario.",
+        "pain": "No test proves the spec.",
         "who": "QA engineer"
       },
       {
         "name": "Verify",
         "cmd": "Stop hook",
-        "text": "Lint, tests and evidence must pass before the agent can stop.",
+        "text": "Lint, tests and evidence must pass.",
+        "pain": "\"Done\" without proof.",
         "who": "Verifier, no LLM"
       },
       {
         "name": "Archive",
-        "cmd": "<code>/sparc:archive</code>",
-        "text": "Specs, changelog, backlog, C4 and canvas in sync.",
+        "cmd": "/sparc:archive",
+        "text": "Specs and documents in sync.",
+        "pain": "Documents drift from the code.",
         "who": "Product owner, architect"
       },
       {
         "name": "Release",
-        "cmd": "<code>/sparc:release</code>",
-        "text": "Version, changelog and tag with Conventional Commits.",
+        "cmd": "/sparc:release",
+        "text": "Version, changelog and tag.",
+        "pain": "Version and changelog disagree.",
         "who": "You"
-      }
-    ],
-    "note": "sparc adds the roles, the document set and two checks on top of <a href=\"https://openspec.dev\">OpenSpec</a>."
-  },
-  "roles": {
-    "heading": "Five roles, one owner for each document",
-    "intro": "A role is a rule file that a skill follows. Each role owns its documents, so each fact has one home.",
-    "role": "Role",
-    "does": "Does",
-    "owns": "Owns",
-    "rows": [
-      {
-        "role": "Product owner",
-        "does": "Writes testable requirements. Accepts the change from the QA report.",
-        "owns": "<code>docs/backlog.md</code>, proposal, specs"
-      },
-      {
-        "role": "Architect",
-        "does": "Designs the simplest structure. Writes decisions with their options.",
-        "owns": "README, C4, canvas, ADRs, design, tasks"
-      },
-      {
-        "role": "UX designer",
-        "does": "Validates an interface with static mockups first.",
-        "owns": "<code>docs/mockups/</code>"
-      },
-      {
-        "role": "Software engineer",
-        "does": "Implements test first. Reviews the change in a fresh context.",
-        "owns": "Code and tests"
-      },
-      {
-        "role": "QA engineer",
-        "does": "Proves each spec scenario with an automated test.",
-        "owns": "<code>qa.md</code>"
       }
     ]
   },
   "documents": {
-    "heading": "A fixed document set in known formats",
-    "intro": "<code>/sparc:init</code> adds these files to your project. Two checks without an LLM find drift and stop an incomplete change.",
+    "heading": "Each document has one owner",
+    "intro": "<code>/sparc:init</code> adds these files. A role is a rule file that a skill follows.",
     "file": "File",
-    "home": "Home of",
+    "holds": "Holds",
     "format": "Format",
+    "owner": "Owner",
     "rows": [
       {
         "file": "openspec/specs/",
-        "home": "Required behavior",
-        "format": "OpenSpec"
-      },
-      {
-        "file": "docs/adr/",
-        "home": "Decisions with their options",
-        "format": "MADR"
-      },
-      {
-        "file": "docs/architecture/c4.md",
-        "home": "System context and containers",
-        "format": "C4 in Mermaid"
-      },
-      {
-        "file": "docs/architecture/canvas.md",
-        "home": "Architecture, risks and open points",
-        "format": "Architecture Communication Canvas"
+        "holds": "Required behavior",
+        "format": "OpenSpec",
+        "owner": "Product owner"
       },
       {
         "file": "docs/backlog.md",
-        "home": "Goal and open items",
-        "format": "Markdown"
+        "holds": "Open items",
+        "format": "Markdown",
+        "owner": "Product owner"
+      },
+      {
+        "file": "docs/adr/",
+        "holds": "Decisions",
+        "format": "MADR",
+        "owner": "Architect"
+      },
+      {
+        "file": "docs/architecture/",
+        "holds": "Context, containers, risks",
+        "format": "C4, canvas",
+        "owner": "Architect"
+      },
+      {
+        "file": "docs/mockups/",
+        "holds": "Interface drafts",
+        "format": "HTML",
+        "owner": "UX designer"
+      },
+      {
+        "file": "qa.md",
+        "holds": "Proof for each scenario",
+        "format": "Markdown",
+        "owner": "QA engineer"
       },
       {
         "file": "CHANGELOG.md",
-        "home": "Done work for each release",
-        "format": "Keep a Changelog, SemVer"
+        "holds": "Done work for each release",
+        "format": "Keep a Changelog",
+        "owner": "Product owner"
       }
     ]
   },
   "record": {
     "heading": "sparc is built with sparc",
-    "intro": "Each change to sparc went through its own loop. The record is public in the repository.",
+    "intro": "Each change to sparc went through this loop.",
     "decisions": "Decisions",
     "archived": "Changes archived",
     "releases": "Releases",
@@ -243,10 +188,6 @@
         "a": "No. sparc is a Claude Code plugin. It uses the skills and hooks of Claude Code, in the CLI and in Claude Desktop."
       },
       {
-        "q": "Do I need OpenSpec?",
-        "a": "Yes. sparc adds its rules to OpenSpec through <code>openspec/config.yaml</code> and calls the OpenSpec CLI. Install it with <code>npm install -g @fission-ai/openspec</code>."
-      },
-      {
         "q": "Can I use sparc in an existing code base?",
         "a": "Yes. Run <code>/sparc:init</code> in the folder of the project. The architect documents what it finds in the code."
       },
@@ -261,40 +202,6 @@
       {
         "q": "Does sparc work with pull requests?",
         "a": "Yes. Choose the workflow <code>trunk</code> or <code>pull-request</code> in <code>openspec/config.yaml</code>. In the pull request workflow, the review or the merge is the approval."
-      },
-      {
-        "q": "Can I add the rules of my team?",
-        "a": "Yes. Write each rule in its home: a rule for each change in <code>AGENTS.md</code>, a quality requirement in the canvas, a testable behavior as a spec scenario, and a check as a <code>Verify</code> command."
-      },
-      {
-        "q": "Why is the English so plain?",
-        "a": "All English text in sparc follows ASD-STE100 Simplified Technical English on purpose. Short sentences and one word for one meaning give agents and readers one clear meaning."
-      },
-      {
-        "q": "How do I update sparc?",
-        "a": "Run <code>claude plugin marketplace update sparc</code> and <code>claude plugin update sparc@sparc</code>. Then run <code>/sparc:update</code> in each project."
-      }
-    ]
-  },
-  "install": {
-    "heading": "Install and start a project",
-    "prerequisites": "Prerequisites: Claude Code, Node.js, git and OpenSpec.",
-    "steps": [
-      {
-        "text": "Install OpenSpec.",
-        "code": "npm install -g @fission-ai/openspec"
-      },
-      {
-        "text": "Add the marketplace and install sparc. In Claude Desktop, use <b>Plugins</b>, then <b>Add from repo</b>.",
-        "code": "claude plugin marketplace add vensas/sparc\nclaude plugin install sparc@sparc"
-      },
-      {
-        "text": "Open the folder of your project and tell the idea one time.",
-        "code": "/sparc:init &lt;project idea&gt;"
-      },
-      {
-        "text": "Propose each feature or fix. Then apply and archive it.",
-        "code": "/sparc:propose &lt;feature&gt;"
       }
     ]
   },
@@ -319,5 +226,19 @@
     "back": "Back to sparc",
     "binding": "This is a translation. The German text is binding:",
     "german": "German version"
+  },
+  "start": {
+    "heading": "Start a project",
+    "intro": "In Claude Desktop, add sparc with <b>Plugins</b>, then <b>Add from repo</b>.",
+    "steps": [
+      {
+        "text": "Open the folder of your project. Tell the idea one time.",
+        "code": "/sparc:init &lt;project idea&gt;"
+      },
+      {
+        "text": "Propose each feature or fix. Then apply and archive it.",
+        "code": "/sparc:propose &lt;feature&gt;"
+      }
+    ]
   }
 }

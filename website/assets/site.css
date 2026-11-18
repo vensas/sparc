@@ -71,6 +71,7 @@ body {
 a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 3px solid var(--spark); outline-offset: 3px; border-radius: 2px; }
+p, li, dd, td, th, summary { text-wrap: pretty; }
 code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.9em; }
 
 .skip { position: absolute; left: -999px; top: 0; background: var(--spark); color: var(--spark-ink); padding: 8px 12px; z-index: 10; }
@@ -223,10 +224,25 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 .loop h3 { margin: 12px 0 0; font-size: 1.125rem; font-weight: 700; }
 .loop .cmd { font-size: 0.8125rem; color: var(--ink-2); }
 .loop p { margin: 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
+.loop .pain { margin: 0; font-size: 0.8125rem; line-height: 1.4; color: var(--ink); }
+.loop .pain span { display: block; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
 .loop .who { margin-top: auto; font-size: 0.8125rem; font-weight: 600; color: var(--ink); padding-top: 12px; border-top: 1px solid var(--rule); }
 .loop li.is-active { background: var(--code-bg); box-shadow: inset 0 4px 0 var(--spark); }
 .loop li.is-next { box-shadow: inset 0 0 0 1px var(--accent); }
-.loop-note { margin: 16px 0 0; font-size: 0.9375rem; color: var(--ink-2); }
+/* The rule back from the last step to the first: the next change starts the loop again. */
+.loop-return {
+  position: relative; height: 28px; margin: 0 calc(100% / 14);
+  border: 1px solid var(--accent); border-top: 0;
+}
+.loop-return::before {
+  content: ""; position: absolute; left: -5px; top: -1px;
+  border: 5px solid transparent; border-bottom: 7px solid var(--accent); border-top: 0;
+}
+.loop-return span {
+  position: absolute; left: 50%; bottom: -0.7em; transform: translateX(-50%);
+  background: var(--sheet); padding: 0 12px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent);
+}
 
 /* Spec tables */
 .spec { width: 100%; border-collapse: collapse; font-size: 1rem; }
@@ -251,9 +267,6 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 .tally div:last-child { border-right: 0; }
 .tally dt { font-size: 0.875rem; color: var(--ink-2); }
 .tally dd { margin: 4px 0 0; font-weight: 700; font-size: 1.25rem; }
-
-/* Pains */
-.pains tbody th { width: 40%; font-weight: 600; }
 
 /* FAQ */
 .faq details { border-top: 1px solid var(--rule); }
@@ -315,6 +328,7 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
   .loop { grid-template-columns: repeat(4, 1fr); }
   .loop li:nth-child(4) { border-right: 0; }
   .loop li:nth-child(-n+4) { border-bottom: 1px solid var(--rule); }
+  .loop-return { margin: 0 calc(100% / 8); }
 }
 @media (max-width: 860px) {
   .masthead { grid-template-columns: 1fr auto; }
@@ -334,11 +348,13 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 }
 @media (max-width: 560px) {
   .loop { grid-template-columns: 1fr; }
-  .loop li { border-right: 0; border-bottom: 1px solid var(--rule); min-height: 0; display: grid; grid-template-columns: 40px 1fr; gap: 4px 12px; }
+  .loop li { border-right: 0; border-bottom: 1px solid var(--rule); min-height: 0; display: grid; grid-template-columns: 32px 1fr; gap: 2px 12px; padding: 14px 16px; }
   .loop li:last-child { border-bottom: 0; }
-  .loop li::before { grid-row: span 4; font-size: 1.75rem; }
-  .loop h3 { margin: 0; }
-  .loop .who { margin-top: 8px; }
+  .loop li::before { grid-row: span 4; font-size: 1.5rem; }
+  .loop h3 { margin: 0; display: flex; align-items: baseline; gap: 12px; }
+  .loop .pain span { display: inline; margin-right: 4px; }
+  .loop .who { display: none; }
+  .loop-return { display: none; }
   .spec thead { display: none; }
   .spec tbody tr { display: block; border-top: 1px solid var(--rule); padding: 12px 0; }
   .spec tbody th, .spec tbody td { display: block; border: 0; padding: 2px 0; width: auto; }

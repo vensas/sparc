@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGIN = 'https://sparc.apps.vensas.de';
-const RECENT = 5;
+const RECENT = 3;
 // The pages that each page links to: home, and the legal pages in the footer.
 const LINKED = ['index', 'imprint', 'privacy'];
 
