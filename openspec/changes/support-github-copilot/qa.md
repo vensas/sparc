@@ -73,3 +73,9 @@ Context: fresh
 | `docs/mockups/support-github-copilot/index.html:188`: changed after the approval | The `[hidden]` rule fixes a bug of the approved behavior (the switch showed without JavaScript), and 5c9e09b moves the panel roles into the script as in the site. Both keep the approved design |
 
 After the fixes: `node --test 'scripts/*.test.mjs'`, 249 passed, 0 failed. `node scripts/check.mjs`: no findings. axe-core 4.14.0: 0 violations on `/` and `/de/`, light and dark, 1440 and 390 px.
+
+## Acceptance
+
+Accepted on 2026-11-18 by the product owner role. 16 scenarios passed with automated tests and 2 with manual checks in GitHub Copilot CLI 1.0.106. No scenario failed. Each code review finding has a fix.
+
+Open, in the canvas: the Copilot CLI marketplace commands are not run with the sparc marketplace yet, the check warning does not show in Copilot, and Copilot in VS Code, the GitHub Copilot app and the cloud agent are not tested. The README says each of these points.
