@@ -68,4 +68,4 @@ Rollback: `kamal app stop -c config/deploy.yml` from the publish output, or `kam
 ## Open Questions
 
 - Does vensas GmbH have a data protection officer? The privacy policy of vensas names none. If yes, the privacy policy names the officer.
-- How long does the server keep the request log of kamal-proxy? Kamal starts containers with the Docker log option `max-size=10m` when `deploy.yml` has no `logging` section (Kamal source, `lib/kamal/configuration/logging.rb`). That is a limit of size, not of time. An operator of the server finds the time and sets a limit for all apps on the server. The privacy policy tells the time.
+- How long does the server keep the request log of kamal-proxy? Kamal starts containers with the Docker log option `max-size=10m` when `deploy.yml` has no `logging` section (Kamal source, `lib/kamal/configuration/logging.rb`). That is a limit of size, not of time. An operator of the server checked on 2026-11-18: the request log of kamal-proxy has the client IP address, and it uses the Kamal default. The operators decide on a time limit for all apps on the server. The privacy policy tells the time.
