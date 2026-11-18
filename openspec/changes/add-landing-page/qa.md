@@ -95,3 +95,9 @@ Context: fresh
 | Scope: `.impeccable/config.json`, `.impeccable/design.json` and `DESIGN.md` are not in the proposal | b760a4d: added to "Impact" in proposal.md |
 
 After the fixes: `node --test 'scripts/*.test.mjs'`, 240 passed, 0 failed. `CONTAINER=podman website/test.sh`, 32 checks, all passed. `actionlint`: no findings. `node scripts/check.mjs`: no findings.
+
+## Acceptance
+
+Accepted on 2026-11-18 by the product owner role. 25 scenarios passed with automated tests and 4 with manual checks. No scenario failed. Each code review finding has a fix or a reason.
+
+Open: the manual check "Build and deployment: Deploy after a change" waits for the repository secrets and the DNS record (workflow follow-up in tasks.md, open point in the canvas). The user asked to apply and archive the change before the server setup. Run the check after the first deployment, together with the legal review, before the repository becomes public.
