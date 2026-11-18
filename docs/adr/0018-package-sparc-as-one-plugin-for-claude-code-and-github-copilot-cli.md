@@ -1,5 +1,5 @@
 ---
-status: proposed
+status: accepted
 date: 2026-11-18
 decision-makers: ["[@sventropy](https://github.com/sventropy)"]
 consulted: []

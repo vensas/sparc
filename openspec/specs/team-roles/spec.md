@@ -13,8 +13,8 @@ The sparc plugin SHALL provide one role file for each role in `rules/roles/`: pr
 - **THEN** `rules/roles/` has `product-owner.md`, `architect.md`, `ux-designer.md`, `software-engineer.md` and `qa-engineer.md`
 
 #### Scenario: No custom agent types
-- **WHEN** a user loads the sparc plugin in Claude Code
-- **THEN** no agent type with the prefix `sparc:` is available
+- **WHEN** a user loads the sparc plugin in Claude Code or in GitHub Copilot CLI
+- **THEN** no agent type with the prefix `sparc:` is available, and the plugin has no `agents/` folder
 
 ### Requirement: Skills follow the roles in the current session
 Each skill SHALL name the role files that it follows. By default, the roles run in the current session. The skills and rules SHALL NOT forbid subagents or worktrees, and SHALL NOT tell the agent to use them, except for the code review and the optional fresh-context check. The agent decides where a subagent helps.

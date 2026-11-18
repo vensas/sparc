@@ -56,7 +56,7 @@ See the [system context diagram](c4.md#system-context).
 *One line and a link for each ADR in `docs/adr/`.*
 
 - [ADR-0001](../adr/0001-extend-openspec-through-config-not-a-forked-schema.md): Extend OpenSpec through `config.yaml`, not through a forked schema.
-- [ADR-0002](../adr/0002-package-sparc-as-a-claude-code-plugin.md): Package sparc as a Claude Code plugin with its own marketplace.
+- [ADR-0002](../adr/0002-package-sparc-as-a-claude-code-plugin.md): Package sparc as a Claude Code plugin with its own marketplace (superseded by ADR-0018).
 - [ADR-0003](../adr/0003-use-mermaid-for-c4-diagrams.md): Use Mermaid for C4 diagrams.
 - [ADR-0004](../adr/0004-lock-decided-adrs-with-a-body-hash.md): Lock decided ADRs with a body hash (superseded by ADR-0008).
 - [ADR-0005](../adr/0005-hook-warns-and-does-not-block.md): The hook warns and does not block. It warns one time for the same findings (amended).
@@ -72,7 +72,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0015](../adr/0015-use-roles-as-rules-with-a-fresh-context-code-review.md): Use roles as rules with a fresh-context code review.
 - [ADR-0016](../adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md): Mark current ADRs through a rule and the canvas index.
 - [ADR-0017](../adr/0017-keep-only-open-items-in-the-backlog.md): Keep only open items in the backlog.
-- [ADR-0018](../adr/0018-package-sparc-as-one-plugin-for-claude-code-and-github-copilot-cli.md) (proposed in the change support-github-copilot): Package sparc as one plugin for Claude Code and GitHub Copilot CLI.
+- [ADR-0018](../adr/0018-package-sparc-as-one-plugin-for-claude-code-and-github-copilot-cli.md): Package sparc as one plugin for Claude Code and GitHub Copilot CLI.
 
 ## Technologies 🛠️
 
@@ -114,8 +114,8 @@ See the [container diagram](c4.md#containers).
 - The imprint and the privacy policy of the website (change add-landing-page) have no legal review yet. The English texts are translations, and the German text is binding.
 - The DNS record for `sparc.apps.vensas.de` and the repository secrets `DEPLOY_HOST`, `SSH_PRIVATE_KEY` and `SSH_KNOWN_HOSTS` do not exist yet. The operator of the server adds them. The deploy job of `.github/workflows/website.yml` has not run yet, so the QA scenario "Deploy after a change" is open.
 - The request log of kamal-proxy on the server has the IP address of the visitor. It has a size limit, not a time limit. The privacy policy of the website tells this rule. A time limit for all apps on the server is a decision of the operators of the server. The nginx log of the website has no IP address.
-- GitHub Copilot CLI reads sparc as a plugin in the legacy format (`.claude-plugin/`). GitHub can drop this format (ADR-0018, proposed).
-- Copilot in VS Code, the GitHub Copilot app and the Copilot cloud agent are not tested with sparc (change support-github-copilot).
+- GitHub Copilot CLI reads sparc as a plugin in the legacy format (`.claude-plugin/`). GitHub can drop this format (ADR-0018).
+- Copilot in VS Code, the GitHub Copilot app and the Copilot cloud agent are not tested with sparc (change support-github-copilot, archived).
 - In GitHub Copilot CLI 1.0.106, the warning of `scripts/check.mjs --hook` does not show. The check runs, but neither the user nor the model sees its findings. The verifier, which blocks, works.
 - In GitHub Copilot CLI, each session asks for access to the folder of the plugin, because it is outside the project.
 - The Copilot CLI marketplace commands (`copilot plugin marketplace add vensas/sparc`, `copilot plugin install sparc@sparc`) are not run yet. It is not known if Copilot installs the release tag of `.claude-plugin/marketplace.json`.
