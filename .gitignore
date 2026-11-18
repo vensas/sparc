@@ -1,2 +1,5 @@
 _site/
 .playwright-mcp/
+website/apphost/out/
+website/apphost/bin/
+website/apphost/obj/

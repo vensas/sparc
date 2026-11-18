@@ -42,7 +42,7 @@ check "/de gets its trailing slash" "301 $BASE/de/" "$(curl -s -o /dev/null -w '
 # Web server: Other host
 check "other host names get no response" "52" "$(curl -s -o /dev/null -H 'Host: other.example' "$BASE/" && echo 0 || echo $?)"
 # Web server: Health check
-check "health answers for any host" "200" "$(status -H 'Host: 10.0.0.5:8080' "$BASE/health")"
+check "health answers for any host" "200" "$(status -H 'Host: 203.0.113.5:8080' "$BASE/health")"
 # Web server: Page not found
 check "a missing German page is 404" "404" "$(status "$BASE/de/missing.html")"
 check "the German 404 page is German" "yes" "$(curl -s "$BASE/de/missing.html" | grep -q '<html lang="de">' && echo yes || echo no)"

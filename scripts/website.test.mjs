@@ -214,3 +214,22 @@ test('Web server: Security headers (no inline styles or scripts for the CSP)', (
     assert.doesNotMatch(html, /<style|\sstyle="|<script(?![^>]*\ssrc=)|\son[a-z]+="/, file);
   }
 });
+
+// RFC 5737 documentation ranges: examples only, never a real server.
+const DOCUMENTATION = /^(192\.0\.2|198\.51\.100|203\.0\.113)\./;
+
+test('No server data in the repository: Scan of the tracked files', () => {
+  const scanned = ['website', '.github/workflows'].flatMap((dir) => files(join(ROOT, dir)))
+    .filter((f) => !/\/(bin|obj|out)\//.test(f) && !/\.(woff2|png)$/.test(f));
+  assert.ok(scanned.length > 10, `${scanned.length} files`);
+  for (const file of scanned) {
+    const text = readFileSync(file, 'utf8');
+    const addresses = (text.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) ?? []).filter((ip) => !DOCUMENTATION.test(ip));
+    assert.deepEqual(addresses, [], file);
+    assert.doesNotMatch(text, /PRIVATE KEY/, file);
+  }
+});
+
+test('No server data in the repository: Generated Kamal configuration is not committed', () => {
+  assert.match(readFileSync(join(ROOT, '.gitignore'), 'utf8'), /^website\/apphost\/out\/$/m);
+});

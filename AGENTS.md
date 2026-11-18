@@ -13,6 +13,8 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | Run a CI workflow locally (Docker, from a clean clone, `linux/arm64` on Apple silicon) | `act push -W .github/workflows/validate.yml --container-architecture linux/arm64` |
 | Build the website into `_site/` | `node scripts/build-website.mjs` |
 | Test the website container (Docker, or Podman with `CONTAINER=podman`) | `website/test.sh` |
+| Run the website locally with Aspire (.NET SDK, Aspire CLI, Docker or Podman) | `aspire run --apphost website/apphost/Sparc.Website.AppHost.csproj` |
+| Make the Kamal configuration of the website (address of the server in `DEPLOY_HOST`) | `cd website/apphost && aspire publish -o out` |
 | Load the plugin for a test | `claude --plugin-dir .` |
 | Make the plugin icon after a change to `docs/assets/icon.svg` | `rsvg-convert -w 512 -h 512 docs/assets/icon.svg -o .claude-plugin/icon.png` |
 
@@ -28,7 +30,7 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | `scripts/check.mjs` | Document check without dependencies, and its tests |
 | `scripts/verify-release.mjs` | Release verification for the publication workflow, and its tests |
 | `scripts/verify.mjs` | Verifier of a complete change (Stop hook, blocks), and its tests |
-| `website/` | Website: layout, pages, texts for each language in `i18n/`, styles, script, font, nginx container (`Dockerfile`, `nginx/`) and its test `test.sh` |
+| `website/` | Website: layout, pages, texts for each language in `i18n/`, styles, script, font, nginx container (`Dockerfile`, `nginx/`) and its test `test.sh`, Aspire AppHost for Kamal (`apphost/`) |
 | `scripts/build-website.mjs` | Website build without dependencies, and its tests in `scripts/website.test.mjs` |
 | `.github/workflows/` | CI: `validate.yml` for each push and pull request, `publish.yml` for each release tag |
 | `hooks/hooks.json` | Stop and SubagentStop hooks that run the check, and the Stop hook that runs the verifier |
