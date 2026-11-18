@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-11-16T15:20:22.097Z",
         "reason": "Claude triage: the flagged borders are hairline section and masthead dividers, not containers; masthead has 24px block padding and sections 64-120px; screenshots at 1440/390 show no cramped text"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "website/layout.html"
+        ],
+        "createdAt": "2026-11-18T07:53:08.577Z",
+        "reason": "Claude triage: same as the mockup; the flagged border is the hairline masthead divider (24px block padding), not a container; 1440 and 360 screenshots show no cramped text"
       }
     ]
   }

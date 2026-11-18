@@ -21,31 +21,31 @@ The website SHALL have a landing page, an imprint and a privacy policy in Englis
 
 ### Requirement: First viewport of the landing page
 
-The landing page SHALL show the sparc logo, a short statement of what sparc does, the CLI commands to add the marketplace and install sparc, and a link to the repository on GitHub, in the first viewport at a width of 1440 px.
+The landing page SHALL show the sparc logo, a short statement of what sparc does, the CLI commands to install OpenSpec, add the marketplace and install sparc, and a link to the repository on GitHub, in the first viewport at a width of 1440 px.
 
 #### Scenario: First viewport
 
 - **WHEN** a visitor opens `/` in a window of 1440 × 900 px
-- **THEN** the logo, the heading, the commands `claude plugin marketplace add vensas/sparc` and `claude plugin install sparc@sparc`, and a link to `https://github.com/vensas/sparc` are visible without a scroll
+- **THEN** the logo, the heading, the commands `npm install -g @fission-ai/openspec`, `claude plugin marketplace add vensas/sparc` and `claude plugin install sparc@sparc`, and a link to `https://github.com/vensas/sparc` are visible without a scroll
 
 #### Scenario: Copy the install commands
 
 - **WHEN** a visitor clicks "Copy" next to the install commands
-- **THEN** the clipboard holds the two commands, one on each line
+- **THEN** the clipboard holds the three commands, one on each line
 
 ### Requirement: Sections of the landing page
 
-Below the first viewport, the landing page SHALL show in this order: why (the problems that sparc solves, each with what sparc does about it), the steps of a change, the roles, the document set, the record of sparc, a FAQ and the install steps. The problems and the FAQ answers SHALL state only facts that the README or the canvas also states.
+Below the first viewport, the landing page SHALL show in this order: the steps of a change, the documents with their owners, the record of sparc, a FAQ and the steps to start a project. Each step of a change SHALL name the problem that it stops. The problems and the FAQ answers SHALL state only facts that the README or the canvas also states.
 
-#### Scenario: Problems and answers
+#### Scenario: Problem of each step
 
-- **WHEN** a visitor scrolls below the first viewport
-- **THEN** the section "Why" comes first and pairs each problem with what sparc does about it
+- **WHEN** a visitor reads the steps of a change
+- **THEN** each step shows its name, its command or artifact, and the problem that it stops
 
 #### Scenario: Order of the sections
 
 - **WHEN** a visitor reads the landing page from top to bottom
-- **THEN** the sections are why, loop, roles, documents, record, FAQ and install
+- **THEN** the sections are loop, documents, record, FAQ and start
 
 ### Requirement: FAQ
 
@@ -58,7 +58,7 @@ The FAQ SHALL show each question as a control that opens and closes its answer w
 
 ### Requirement: Record from the repository
 
-The record on the landing page SHALL show the number of ADRs in `docs/adr/`, the number of archived changes in `openspec/changes/archive/`, the number of releases in `CHANGELOG.md`, the latest version, and the most recent archived changes. The build SHALL read these values from the repository at build time.
+The record on the landing page SHALL show the number of ADRs in `docs/adr/`, the number of archived changes in `openspec/changes/archive/`, the number of releases in `CHANGELOG.md`, the latest version, and the three most recent archived changes. The build SHALL read these values from the repository at build time.
 
 #### Scenario: A new release
 
