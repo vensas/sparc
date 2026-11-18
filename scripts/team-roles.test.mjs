@@ -15,6 +15,7 @@ test('Roles as rule files: Role files exist', () => {
 
 test('Roles as rule files: No custom agent types', () => {
   assert.ok(!existsSync(join(ROOT, 'agents')), 'the folder agents/ must not exist');
+  assert.ok(!existsSync(join(ROOT, 'com.github.copilot')), 'the folder com.github.copilot/ (Copilot agents) must not exist');
   assert.equal(JSON.parse(readFileSync(join(ROOT, '.claude-plugin/plugin.json'), 'utf8')).agents, undefined);
 });
 
