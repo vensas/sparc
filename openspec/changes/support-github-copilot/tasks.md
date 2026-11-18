@@ -6,7 +6,7 @@
 
 ## 2. Check GitHub Copilot CLI
 
-- [ ] 2.1 In an interactive GitHub Copilot CLI session with `copilot --plugin-dir <sparc checkout>` in a test project, check: the slash command form of a skill (`/sparc:sync` or `/sync`), `/sparc:propose` with an idea, the `Stop` hook with a failing verification, `SubagentStop`, the warning of `scripts/check.mjs --hook`, and one fresh-context code review with a subagent. Verify: each result is written in `qa.md` under "Manual checks" with the Copilot version and the date. Documents: canvas (each gap as an open point).
+- [x] 2.1 In an interactive GitHub Copilot CLI session with `copilot --plugin-dir <sparc checkout>` in a test project, check: the slash command form of a skill (`/sparc:sync` or `/sync`), `/sparc:propose` with an idea, the `Stop` hook with a failing verification, `SubagentStop`, the warning of `scripts/check.mjs --hook`, and one fresh-context code review with a subagent. Verify: each result is written in `qa.md` under "Manual checks" with the Copilot version and the date. Documents: canvas (each gap as an open point).
 
 ## 3. Positioning and README
 

@@ -116,7 +116,8 @@ See the [container diagram](c4.md#containers).
 - The request log of kamal-proxy on the server has the IP address of the visitor. It has a size limit, not a time limit. The privacy policy of the website tells this rule. A time limit for all apps on the server is a decision of the operators of the server. The nginx log of the website has no IP address.
 - GitHub Copilot CLI reads sparc as a plugin in the legacy format (`.claude-plugin/`). GitHub can drop this format (ADR-0018, proposed).
 - Copilot in VS Code, the GitHub Copilot app and the Copilot cloud agent are not tested with sparc (change support-github-copilot).
-- Some parts of sparc are not checked yet in Copilot CLI (change support-github-copilot): the slash command form of a skill, `SubagentStop` and the warning of the check.
+- In GitHub Copilot CLI 1.0.106, the warning of `scripts/check.mjs --hook` does not show. The check runs, but neither the user nor the model sees its findings. The verifier, which blocks, works.
+- In GitHub Copilot CLI, each session asks for access to the folder of the plugin, because it is outside the project.
 - It is not known if vensas GmbH has a data protection officer. The privacy policy of vensas names none.
 - Mermaid C4 draws each relation as a straight line, so some lines cross boxes in the container diagram. Mermaid CLI 12.0.0 ignores `UpdateLayoutConfig`. Label offsets keep the labels apart. The render on GitHub is not checked yet.
 
