@@ -49,6 +49,9 @@ check "the German 404 page is German" "yes" "$(curl -s "$BASE/de/missing.html" |
 check "the English 404 page is English" "yes" "$(curl -s "$BASE/missing.html" | grep -q '<html lang="en">' && echo yes || echo no)"
 check "404 pages do not name the server" "0" "$(curl -s "$BASE/missing.html" | grep -ci nginx || true)"
 check "only GET and HEAD" "405" "$(status -X POST "$BASE/")"
+check "405 names the allowed methods" "GET, HEAD" "$(curl -s -D - -o /dev/null -X POST "$BASE/" | tr -d '\r' | sed -n 's/^allow: //Ip')"
+check "405 is plain text" "text/plain" "$(curl -s -D - -o /dev/null -X POST "$BASE/" | tr -d '\r' | sed -n 's/^content-type: \([^;]*\).*/\1/Ip')"
+check "nginx cannot change its configuration" "" "$("$CONTAINER" exec "$NAME" find /etc/nginx -writable)"
 # Web server: Security headers
 check "no Server header" "" "$(header server "$BASE/")"
 check "no Server header on errors" "" "$(header server "$BASE/missing.html")"

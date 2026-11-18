@@ -9,5 +9,5 @@ set -eu
 echo "$SITE_HOST" | grep -Eq '^[A-Za-z0-9.-]+( [A-Za-z0-9.-]+)*$' || { echo "invalid SITE_HOST" >&2; exit 1; }
 
 export SITE_HOST
-envsubst '${SITE_HOST}' < /etc/nginx/templates/site.conf.template > /etc/nginx/site/site.conf
+envsubst '${SITE_HOST}' < /etc/nginx/templates/site.conf.template > /tmp/site.conf
 exec nginx -g 'daemon off;'

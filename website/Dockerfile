@@ -8,8 +8,7 @@ RUN node scripts/build-website.mjs /site
 FROM alpine:3.24
 RUN apk upgrade --no-cache \
  && apk add --no-cache nginx nginx-mod-http-headers-more gettext-envsubst \
- && mkdir -p /etc/nginx/templates /etc/nginx/site \
- && chown nginx:nginx /etc/nginx/site
+ && mkdir -p /etc/nginx/templates
 COPY website/nginx/nginx.conf website/nginx/security-headers.conf /etc/nginx/
 COPY website/nginx/site.conf.template /etc/nginx/templates/
 COPY website/docker-entrypoint.sh /usr/local/bin/

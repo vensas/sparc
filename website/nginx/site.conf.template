@@ -36,8 +36,16 @@ server {
     error_page 404 $not_found;
 
     # A static site: only reading.
-    # The text replaces the default error page, which names nginx.
     if ($request_method !~ ^(GET|HEAD)$) {
+        return 405;
+    }
+    error_page 405 @not_allowed;
+
+    # Replaces the default error page, which names nginx.
+    location @not_allowed {
+        include security-headers.conf;
+        add_header Allow "GET, HEAD" always;
+        default_type text/plain;
         return 405 "Method not allowed\n";
     }
 
