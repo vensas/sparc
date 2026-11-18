@@ -26,7 +26,7 @@ sparc keeps specs, architecture and documents in sync with the code while agents
 
 ## Operating Context
 
-Claude Code (CLI and Desktop), OpenSpec, git and GitHub. The repository `vensas/sparc` becomes public before the site goes live.
+Claude Code (CLI and Desktop) or GitHub Copilot CLI, and OpenSpec, git and GitHub. See the README "Supported Agents". The repository `vensas/sparc` becomes public before the site goes live.
 
 ## Brand Commitments
 

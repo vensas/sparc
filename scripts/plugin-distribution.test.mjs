@@ -29,7 +29,7 @@ test('Publication of a release tag: workflow validates, verifies and then create
   assert.match(yml, /--notes-file/);
 });
 
-test('Install instructions: README has the CLI, Claude Desktop, update and development steps', () => {
+test('Install instructions: Read the install section', () => {
   const readme = read('README.md');
   for (const text of [
     'claude plugin marketplace add vensas/sparc',
@@ -41,6 +41,12 @@ test('Install instructions: README has the CLI, Claude Desktop, update and devel
     'claude plugin marketplace update sparc',
     'claude plugin update sparc@sparc',
     'claude --plugin-dir',
+    'copilot plugin marketplace add vensas/sparc',
+    'copilot plugin install sparc@sparc',
+    'copilot plugin list',
+    'copilot plugin marketplace update sparc',
+    'copilot plugin update sparc@sparc',
+    'copilot --plugin-dir',
   ]) assert.ok(readme.includes(text), text);
 });
 
@@ -75,4 +81,22 @@ test('Skills work in each supported agent: Agent does not replace the arguments'
     assert.match(text, /If the text after the colon above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill\./, name);
     assert.equal(text.split('$ARGUMENTS').length - 1, 1, `${name}: $ARGUMENTS only one time`);
   }
+});
+
+const readmeSection = (name) => read('README.md').split(/^## /m).find((part) => part.startsWith(`${name}\n`)) ?? '';
+
+test('Supported agents: Read the supported agents', () => {
+  const section = readmeSection('Supported Agents');
+  for (const text of ['Claude Code', 'GitHub Copilot CLI', '/sparc:propose', 'VS Code', 'cloud agent', 'not tested', 'check.mjs', 'Allow path access']) {
+    assert.ok(section.includes(text), text);
+  }
+});
+
+test('Description for coding agents: Manifest description', () => {
+  const { description } = JSON.parse(read('.claude-plugin/plugin.json'));
+  assert.match(description, /coding agents/);
+  assert.doesNotMatch(description, /Claude Code plugin/);
+  const first = read('README.md').split('\n').find((line) => /^sparc is /.test(line));
+  assert.match(first, /coding agents/);
+  assert.doesNotMatch(first, /in Claude Code\./);
 });

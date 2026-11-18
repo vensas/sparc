@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a sparc project.
+This repository is sparc, a plugin for coding agents (Claude Code and GitHub Copilot CLI). sparc also uses itself: it is a sparc project.
 
 ## Commands
 
@@ -16,7 +16,7 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | Run the website test job locally (with Podman, add `--container-options "--security-opt label=disable"`) | `act push -W .github/workflows/website.yml --container-architecture linux/arm64 -j test` |
 | Run the website locally with Aspire (.NET SDK, Aspire CLI, Docker or Podman) | `aspire run --apphost website/apphost/Sparc.Website.AppHost.csproj` |
 | Make the Kamal configuration of the website (address of the server in `DEPLOY_HOST`) | `cd website/apphost && aspire publish -o out` |
-| Load the plugin for a test | `claude --plugin-dir .` |
+| Load the plugin for a test | `claude --plugin-dir .` or `copilot --plugin-dir .` |
 | Make the plugin icon after a change to `docs/assets/icon.svg` | `rsvg-convert -w 512 -h 512 docs/assets/icon.svg -o .claude-plugin/icon.png` |
 
 ## Structure

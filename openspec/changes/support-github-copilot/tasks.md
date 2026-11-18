@@ -10,7 +10,7 @@
 
 ## 3. Positioning and README
 
-- [ ] 3.1 Change the description in `.claude-plugin/plugin.json`, the first sentence and the section "Architecture" of `README.md` to "plugin for coding agents". Add the section "Supported Agents" (agents, how to start a skill, limits from task 2.1, VS Code and the cloud agent not tested) and the Copilot CLI commands in "Install" and "Update". Verify: `node --test 'scripts/*.test.mjs'` passes with tests for "Manifest description", "Read the install section" and "Read the supported agents", and `claude plugin validate .` passes. Documents: README.md, PRODUCT.md, AGENTS.md (command `copilot --plugin-dir .`).
+- [x] 3.1 Change the description in `.claude-plugin/plugin.json`, the first sentence and the section "Architecture" of `README.md` to "plugin for coding agents". Add the section "Supported Agents" (agents, how to start a skill, limits from task 2.1, VS Code and the cloud agent not tested) and the Copilot CLI commands in "Install" and "Update". Verify: `node --test 'scripts/*.test.mjs'` passes with tests for "Manifest description", "Read the install section" and "Read the supported agents", and `claude plugin validate .` passes. Documents: README.md, PRODUCT.md, AGENTS.md (command `copilot --plugin-dir .`).
 
 ## 4. Website
 

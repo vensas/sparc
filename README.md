@@ -1,6 +1,6 @@
 # <picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg"><img src="docs/assets/logo-light.svg" alt="sparc" width="200"></picture>
 
-sparc is a harness for spec-driven work with agents in Claude Code. The name comes from "spec", "arc" (architecture) and the spark of an idea.
+sparc is a harness for spec-driven work with coding agents. It is a plugin for Claude Code and GitHub Copilot CLI (see [Supported Agents](#supported-agents)). The name comes from "spec", "arc" (architecture) and the spark of an idea.
 
 Website: [sparc.apps.vensas.de](https://sparc.apps.vensas.de) (source in [`website/`](website/)).
 
@@ -78,18 +78,31 @@ All English text in sparc follows ASD-STE100 Simplified Technical English on pur
 
 - Each behavior change goes through propose, apply and archive, also a small fix.
 - The fresh-context code review starts one more agent for each change. This costs tokens and time.
-- sparc needs Claude Code, OpenSpec, Node.js and git.
+- sparc needs Claude Code or GitHub Copilot CLI, and OpenSpec, Node.js and git.
 
 The canvas lists the measured cost and the open risks: [Core Risks and Missing Information](docs/architecture/canvas.md#core-risks-and-missing-information-).
 
 ## Architecture
 
-sparc is a Claude Code plugin. It uses the OpenSpec CLI for specs and changes and adds its rules through `openspec/config.yaml`.
+sparc is a plugin in the Claude Code plugin format. Claude Code and GitHub Copilot CLI load it from the same files ([ADR-0018](docs/adr/0018-package-sparc-as-one-plugin-for-claude-code-and-github-copilot-cli.md)). It uses the OpenSpec CLI for specs and changes and adds its rules through `openspec/config.yaml`.
 For details, see the [C4 diagrams](docs/architecture/c4.md), the [architecture canvas](docs/architecture/canvas.md) and the [decisions](docs/adr/).
+
+## Supported Agents
+
+| Agent | Status | Start a skill |
+|---|---|---|
+| Claude Code (CLI and Claude Desktop) | Supported | `/sparc:propose <feature>` |
+| GitHub Copilot CLI | Supported, tested with version 1.0.106 | `/sparc:propose <feature>` |
+| GitHub Copilot in VS Code, the GitHub Copilot app and the Copilot cloud agent | not tested | |
+
+Both agents load the same skills, rules, hooks and scripts. Limits with GitHub Copilot CLI:
+
+- The warning of the document check (`scripts/check.mjs`) does not show. The check runs when the agent stops, but you do not see its findings. Run `/sparc:sync` to see and fix them. The verifier, which blocks an incomplete change, works.
+- Copilot asks "Allow path access" for the folder of the plugin, because it is outside your project. Select "Yes, and remember these paths for this session".
 
 ## Get Started
 
-Prerequisites: Claude Code, Node.js (latest LTS version), git and OpenSpec (`npm install -g @fission-ai/openspec`).
+Prerequisites: Claude Code or GitHub Copilot CLI, Node.js (latest LTS version), git and OpenSpec (`npm install -g @fission-ai/openspec`).
 
 ### Install
 
@@ -119,6 +132,14 @@ With Claude Desktop, in the **Code** tab:
 3. Paste `https://github.com/vensas/sparc.git`.
 4. Install `sparc` from the marketplace `sparc`. If Claude Desktop tells you to reload the plugins, run `/reload-plugins`.
 
+With GitHub Copilot CLI:
+
+```sh
+copilot plugin marketplace add vensas/sparc
+copilot plugin install sparc@sparc
+copilot plugin list
+```
+
 The marketplace gives the latest release tag, not the newest commit on `main`.
 
 ### Update
@@ -126,6 +147,13 @@ The marketplace gives the latest release tag, not the newest commit on `main`.
 ```sh
 claude plugin marketplace update sparc
 claude plugin update sparc@sparc
+```
+
+With GitHub Copilot CLI:
+
+```sh
+copilot plugin marketplace update sparc
+copilot plugin update sparc@sparc
 ```
 
 Then run `/sparc:update` in each project that uses sparc.
@@ -163,7 +191,7 @@ sparc does not limit what a project requires. Write each requirement in its home
 In the folder of your checkout, load the plugin and run the tests. Do not add the checkout as a marketplace for this: the marketplace installs the release tag from GitHub, not your local files.
 
 ```sh
-claude --plugin-dir .
+claude --plugin-dir .            # or: copilot --plugin-dir .
 node --test 'scripts/*.test.mjs'
 ```
 
