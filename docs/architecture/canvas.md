@@ -118,6 +118,7 @@ See the [container diagram](c4.md#containers).
 - Copilot in VS Code, the GitHub Copilot app and the Copilot cloud agent are not tested with sparc (change support-github-copilot).
 - In GitHub Copilot CLI 1.0.106, the warning of `scripts/check.mjs --hook` does not show. The check runs, but neither the user nor the model sees its findings. The verifier, which blocks, works.
 - In GitHub Copilot CLI, each session asks for access to the folder of the plugin, because it is outside the project.
+- The Copilot CLI marketplace commands (`copilot plugin marketplace add vensas/sparc`, `copilot plugin install sparc@sparc`) are not run yet. It is not known if Copilot installs the release tag of `.claude-plugin/marketplace.json`.
 - It is not known if vensas GmbH has a data protection officer. The privacy policy of vensas names none.
 - Mermaid C4 draws each relation as a straight line, so some lines cross boxes in the container diagram. Mermaid CLI 12.0.0 ignores `UpdateLayoutConfig`. Label offsets keep the labels apart. The render on GitHub is not checked yet.
 
