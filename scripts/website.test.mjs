@@ -82,7 +82,7 @@ const LANGS = ['en', 'de'];
 
 test('Pages in two languages: Pages of the built site', () => {
   for (const lang of LANGS) {
-    for (const name of ['index.html', 'imprint.html', 'privacy.html']) {
+    for (const name of ['index.html', 'imprint.html', 'privacy.html', '404.html']) {
       assert.ok(page(`${prefix(lang)}${name}`).startsWith('<!doctype html>'), `${lang}/${name}`);
     }
   }

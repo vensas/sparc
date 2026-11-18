@@ -1,0 +1,9 @@
+# Only the files that the website build reads.
+*
+!scripts/build-website.mjs
+!website
+!docs/assets
+!docs/adr
+!openspec/changes/archive
+!CHANGELOG.md
+!.claude-plugin/plugin.json

@@ -236,5 +236,9 @@
         "code": "/sparc:propose &lt;feature&gt;"
       }
     ]
+  },
+  "404": {
+    "title": "Page not found",
+    "text": "This page does not exist."
   }
 }

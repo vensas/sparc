@@ -1,0 +1,76 @@
+# Rendered at container start by docker-entrypoint.sh. ${SITE_HOST} is the host names that the site answers to.
+
+# The 404 page in the language of the path.
+map $uri $not_found {
+    "~^/de/" /de/404.html;
+    default /404.html;
+}
+
+# Requests for other host names get the connection closed without a response.
+# Health checks are the exception: kamal-proxy does not send the site host.
+server {
+    listen 8080 default_server;
+    server_name _;
+
+    location = /health {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok";
+    }
+
+    location / {
+        return 444;
+    }
+}
+
+server {
+    listen 8080;
+    server_name ${SITE_HOST};
+    root /usr/share/sparc;
+    index index.html;
+    # Relative redirects: a Location header does not echo the host or the port.
+    absolute_redirect off;
+    autoindex off;
+
+    include security-headers.conf;
+    error_page 404 $not_found;
+
+    # A static site: only reading.
+    # The text replaces the default error page, which names nginx.
+    if ($request_method !~ ^(GET|HEAD)$) {
+        return 405 "Method not allowed\n";
+    }
+
+    location = /health {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok";
+    }
+
+    location ~ /\. {
+        return 404;
+    }
+
+    location = /de {
+        return 301 /de/;
+    }
+
+    location ~ ^(/de)?/404\.html$ {
+        internal;
+        include security-headers.conf;
+        add_header Cache-Control "no-store" always;
+    }
+
+    # Fonts and the icon stay cached for a day. The pages, styles and the script are revalidated.
+    location ~* \.(woff2|svg)$ {
+        include security-headers.conf;
+        add_header Cache-Control "public, max-age=86400" always;
+        try_files $uri =404;
+    }
+
+    location / {
+        include security-headers.conf;
+        add_header Cache-Control "no-cache" always;
+        try_files $uri $uri/ =404;
+    }
+}
