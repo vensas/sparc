@@ -92,7 +92,7 @@ For details, see the [C4 diagrams](docs/architecture/c4.md), the [architecture c
 | Agent | Status | Start a skill |
 |---|---|---|
 | Claude Code (CLI and Claude Desktop) | Supported | `/sparc:propose <feature>` |
-| GitHub Copilot CLI | Supported, tested with version 1.0.106 | `/sparc:propose <feature>` |
+| GitHub Copilot CLI | Supported. Tested with version 1.0.106 and a local checkout (`copilot --plugin-dir`) | `/sparc:propose <feature>` |
 | GitHub Copilot in VS Code, the GitHub Copilot app and the Copilot cloud agent | not tested | |
 
 Both agents load the same skills, rules, hooks and scripts. Limits with GitHub Copilot CLI:
@@ -140,7 +140,9 @@ copilot plugin install sparc@sparc
 copilot plugin list
 ```
 
-The marketplace gives the latest release tag, not the newest commit on `main`.
+These Copilot commands come from the [GitHub docs](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing). They are not run with this marketplace yet.
+
+With Claude Code, the marketplace gives the latest release tag, not the newest commit on `main`. With GitHub Copilot CLI, this is not checked yet.
 
 ### Update
 
@@ -153,7 +155,7 @@ With GitHub Copilot CLI:
 
 ```sh
 copilot plugin marketplace update sparc
-copilot plugin update sparc@sparc
+copilot plugin update sparc
 ```
 
 Then run `/sparc:update` in each project that uses sparc.
