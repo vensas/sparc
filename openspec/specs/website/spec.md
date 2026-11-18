@@ -199,7 +199,7 @@ The access log of the website container SHALL NOT contain the IP address of the 
 
 ### Requirement: Build and deployment
 
-A script without npm dependencies SHALL build the site from `website/` into one output folder. An Aspire AppHost SHALL run the site container locally and generate the Kamal configuration. A GitHub Actions workflow SHALL test the site container, and SHALL deploy it with Kamal to the server of `sparc.apps.vensas.de` on each push to `main` that changes the website, its build or the data it reads, and on manual start.
+A script without npm dependencies SHALL build the site from `website/` into one output folder. An Aspire AppHost SHALL run the site container locally and generate the Kamal configuration. A GitHub Actions workflow SHALL test the site container on each push to `main` and each pull request that changes the website, its build or the data it reads. It SHALL deploy the site with Kamal to the server of `sparc.apps.vensas.de` only after a verified release of sparc and on manual start.
 
 #### Scenario: Build without dependencies
 
@@ -214,7 +214,22 @@ A script without npm dependencies SHALL build the site from `website/` into one 
 #### Scenario: Deploy after a change
 
 - **WHEN** a commit on `main` changes a file in `website/`
-- **THEN** the workflow tests the container, and after the test deploys it with Kamal
+- **THEN** the workflow tests the container and does not deploy it; the next release deploys it
+
+#### Scenario: Deploy after a release
+
+- **WHEN** a release tag `v0.9.0` is pushed, and the publication workflow verified the release and created the GitHub release
+- **THEN** the publication workflow tests the site and then deploys it with Kamal
+
+#### Scenario: Failed release verification
+
+- **WHEN** the release verification of a tag fails
+- **THEN** the site is not deployed
+
+#### Scenario: Manual start
+
+- **WHEN** a maintainer starts the workflow `Website` by hand on `main`
+- **THEN** the workflow tests the container and deploys it
 
 ### Requirement: No server data in the repository
 

@@ -9,6 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 - sparc supports GitHub Copilot CLI as a second coding agent, next to Claude Code. Install it with `copilot plugin marketplace add vensas/sparc` and `copilot plugin install sparc@sparc`, and start the skills as `/sparc:<skill>`. The README section "Supported Agents" lists the limits with Copilot. Copilot in VS Code, the GitHub Copilot app and the cloud agent are not tested ([support-github-copilot](openspec/changes/archive/2026-11-18-support-github-copilot/proposal.md)).
 - The website shows the install commands for Claude Code and for GitHub Copilot, with a switch between them ([support-github-copilot](openspec/changes/archive/2026-11-18-support-github-copilot/proposal.md)).
+- The website deploys after each verified release of sparc. A push to `main` only tests it, and a manual start of the workflow `Website` deploys it at once ([deploy-website-on-release](openspec/changes/archive/2026-11-18-deploy-website-on-release/proposal.md)).
 
 - The website of sparc at https://sparc.apps.vensas.de: a landing page, an imprint and a privacy policy in English and German. It sets no cookies and loads nothing from other servers. An nginx container serves it, and Kamal deploys it ([add-landing-page](openspec/changes/archive/2026-11-18-add-landing-page/proposal.md)).
 
