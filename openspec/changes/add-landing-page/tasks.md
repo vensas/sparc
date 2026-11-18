@@ -16,7 +16,7 @@
 
 - [x] 4.1 Add `website/Dockerfile`, `website/Dockerfile.dockerignore`, the nginx configuration, the entrypoint and `website/test.sh`, and the 404 pages in the language files. Verify: `website/test.sh` passes with `CONTAINER=podman` for the scenarios of "Web server", "Access log without IP address" and "No cookie from the server". Documents: AGENTS.md (command and structure rows).
 - [x] 4.2 Add the Aspire AppHost in `website/apphost/` with `Vensas.Aspire.Hosting.Kamal` and `website/global.json`, and `website/apphost/out/` in `.gitignore`. Verify: `aspire run` shows the landing page; `DEPLOY_HOST=203.0.113.10 aspire publish -o out` writes `config/deploy.yml` with the proxy host `sparc.apps.vensas.de`, and `kamal config -c config/deploy.yml` loads it; without `DEPLOY_HOST` the publish stops with the message; the node:test scan for server data passes. Documents: AGENTS.md (command rows).
-- [ ] 4.3 Add `.github/workflows/website.yml` with the jobs `test` and `deploy`. Verify: `actionlint` passes, and `act push -W .github/workflows/website.yml --container-architecture linux/arm64 -j test` passes. Documents: AGENTS.md (CI row), C4 (already updated in the proposal).
+- [x] 4.3 Add `.github/workflows/website.yml` with the jobs `test` and `deploy`. Verify: `actionlint` passes, and `act push -W .github/workflows/website.yml --container-architecture linux/arm64 -j test` passes. Documents: AGENTS.md (CI row), C4 (already updated in the proposal).
 
 ## 5. Finish
 

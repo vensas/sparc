@@ -1,0 +1,123 @@
+# The website (website/): tests the site container on each push and pull request that changes it or the data
+# it reads. On main it also makes the Kamal configuration with `aspire publish`, builds and scans the image,
+# and deploys it to sparc.apps.vensas.de.
+#
+# Repository secrets (the repository names no server, see the change add-landing-page):
+#   DEPLOY_HOST       address of the server
+#   SSH_PRIVATE_KEY   key that Kamal uses to reach the server
+name: Website
+
+on:
+  push:
+    branches: [main]
+    paths: &paths
+      - "website/**"
+      - "scripts/build-website.mjs"
+      - "scripts/website.test.mjs"
+      - "docs/assets/**"
+      - "docs/adr/**"
+      - "openspec/changes/archive/**"
+      - "CHANGELOG.md"
+      - ".claude-plugin/plugin.json"
+      - ".github/workflows/website.yml"
+  pull_request:
+    paths: *paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Test the build and the pages
+        run: node --test scripts/website.test.mjs
+      - name: Test the site container
+        run: website/test.sh
+
+  deploy:
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    concurrency:
+      group: website-deploy
+      cancel-in-progress: false
+    env:
+      DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+      KAMAL_REGISTRY_USERNAME: ${{ github.repository_owner }}
+      KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      OUT_DIR: website/apphost/out
+      IMAGE: ghcr.io/${{ github.repository_owner }}/sparc-web:${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: website/global.json
+
+      - name: Install the Aspire CLI
+        run: dotnet tool install --global Aspire.Cli --version 13.6.5
+
+      - name: Make the Kamal configuration
+        working-directory: website/apphost
+        run: aspire publish -o ./out --non-interactive
+
+      - name: Add the server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -t ed25519,rsa,ecdsa "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Install Kamal
+        run: gem install kamal -v 2.12.0
+
+      - name: Build and push the image
+        working-directory: ${{ env.OUT_DIR }}
+        run: kamal build push -c config/deploy.yml --version "$GITHUB_SHA"
+
+      # ghcr.io can need some seconds before a new manifest is readable.
+      - name: Wait for the image on ghcr.io
+        run: |
+          for _ in 1 2 3 4 5 6 7 8 9 10; do
+            docker manifest inspect "$IMAGE" >/dev/null 2>&1 && exit 0
+            sleep 5
+          done
+          echo "::error::$IMAGE is not on ghcr.io"
+          exit 1
+
+      - name: Scan the image
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ env.IMAGE }}
+          version: v0.74.0
+          # Outside the checkout: a cache in the work tree makes Kamal see uncommitted changes.
+          cache-dir: /tmp/trivy-cache
+          format: table
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy the site
+        working-directory: ${{ env.OUT_DIR }}
+        run: kamal deploy --skip-push -c config/deploy.yml --version "$GITHUB_SHA"
