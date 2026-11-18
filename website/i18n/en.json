@@ -10,6 +10,7 @@
     "skip": "Skip to the content",
     "home": "sparc, home",
     "label": "Sections and language",
+    "dark": "Dark",
     "sections": [
       {
         "id": "loop",

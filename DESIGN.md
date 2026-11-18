@@ -210,6 +210,7 @@ All frames, buttons, code blocks and tables have square corners. The only curves
 
 ### Navigation
 - **Masthead index:** the section number in Second Ink, then the name, in ink. Hover underlines. The language switch is after a hairline. The current language has an ink fill.
+- **Color scheme switch:** the last item of the masthead index. A button with a half-filled circle and the text "Dark" in a hairline frame, in the type of the language switch. Pressed (dark scheme) has an ink fill. It starts with the system preference and stores nothing. Without JavaScript, it stays hidden.
 - **Footer (billing block):** Code Paper, 12-column grid, uppercase column heads, ink links, and an agate line with version, license and owner.
 
 ### Change loop (signature)

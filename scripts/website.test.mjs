@@ -218,6 +218,64 @@ test('First viewport of the landing page: Page without JavaScript', () => {
   }
 });
 
+// Runs the real site.js against a stand-in of the root and the color scheme switch of a built page.
+const themeButton = (html) => html.match(/<button type="button" class="theme-switch"[^>]*>[\s\S]*?<\/button>/)?.[0] ?? '';
+function runTheme(html, systemDark) {
+  const tag = themeButton(html);
+  const button = {
+    hidden: /\shidden[\s>]/.test(tag), attrs: {}, listeners: {},
+    setAttribute(key, value) { this.attrs[key] = String(value); },
+    addEventListener(type, fn) { (this.listeners[type] ??= []).push(fn); },
+    fire(type) { for (const fn of this.listeners[type] ?? []) fn({ preventDefault() {} }); },
+  };
+  const root = { dataset: {}, classList: { add() {} } };
+  const doc = { documentElement: root, querySelector: (s) => (s === '[data-theme-switch]' ? button : null), querySelectorAll: () => [] };
+  const media = (query) => ({ matches: query === '(prefers-color-scheme: dark)' && systemDark, addEventListener() {} });
+  vm.runInNewContext(readFileSync(join(OUT, 'assets/site.js'), 'utf8'), { document: doc, matchMedia: media, addEventListener() {}, requestAnimationFrame() {} });
+  return { button, root };
+}
+
+test('Color scheme switch: Select the dark scheme', () => {
+  for (const file of ['index.html', 'de/imprint.html']) {
+    const ui = runTheme(header(page(file)), false);
+    assert.equal(ui.button.attrs['aria-pressed'], 'false', `${file}: light first`);
+    ui.button.fire('click');
+    assert.equal(ui.root.dataset.theme, 'dark', file);
+    assert.equal(ui.button.attrs['aria-pressed'], 'true', file);
+    ui.button.fire('click');
+    assert.equal(ui.root.dataset.theme, 'light', file);
+    assert.equal(ui.button.attrs['aria-pressed'], 'false', file);
+  }
+});
+
+test('Color scheme switch: Start with the system preference', () => {
+  const ui = runTheme(header(page('index.html')), true);
+  assert.equal(ui.root.dataset.theme, undefined, 'the system preference applies, no override');
+  assert.equal(ui.button.attrs['aria-pressed'], 'true');
+  ui.button.fire('click');
+  assert.equal(ui.root.dataset.theme, 'light');
+});
+
+test('Color scheme switch: Switch the scheme with the keyboard', () => {
+  // A native button takes the focus with Tab and fires click on Enter and Space; the focus style is global.
+  for (const file of ['index.html', 'de/index.html', 'privacy.html']) {
+    assert.match(themeButton(header(page(file))), /^<button type="button" class="theme-switch" data-theme-switch aria-pressed="false" hidden>/, file);
+  }
+  assert.match(themeButton(header(page('de/index.html'))), />Dunkel<\/button>$/);
+  assert.match(themeButton(header(page('index.html'))), />Dark<\/button>$/);
+  assert.match(readFileSync(join(OUT, 'assets/site.css'), 'utf8'), /:focus-visible \{ outline: 2px solid/);
+});
+
+test('Color scheme switch: Switch without JavaScript', () => {
+  for (const file of ['index.html', 'de/imprint.html']) {
+    assert.match(themeButton(header(page(file))), /\shidden>/, `${file}: hidden in the HTML`);
+    assert.equal(runTheme(header(page(file)), false).button.hidden, false, `${file}: the script shows it`);
+  }
+  const css = readFileSync(join(OUT, 'assets/site.css'), 'utf8');
+  assert.match(css, /\.theme-switch\[hidden\] \{ display: none; \}/);
+  assert.match(css, /@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-theme="light"\]\)/);
+});
+
 test('Supported agents on the website: Title block', () => {
   for (const [lang, type, requires] of [['en', /Plugin for coding agents/, /Claude Code or GitHub Copilot CLI/], ['de', /Plugin für Coding-Agenten/, /Claude Code oder GitHub Copilot CLI/]]) {
     const block = header(page(`${prefix(lang)}index.html`)).match(/<div class="titleblock">[\s\S]*?<\/dl>/)?.[0] ?? '';

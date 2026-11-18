@@ -31,6 +31,21 @@ document.documentElement.classList.add('js');
   select(tabs[0]);
 })();
 
+// The color scheme switch: pressed means dark. Without a selection, the system preference applies. A click
+// sets data-theme on the root for this page only: the site stores nothing. Without JavaScript, it stays hidden.
+(function () {
+  var button = document.querySelector('[data-theme-switch]');
+  if (!button) return;
+  var root = document.documentElement;
+  var system = matchMedia('(prefers-color-scheme: dark)');
+  function dark() { return root.dataset.theme ? root.dataset.theme === 'dark' : system.matches; }
+  function show() { button.setAttribute('aria-pressed', dark()); }
+  button.addEventListener('click', function () { root.dataset.theme = dark() ? 'light' : 'dark'; show(); });
+  system.addEventListener('change', show);
+  button.hidden = false;
+  show();
+})();
+
 // Copy the install commands of the shown agent. The button holds the texts in the language of the page.
 document.querySelectorAll('[data-copy-agent]').forEach(function (button) {
   var label = button.textContent;
