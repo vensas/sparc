@@ -38,6 +38,7 @@ This repository is sparc, a Claude Code plugin. sparc also uses itself: it is a 
 | `openspec/` | Specs and changes of sparc |
 | `docs/` | Backlog, C4 diagrams, canvas and ADRs of sparc |
 | `CHANGELOG.md` | Changes for each release |
+| `PRODUCT.md`, `DESIGN.md`, `.impeccable/` | Product facts and design system of the website, for impeccable |
 
 <!-- sparc:begin -->
 ## Rules

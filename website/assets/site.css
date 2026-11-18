@@ -18,7 +18,6 @@
   --grid: #f0ecf4;
   --accent: #552583;
   --spark: #fdb927;
-  --spark-ink: #16121c;
   --code-bg: #f4f0f8;
   --gutter: clamp(16px, 4vw, 48px);
   --max: 1240px;
@@ -74,7 +73,7 @@ a:hover { text-decoration-thickness: 2px; }
 p, li, dd, td, th, summary { text-wrap: pretty; }
 code, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.9em; }
 
-.skip { position: absolute; left: -999px; top: 0; background: var(--spark); color: var(--spark-ink); padding: 8px 12px; z-index: 10; }
+.skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: var(--sheet); padding: 8px 12px; z-index: 10; }
 .skip:focus { left: 8px; top: 8px; }
 .defs { position: absolute; }
 

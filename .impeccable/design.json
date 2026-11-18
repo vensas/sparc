@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-18T08:23:49.320Z",
+  "title": "Design System: sparc website",
+  "extensions": {
+    "colorMeta": {
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Sheet",
+        "canonical": "#ffffff",
+        "cssVar": "--sheet",
+        "tonalRamp": [
+          "oklch(15% 0 89.9)",
+          "oklch(26.4% 0 89.9)",
+          "oklch(37.9% 0 89.9)",
+          "oklch(49.3% 0 89.9)",
+          "oklch(60.7% 0 89.9)",
+          "oklch(72.1% 0 89.9)",
+          "oklch(83.6% 0 89.9)",
+          "oklch(95% 0 89.9)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#16121c",
+        "cssVar": "--ink",
+        "tonalRamp": [
+          "oklch(15% 0.009 302.8)",
+          "oklch(26.4% 0.012 302.8)",
+          "oklch(37.9% 0.016 302.8)",
+          "oklch(49.3% 0.019 302.8)",
+          "oklch(60.7% 0.019 302.8)",
+          "oklch(72.1% 0.016 302.8)",
+          "oklch(83.6% 0.012 302.8)",
+          "oklch(95% 0.009 302.8)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Second Ink",
+        "canonical": "#4a4354",
+        "cssVar": "--ink-2",
+        "tonalRamp": [
+          "oklch(15% 0.012 303.8)",
+          "oklch(26.4% 0.017 303.8)",
+          "oklch(37.9% 0.022 303.8)",
+          "oklch(49.3% 0.027 303.8)",
+          "oklch(60.7% 0.027 303.8)",
+          "oklch(72.1% 0.022 303.8)",
+          "oklch(83.6% 0.017 303.8)",
+          "oklch(95% 0.012 303.8)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#d9d3e0",
+        "cssVar": "--rule",
+        "tonalRamp": [
+          "oklch(15% 0.008 306.6)",
+          "oklch(26.4% 0.011 306.6)",
+          "oklch(37.9% 0.014 306.6)",
+          "oklch(49.3% 0.017 306.6)",
+          "oklch(60.7% 0.017 306.6)",
+          "oklch(72.1% 0.014 306.6)",
+          "oklch(83.6% 0.011 306.6)",
+          "oklch(95% 0.008 306.6)"
+        ]
+      },
+      "grid": {
+        "role": "neutral",
+        "displayName": "Drawing Grid",
+        "canonical": "#f0ecf4",
+        "cssVar": "--grid",
+        "tonalRamp": [
+          "oklch(15% 0.005 308.3)",
+          "oklch(26.4% 0.007 308.3)",
+          "oklch(37.9% 0.009 308.3)",
+          "oklch(49.3% 0.01 308.3)",
+          "oklch(60.7% 0.01 308.3)",
+          "oklch(72.1% 0.009 308.3)",
+          "oklch(83.6% 0.007 308.3)",
+          "oklch(95% 0.005 308.3)"
+        ]
+      },
+      "code-bg": {
+        "role": "neutral",
+        "displayName": "Code Paper",
+        "canonical": "#f4f0f8",
+        "cssVar": "--code-bg",
+        "tonalRamp": [
+          "oklch(15% 0.005 308.3)",
+          "oklch(26.4% 0.007 308.3)",
+          "oklch(37.9% 0.009 308.3)",
+          "oklch(49.3% 0.01 308.3)",
+          "oklch(60.7% 0.01 308.3)",
+          "oklch(72.1% 0.009 308.3)",
+          "oklch(83.6% 0.007 308.3)",
+          "oklch(95% 0.005 308.3)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Manual Purple",
+        "canonical": "#552583",
+        "cssVar": "--accent",
+        "tonalRamp": [
+          "oklch(15% 0.063 303.3)",
+          "oklch(26.4% 0.088 303.3)",
+          "oklch(37.9% 0.113 303.3)",
+          "oklch(49.3% 0.138 303.3)",
+          "oklch(60.7% 0.138 303.3)",
+          "oklch(72.1% 0.113 303.3)",
+          "oklch(83.6% 0.088 303.3)",
+          "oklch(95% 0.063 303.3)"
+        ]
+      },
+      "spark": {
+        "role": "secondary",
+        "displayName": "Spark Gold",
+        "canonical": "#fdb927",
+        "cssVar": "--spark",
+        "tonalRamp": [
+          "oklch(15% 0.068 80.2)",
+          "oklch(26.4% 0.095 80.2)",
+          "oklch(37.9% 0.122 80.2)",
+          "oklch(49.3% 0.149 80.2)",
+          "oklch(60.7% 0.149 80.2)",
+          "oklch(72.1% 0.122 80.2)",
+          "oklch(83.6% 0.095 80.2)",
+          "oklch(95% 0.068 80.2)"
+        ]
+      },
+      "sheet-dark": {
+        "role": "neutral",
+        "displayName": "Sheet (dark)",
+        "canonical": "#0f0c14",
+        "cssVar": "--sheet",
+        "tonalRamp": [
+          "oklch(15% 0.007 301.7)",
+          "oklch(26.4% 0.01 301.7)",
+          "oklch(37.9% 0.013 301.7)",
+          "oklch(49.3% 0.016 301.7)",
+          "oklch(60.7% 0.016 301.7)",
+          "oklch(72.1% 0.013 301.7)",
+          "oklch(83.6% 0.01 301.7)",
+          "oklch(95% 0.007 301.7)"
+        ]
+      },
+      "ink-dark": {
+        "role": "neutral",
+        "displayName": "Ink (dark)",
+        "canonical": "#ece8f2",
+        "cssVar": "--ink",
+        "tonalRamp": [
+          "oklch(15% 0.006 304.1)",
+          "oklch(26.4% 0.008 304.1)",
+          "oklch(37.9% 0.011 304.1)",
+          "oklch(49.3% 0.013 304.1)",
+          "oklch(60.7% 0.013 304.1)",
+          "oklch(72.1% 0.011 304.1)",
+          "oklch(83.6% 0.008 304.1)",
+          "oklch(95% 0.006 304.1)"
+        ]
+      },
+      "ink-2-dark": {
+        "role": "neutral",
+        "displayName": "Second Ink (dark)",
+        "canonical": "#b4abc0",
+        "cssVar": "--ink-2",
+        "tonalRamp": [
+          "oklch(15% 0.013 305)",
+          "oklch(26.4% 0.018 305)",
+          "oklch(37.9% 0.023 305)",
+          "oklch(49.3% 0.029 305)",
+          "oklch(60.7% 0.029 305)",
+          "oklch(72.1% 0.023 305)",
+          "oklch(83.6% 0.018 305)",
+          "oklch(95% 0.013 305)"
+        ]
+      },
+      "rule-dark": {
+        "role": "neutral",
+        "displayName": "Hairline (dark)",
+        "canonical": "#2e2738",
+        "cssVar": "--rule",
+        "tonalRamp": [
+          "oklch(15% 0.013 303.3)",
+          "oklch(26.4% 0.019 303.3)",
+          "oklch(37.9% 0.024 303.3)",
+          "oklch(49.3% 0.029 303.3)",
+          "oklch(60.7% 0.029 303.3)",
+          "oklch(72.1% 0.024 303.3)",
+          "oklch(83.6% 0.019 303.3)",
+          "oklch(95% 0.013 303.3)"
+        ]
+      },
+      "grid-dark": {
+        "role": "neutral",
+        "displayName": "Drawing Grid (dark)",
+        "canonical": "#16121d",
+        "cssVar": "--grid",
+        "tonalRamp": [
+          "oklch(15% 0.009 301)",
+          "oklch(26.4% 0.013 301)",
+          "oklch(37.9% 0.017 301)",
+          "oklch(49.3% 0.021 301)",
+          "oklch(60.7% 0.021 301)",
+          "oklch(72.1% 0.017 301)",
+          "oklch(83.6% 0.013 301)",
+          "oklch(95% 0.009 301)"
+        ]
+      },
+      "code-bg-dark": {
+        "role": "neutral",
+        "displayName": "Code Paper (dark)",
+        "canonical": "#1a1522",
+        "cssVar": "--code-bg",
+        "tonalRamp": [
+          "oklch(15% 0.011 301.8)",
+          "oklch(26.4% 0.015 301.8)",
+          "oklch(37.9% 0.02 301.8)",
+          "oklch(49.3% 0.024 301.8)",
+          "oklch(60.7% 0.024 301.8)",
+          "oklch(72.1% 0.02 301.8)",
+          "oklch(83.6% 0.015 301.8)",
+          "oklch(95% 0.011 301.8)"
+        ]
+      },
+      "accent-dark": {
+        "role": "primary",
+        "displayName": "Lilac",
+        "canonical": "#b08be0",
+        "cssVar": "--accent",
+        "tonalRamp": [
+          "oklch(15% 0.053 303.3)",
+          "oklch(26.4% 0.074 303.3)",
+          "oklch(37.9% 0.095 303.3)",
+          "oklch(49.3% 0.116 303.3)",
+          "oklch(60.7% 0.116 303.3)",
+          "oklch(72.1% 0.095 303.3)",
+          "oklch(83.6% 0.074 303.3)",
+          "oklch(95% 0.053 303.3)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero heading and legal page heading. Semi-condensed (font-stretch 87.5%)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings (h2)."
+      },
+      "address": {
+        "displayName": "Address",
+        "purpose": "Purple section and step numbers."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Loop step names (h3)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text with tabular numbers."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase labels: table heads, title block keys, install head, footer column heads."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Commands and file names; 12px code blocks at 560px or less."
+      }
+    },
+    "shadows": [
+      {
+        "name": "state-active-bar",
+        "value": "inset 0 4px 0 var(--spark)",
+        "purpose": "Gold bar on the active loop frame."
+      },
+      {
+        "name": "state-next-outline",
+        "value": "inset 0 0 0 1px var(--accent)",
+        "purpose": "Purple outline on the next loop frame."
+      },
+      {
+        "name": "focus-gap",
+        "value": "0 0 0 3px var(--sheet)",
+        "purpose": "Sheet gap under the 2px ink focus outline (offset 3px)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "All state transitions."
+      },
+      {
+        "name": "loop-mark",
+        "value": "400ms",
+        "purpose": "Loop frame background, color and state lines."
+      },
+      {
+        "name": "faq-chevron",
+        "value": "240ms",
+        "purpose": "FAQ chevron turn."
+      },
+      {
+        "name": "copy-feedback",
+        "value": "1600ms",
+        "purpose": "Time the copy button shows Copied."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "No transitions, no smooth scroll, no loop marks."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "loop-4",
+        "value": "1080px"
+      },
+      {
+        "name": "stack",
+        "value": "860px"
+      },
+      {
+        "name": "phone",
+        "value": "560px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Copy Button",
+      "kind": "button",
+      "refersTo": "button-copy",
+      "description": "Square ghost button in the install head.",
+      "html": "<button class=\"ds-copy\" type=\"button\">Copy</button>",
+      "css": ".ds-copy{font:700 0.8125rem/1.6 \"Archivo\",system-ui,sans-serif;letter-spacing:0.04em;background:transparent;color:var(--ink,#16121c);border:1px solid var(--ink-2,#4a4354);padding:6px 14px;cursor:pointer;border-radius:0}.ds-copy:hover{background:var(--ink,#16121c);color:var(--sheet,#fff)}.ds-copy:focus-visible{outline:2px solid var(--ink,#16121c);outline-offset:3px;box-shadow:0 0 0 3px var(--sheet,#fff);border-radius:2px}"
+    },
+    {
+      "name": "Install Block",
+      "kind": "custom",
+      "refersTo": "install-block",
+      "description": "Framed Code Paper block with the install commands.",
+      "html": "<div class=\"ds-install\"><div class=\"ds-install-head\"><span>Install</span><button class=\"ds-copy\" type=\"button\">Copy</button></div><pre><code><span class=\"ds-p\">$ </span>claude plugin install sparc@sparc</code></pre></div>",
+      "css": ".ds-install{border:1px solid var(--rule,#d9d3e0);background:var(--code-bg,#f4f0f8);font-family:\"Archivo\",system-ui,sans-serif}.ds-install-head{display:flex;justify-content:space-between;align-items:center;padding:8px 8px 8px 16px;border-bottom:1px solid var(--rule,#d9d3e0);font-size:0.8125rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-2,#4a4354)}.ds-install pre{margin:0;padding:16px;line-height:1.8;color:var(--ink,#16121c);font:0.9em ui-monospace,\"SF Mono\",Menlo,Consolas,monospace}.ds-p{color:var(--accent,#552583);user-select:none}.ds-copy{font:700 0.8125rem \"Archivo\",system-ui,sans-serif;letter-spacing:0.04em;background:transparent;color:var(--ink,#16121c);border:1px solid var(--ink-2,#4a4354);padding:6px 14px;cursor:pointer}.ds-copy:hover{background:var(--ink,#16121c);color:var(--sheet,#fff)}"
+    },
+    {
+      "name": "Title Block",
+      "kind": "card",
+      "refersTo": "title-block-head",
+      "description": "Drawing title block with the product facts.",
+      "html": "<div class=\"ds-tb\"><p class=\"ds-tb-head\"><span>sparc</span><span>Sheet 1</span></p><dl><div><dt>Type</dt><dd>Claude Code plugin</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl></div>",
+      "css": ".ds-tb{border:1px solid var(--ink,#16121c);background:var(--sheet,#fff);color:var(--ink,#16121c);font:0.875rem/1.6 \"Archivo\",system-ui,sans-serif;max-width:360px}.ds-tb-head{background:var(--accent,#552583);color:var(--sheet,#fff);margin:0;padding:8px 12px;font-weight:700;font-size:0.8125rem;letter-spacing:0.06em;text-transform:uppercase;display:flex;justify-content:space-between}.ds-tb dl{margin:0}.ds-tb dl div{display:grid;grid-template-columns:7.5em 1fr;border-top:1px solid var(--rule,#d9d3e0)}.ds-tb dt,.ds-tb dd{margin:0;padding:8px 12px}.ds-tb dt{color:var(--ink-2,#4a4354);border-right:1px solid var(--rule,#d9d3e0);font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase}.ds-tb dd{font-weight:600}"
+    },
+    {
+      "name": "Masthead Index",
+      "kind": "nav",
+      "refersTo": "lang-current",
+      "description": "Numbered section index and the language switch.",
+      "html": "<ul class=\"ds-index\"><li><a href=\"#\"><b>1.0</b> Loop</a></li><li><a href=\"#\"><b>2.0</b> Documents</a></li><li class=\"ds-lang\"><a href=\"#\" aria-current=\"true\">EN</a><a href=\"#\">DE</a></li></ul>",
+      "css": ".ds-index{display:flex;flex-wrap:wrap;align-items:center;gap:4px 24px;list-style:none;margin:0;padding:0;font:0.9375rem/1.6 \"Archivo\",system-ui,sans-serif}.ds-index a{color:var(--ink,#16121c);text-decoration:none;display:inline-flex;gap:8px;padding-block:8px}.ds-index a:hover{text-decoration:underline}.ds-index a:focus-visible{outline:2px solid var(--ink,#16121c);outline-offset:3px;box-shadow:0 0 0 3px var(--sheet,#fff)}.ds-index b{font-weight:500;color:var(--ink-2,#4a4354)}.ds-lang{display:flex;gap:2px;border-left:1px solid var(--rule,#d9d3e0);padding-left:20px}.ds-lang a{padding:6px 8px;font-weight:600;letter-spacing:0.04em;font-size:0.8125rem}.ds-lang a[aria-current=\"true\"]{background:var(--ink,#16121c);color:var(--sheet,#fff)}"
+    },
+    {
+      "name": "Loop Frames",
+      "kind": "custom",
+      "refersTo": "loop-frame-active",
+      "description": "Ruled loop strip: active frame with gold bar, next frame outlined.",
+      "html": "<ol class=\"ds-loop\"><li><h3>Propose</h3><code>/sparc:propose</code></li><li class=\"is-active\"><h3>Apply</h3><code>/sparc:apply</code></li><li class=\"is-next\"><h3>Review</h3><code>qa.md</code></li></ol>",
+      "css": ".ds-loop{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule,#d9d3e0);counter-reset:step;font-family:\"Archivo\",system-ui,sans-serif;color:var(--ink,#16121c)}.ds-loop li{counter-increment:step;border-right:1px solid var(--rule,#d9d3e0);padding:20px 16px 24px;display:flex;flex-direction:column;gap:8px;transition:background-color 400ms cubic-bezier(.16,1,.3,1),box-shadow 400ms cubic-bezier(.16,1,.3,1)}.ds-loop li:last-child{border-right:0}.ds-loop li::before{content:counter(step);font-weight:600;font-stretch:87.5%;font-size:1.75rem;line-height:1;color:var(--accent,#552583)}.ds-loop h3{margin:12px 0 0;font-size:1.125rem;font-weight:700}.ds-loop code{font-size:0.8125rem;color:var(--ink-2,#4a4354)}.ds-loop li.is-active{background:var(--code-bg,#f4f0f8);box-shadow:inset 0 4px 0 var(--spark,#fdb927)}.ds-loop li.is-next{box-shadow:inset 0 0 0 1px var(--accent,#552583)}"
+    },
+    {
+      "name": "Spec Table",
+      "kind": "custom",
+      "description": "Ruled table with a 2px ink head rule.",
+      "html": "<table class=\"ds-spec\"><thead><tr><th>File</th><th>Format</th></tr></thead><tbody><tr><th><code>DESIGN.md</code></th><td>Markdown</td></tr></tbody></table>",
+      "css": ".ds-spec{width:100%;border-collapse:collapse;font:1rem/1.6 \"Archivo\",system-ui,sans-serif;color:var(--ink,#16121c)}.ds-spec th,.ds-spec td{text-align:left;vertical-align:top;padding:16px 16px 16px 0;border-top:1px solid var(--rule,#d9d3e0)}.ds-spec thead th{font-size:0.8125rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-2,#4a4354);font-weight:600;border-top:2px solid var(--ink,#16121c);padding-block:10px}.ds-spec tbody th{font-weight:700}.ds-spec td code,.ds-spec th code{background:var(--code-bg,#f4f0f8);padding:2px 6px}.ds-spec tbody tr:last-child>*{border-bottom:1px solid var(--rule,#d9d3e0)}"
+    },
+    {
+      "name": "FAQ Item",
+      "kind": "custom",
+      "description": "Native details between hairlines with a drawn chevron.",
+      "html": "<div class=\"ds-faq\"><details><summary>Does sparc need an LLM for the checks?</summary><p>No. The checks are scripts.</p></details></div>",
+      "css": ".ds-faq{font:1.0625rem/1.6 \"Archivo\",system-ui,sans-serif;color:var(--ink,#16121c)}.ds-faq details{border-top:1px solid var(--rule,#d9d3e0);border-bottom:1px solid var(--rule,#d9d3e0)}.ds-faq summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:18px 0;font-weight:600}.ds-faq summary::-webkit-details-marker{display:none}.ds-faq summary::after{content:\"\";width:12px;height:12px;border-right:2px solid var(--ink-2,#4a4354);border-bottom:2px solid var(--ink-2,#4a4354);transform:translateY(-3px) rotate(45deg);transition:transform 240ms cubic-bezier(.16,1,.3,1)}.ds-faq details[open] summary::after{transform:translateY(3px) rotate(-135deg)}.ds-faq summary:hover{color:var(--accent,#552583)}.ds-faq summary:focus-visible{outline:2px solid var(--ink,#16121c);outline-offset:3px;box-shadow:0 0 0 3px var(--sheet,#fff)}.ds-faq p{margin:0 0 20px;color:var(--ink-2,#4a4354)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Drawing Sheet",
+    "overview": "The site is the standards manual of the sparc way of working. Each page is a technical drawing sheet: a white sheet, ink, hairline rules, a 12-column grid, a title block and numbered addresses. The first viewport (the header \"field\") shows a faint 24px drawing grid. All other parts are a plain sheet.\n\nThe page is minimal and quiet. Color has a job, not a mood. Purple marks addresses and links. Gold marks the current step. Depth comes from rules and frames, not from shadows. The site refuses the dark dev-tool page with a glowing terminal hero and a row of feature cards.\n\nThe sheet follows `prefers-color-scheme`. Dark mode changes the token values only. The structure does not change. The product facts are in [PRODUCT.md](PRODUCT.md) and the [README](README.md).",
+    "keyCharacteristics": [
+      "Hairline rules (1px) frame each block. Square corners everywhere except the logo mark.",
+      "A strict 12-column grid with a 24px column gap.",
+      "One self-hosted variable face (Archivo): semi-condensed bold for headings, regular for body.",
+      "Numbered section addresses (1.0, 2.0, ...) in the masthead index and before each section heading.",
+      "The change loop steps with the scroll position. The active frame gets a gold bar. The next frame gets a purple outline."
+    ],
+    "rules": [
+      {
+        "name": "The Two Accents Rule",
+        "body": "Purple marks where you are in the manual. Gold marks only the logo spark and the active loop step. Do not add other gold.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Link Rule",
+        "body": "Links in the masthead index, the title block and the footer are ink. All other links are purple.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Face Rule",
+        "body": "Use only Archivo and the system monospace. Change width and weight, not the family.",
+        "section": "typography"
+      },
+      {
+        "name": "The Number Address Rule",
+        "body": "A section address is a number in its own grid column. It is never a word.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ruled Not Raised Rule",
+        "body": "Separate blocks with 1px rules and frames. Do not lift them with shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do frame each block with 1px Hairline rules and keep corners square.",
+      "Do put content on the 12-column grid, with the address in columns 1 to 2.",
+      "Do use purple only for the top rule, links, addresses, step numbers, the title block head and the next-step outline.",
+      "Do use gold only for the logo spark and the active loop step bar.",
+      "Do show focus with the ink ring and the sheet gap.",
+      "Do remove motion and smooth scroll when the visitor prefers reduced motion.",
+      "Do self-host all assets. Send no external requests and set no cookies."
+    ],
+    "donts": [
+      "Don't use drop shadows, gradients or glow.",
+      "Don't use a dark terminal hero or a row of feature cards.",
+      "Don't put the drawing grid outside the header field.",
+      "Don't put an uppercase word above a heading. The address before a heading is a number only.",
+      "Don't use icon glyphs. Draw marks with borders or inline SVG."
+    ]
+  }
+}
