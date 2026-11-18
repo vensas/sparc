@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sparc: color scheme switch</title>
+<!-- Mockup of the change add-theme-switch: the masthead with the switch, in the light and the dark scheme. -->
+<style>
+@font-face { font-family: "Archivo"; src: url("../add-landing-page/fonts/archivo.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+.light { --field: #ffffff; --field-ink: #16121c; --field-ink-2: #4a4354; --field-rule: #d9d3e0; color-scheme: light; }
+.dark { --field: #0f0c14; --field-ink: #ece8f2; --field-ink-2: #b4abc0; --field-rule: #2e2738; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 400 1.0625rem/1.6 "Archivo", system-ui, sans-serif; background: #3a3540; }
+h1 { font-size: 1rem; margin: 16px; color: #fff; }
+.field { background: var(--field); color: var(--field-ink); padding: 0 clamp(16px, 4vw, 48px); margin-bottom: 16px; }
+.masthead { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 24px; padding-block: 24px; border-bottom: 1px solid var(--field-rule); }
+.brand { font-weight: 650; font-size: 1.75rem; color: var(--field-ink); text-decoration: none; }
+.index { justify-self: end; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; list-style: none; margin: 0; padding: 0; font-size: 0.9375rem; }
+.index a { color: var(--field-ink); text-decoration: none; display: inline-flex; gap: 8px; padding-block: 8px; }
+.index b { font-weight: 500; color: var(--field-ink-2); }
+.lang { display: flex; gap: 2px; border-left: 1px solid var(--field-rule); padding-left: 20px; }
+.lang a { padding: 6px 8px; font-weight: 600; letter-spacing: 0.04em; font-size: 0.8125rem; }
+.lang a[aria-current="true"] { background: var(--field-ink); color: var(--field); }
+.theme-switch { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.04em; background: transparent; color: var(--field-ink); border: 1px solid var(--field-rule); padding: 5px 8px; cursor: pointer; }
+.theme-switch[aria-pressed="true"] { background: var(--field-ink); color: var(--field); border-color: var(--field-ink); }
+.theme-switch svg { display: block; }
+:focus-visible { outline: 2px solid var(--field-ink); outline-offset: 3px; box-shadow: 0 0 0 3px var(--field); border-radius: 2px; }
+@media (max-width: 860px) {
+  .masthead { grid-template-columns: 1fr; }
+  .index { justify-self: start; gap: 0 20px; }
+  .index .lang { border-left: 0; padding-left: 0; }
+}
+</style>
+</head>
+<body>
+<h1>Light system preference: switch not pressed</h1>
+<header class="field light"><div class="masthead">
+  <a class="brand" href="#">sparc</a>
+  <nav aria-label="Sections and language"><ul class="index">
+    <li><a href="#"><b>1.0</b> Loop</a></li><li><a href="#"><b>2.0</b> Documents</a></li><li><a href="#"><b>3.0</b> Record</a></li><li><a href="#"><b>4.0</b> FAQ</a></li><li><a href="#"><b>5.0</b> Start</a></li>
+    <li class="lang"><a href="#" aria-current="true">EN</a><a href="#">DE</a></li>
+    <li><button type="button" class="theme-switch" aria-pressed="false"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>Dark</button></li>
+  </ul></nav>
+</div></header>
+<h1>After a click, or a dark system preference: switch pressed</h1>
+<header class="field dark"><div class="masthead">
+  <a class="brand" href="#">sparc</a>
+  <nav aria-label="Sections and language"><ul class="index">
+    <li><a href="#"><b>1.0</b> Loop</a></li><li><a href="#"><b>2.0</b> Documents</a></li><li><a href="#"><b>3.0</b> Record</a></li><li><a href="#"><b>4.0</b> FAQ</a></li><li><a href="#"><b>5.0</b> Start</a></li>
+    <li class="lang"><a href="#" aria-current="true">EN</a><a href="#">DE</a></li>
+    <li><button type="button" class="theme-switch" aria-pressed="true"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg>Dark</button></li>
+  </ul></nav>
+</div></header>
+</body>
+</html>
