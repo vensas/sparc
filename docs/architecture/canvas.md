@@ -79,7 +79,7 @@ See the [system context diagram](c4.md#system-context).
 
 - Claude Code plugins: skills and hooks.
 - OpenSpec CLI 1.14.3 (tested version).
-- Node.js 20 or later for `scripts/check.mjs` (tested with 24.12.0).
+- Node.js, latest LTS version, for `scripts/check.mjs` (tested with 24.12.0).
 - Mermaid C4, MADR, ASD-STE100.
 - GitHub Actions for CI and GitHub releases. `actionlint` and `act` test the workflows locally.
 
@@ -107,7 +107,6 @@ See the [container diagram](c4.md#containers).
 - `/sparc:apply` says that all planning artifacts must be complete and valid. It does not say if it stops or fixes the artifacts when they are not.
 - `/sparc:archive` sets an ADR of the change to `rejected` if the user rejected it. No skill step tells how a user rejects an ADR of a change before the archive.
 - `/sparc:archive` runs "the test commands in `AGENTS.md`". The verifier runs only the rows `Lint`, `Test` and `Verify`. The two sets of commands can differ.
-- `/sparc:init` runs `node --version` and says that sparc needs Node.js 20 or later. It does not say what to do with an older version.
 - `/sparc:sync` does not report drift from work that is not complete. It does not tell how to find out that work is not complete.
 - The acceptance step of `/sparc:apply` has no commit type of its own. Two `test(qa)` acceptance commits changed the canvas (`76f91df`, `f52f33b`).
 - The imprint and the privacy policy of the website (change add-landing-page) have no legal review yet. The French and English texts are translations, and the German text is binding.

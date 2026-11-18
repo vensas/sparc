@@ -36,3 +36,8 @@ test('README for a first-time reader: Writing style and limits', () => {
   assert.match(README, /ASD-STE100[^\n]*on purpose/);
   assert.match(README, /\(docs\/architecture\/canvas\.md#core-risks-and-missing-information-\)/);
 });
+
+test('README for a first-time reader: Node.js version', () => {
+  assert.match(section('Get Started'), /Node\.js \(latest LTS version\)/);
+  assert.doesNotMatch(README, /Node\.js \d+/);
+});

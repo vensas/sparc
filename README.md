@@ -87,7 +87,7 @@ For details, see the [C4 diagrams](docs/architecture/c4.md), the [architecture c
 
 ## Get Started
 
-Prerequisites: Claude Code, Node.js 20 or later, git and OpenSpec (`npm install -g @fission-ai/openspec`).
+Prerequisites: Claude Code, Node.js (latest LTS version), git and OpenSpec (`npm install -g @fission-ai/openspec`).
 
 ### Install
 
