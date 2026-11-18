@@ -79,7 +79,7 @@ See the [system context diagram](c4.md#system-context).
 
 - Claude Code plugins: skills and hooks.
 - OpenSpec CLI 1.14.3 (tested version).
-- Node.js, latest LTS version, for `scripts/check.mjs` (tested with 24.12.0).
+- Node.js, latest LTS version, for `scripts/check.mjs`. Tested locally with 24.12.0. CI uses `lts/*` (26.13.1 on 2026-11-18).
 - Mermaid C4, MADR, ASD-STE100.
 - GitHub Actions for CI and GitHub releases. `actionlint` and `act` test the workflows locally.
 
