@@ -41,3 +41,7 @@ test('README for a first-time reader: Node.js version', () => {
   assert.match(section('Get Started'), /Node\.js \(latest LTS version\)/);
   assert.doesNotMatch(README, /Node\.js \d+/);
 });
+
+test('README for a first-time reader: Website', () => {
+  assert.match(README.split(/^## /m)[0], /\(https:\/\/sparc\.apps\.vensas\.de\)/);
+});

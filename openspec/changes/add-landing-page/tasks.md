@@ -21,7 +21,7 @@
 ## 5. Finish
 
 - [ ] 5.1 Run the impeccable finish review on the built pages at 1440 px and 390 px, light and dark, and record DESIGN.md. Verify: the reviewer gives `ship`, and `npx @axe-core/cli` reports no violations on the three English pages. Documents: DESIGN.md.
-- [ ] 5.2 Link the website in `README.md` and add the `CHANGELOG.md` Unreleased entry. Verify: `node scripts/check.mjs` passes. Documents: README.md, CHANGELOG.md.
+- [x] 5.2 Link the website in `README.md` and add the `CHANGELOG.md` Unreleased entry. Verify: `node scripts/check.mjs` passes. Documents: README.md, CHANGELOG.md.
 
 ## Workflow follow-up
 

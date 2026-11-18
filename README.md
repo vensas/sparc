@@ -2,6 +2,8 @@
 
 sparc is a harness for spec-driven work with agents in Claude Code. The name comes from "spec", "arc" (architecture) and the spark of an idea.
 
+Website: [sparc.apps.vensas.de](https://sparc.apps.vensas.de) (source in [`website/`](website/)).
+
 ## Overview
 
 Agents write code fast, but the specs, the architecture and the documents fall behind. sparc keeps them together. You tell a feature, and sparc gives you a reviewed and tested change, with specs, decisions and documents that agree with the code.

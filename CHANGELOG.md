@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Added
+
+- The website of sparc at https://sparc.apps.vensas.de: a landing page, an imprint and a privacy policy in English and German. It sets no cookies and loads nothing from other servers. An nginx container serves it, and Kamal deploys it ([add-landing-page](openspec/changes/archive/2026-11-18-add-landing-page/proposal.md)).
+
 ### Changed
 
 - sparc recommends the latest Node.js LTS version and does not name a version number. `/sparc:init` stops only when Node.js is not installed. It does not stop because of the Node.js version ([use-node-lts](openspec/changes/archive/2026-11-18-use-node-lts/proposal.md)).
