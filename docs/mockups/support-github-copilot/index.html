@@ -440,13 +440,13 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
           </div>
           <button class="copy" type="button" data-copy-agent data-copied="Copied" data-failed="Select and copy">Copy</button>
         </div>
-        <div class="agent-cmd" id="cmd-claude" role="tabpanel" aria-labelledby="tab-claude" data-copy="npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc">
+        <div class="agent-cmd" id="cmd-claude" data-copy="npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc">
           <p class="agent-name">Claude Code</p>
 <pre><code><span class="p">$ </span>npm install -g @fission-ai/openspec
 <span class="p">$ </span>claude plugin marketplace add vensas/sparc
 <span class="p">$ </span>claude plugin install sparc@sparc</code></pre>
         </div>
-        <div class="agent-cmd" id="cmd-copilot" role="tabpanel" aria-labelledby="tab-copilot" data-copy="npm install -g @fission-ai/openspec&#10;copilot plugin marketplace add vensas/sparc&#10;copilot plugin install sparc@sparc">
+        <div class="agent-cmd" id="cmd-copilot" data-copy="npm install -g @fission-ai/openspec&#10;copilot plugin marketplace add vensas/sparc&#10;copilot plugin install sparc@sparc">
           <p class="agent-name">GitHub Copilot CLI</p>
 <pre><code><span class="p">$ </span>npm install -g @fission-ai/openspec
 <span class="p">$ </span>copilot plugin marketplace add vensas/sparc
@@ -596,6 +596,11 @@ document.documentElement.classList.add('js');
   var list = document.querySelector('[data-agents]');
   if (!list) return;
   var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+  tabs.forEach(function (tab) {
+    var panel = document.getElementById(tab.getAttribute('aria-controls'));
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', tab.id);
+  });
   list.hidden = false;
   function select(tab, focus) {
     tabs.forEach(function (t) {

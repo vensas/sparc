@@ -5,6 +5,12 @@ document.documentElement.classList.add('js');
   var list = document.querySelector('[data-agents]');
   if (!list) return;
   var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+  // The panels get their tab roles only here, so that a page without JavaScript has no tab panels without tabs.
+  tabs.forEach(function (tab) {
+    var panel = document.getElementById(tab.getAttribute('aria-controls'));
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', tab.id);
+  });
   list.hidden = false;
   function select(tab, focus) {
     tabs.forEach(function (t) {

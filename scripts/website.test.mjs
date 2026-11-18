@@ -4,6 +4,7 @@ import { after, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import vm from 'node:vm';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -136,30 +137,73 @@ test('First viewport of the landing page: First viewport', () => {
   assert.ok(head.includes('href="https://github.com/vensas/sparc"'));
 });
 
+// Runs the real site.js against a small stand-in of the DOM, built from the agent switch of a built page.
+function runSwitch(html) {
+  const doc = { activeElement: null, documentElement: { classList: { add() {} } } };
+  const element = (attrs) => ({
+    attrs, id: attrs.id, hidden: /\shidden[\s>]/.test(attrs.raw ?? ''), tabIndex: attrs.tabindex === '-1' ? -1 : 0, listeners: {}, textContent: attrs.text ?? '',
+    dataset: { copy: attrs['data-copy']?.replace(/&#10;/g, '\n') },
+    setAttribute(key, value) { this.attrs[key] = String(value); },
+    getAttribute(key) { return this.attrs[key] ?? null; },
+    addEventListener(type, fn) { (this.listeners[type] ??= []).push(fn); },
+    fire(type, event = {}) { for (const fn of this.listeners[type] ?? []) fn({ preventDefault() {}, ...event }); },
+    focus() { doc.activeElement = this; },
+  });
+  const attrsOf = (tag) => Object.fromEntries([...tag.matchAll(/([\w-]+)="([^"]*)"/g)].map((m) => [m[1], m[2]]));
+  const tabs = [...html.matchAll(/<button type="button" role="tab"[^>]*>([^<]*)</g)].map((m) => element({ ...attrsOf(m[0]), text: m[1] }));
+  const panels = [...html.matchAll(/<div class="agent-cmd"[^>]*>/g)].map((m) => element({ ...attrsOf(m[0]), raw: m[0] }));
+  const list = element({ raw: html.match(/<div class="agent-switch"[^>]*>/)[0] });
+  list.querySelectorAll = () => tabs;
+  const copy = element({ text: 'Copy' });
+  const byId = Object.fromEntries([...tabs, ...panels].map((e) => [e.attrs.id, e]));
+  Object.assign(doc, {
+    getElementById: (id) => byId[id],
+    querySelector: (selector) => ({ '[data-agents]': list, '.agent-cmd:not([hidden])': panels.find((p) => !p.hidden) })[selector] ?? null,
+    querySelectorAll: (selector) => (selector === '[data-copy-agent]' ? [copy] : []),
+  });
+  const clipboard = [];
+  const context = { document: doc, matchMedia: () => ({ matches: false }), setTimeout() {}, addEventListener() {}, requestAnimationFrame() {},
+    navigator: { clipboard: { writeText: (text) => { clipboard.push(text); return { then: (ok) => ok() }; } } } };
+  vm.runInNewContext(readFileSync(join(OUT, 'assets/site.js'), 'utf8'), context);
+  const tab = (id) => byId[id];
+  const shown = () => panels.filter((p) => !p.hidden).map((p) => p.attrs.id);
+  return { list, tab, panels, shown, copy, clipboard, doc };
+}
+
 test('First viewport of the landing page: Copy the install commands', () => {
   const head = header(page('index.html'));
   assert.match(head, /<button class="copy"[^>]*data-copy-agent/, 'copy button');
-  assert.match(panel(head, 'cmd-claude'), new RegExp(`data-copy="${CLAUDE}"`));
-  assert.match(page('assets/site.js'), /\.agent-cmd:not\(\[hidden\]\)[\s\S]*navigator\.clipboard\.writeText\(\w+\.dataset\.copy\)/);
+  const ui = runSwitch(head);
+  ui.copy.fire('click');
+  assert.deepEqual(ui.clipboard, [CLAUDE.replace(/&#10;/g, '\n')]);
 });
 
 test('First viewport of the landing page: Select GitHub Copilot', () => {
-  const head = header(page('index.html'));
-  const copilot = panel(head, 'cmd-copilot');
-  assert.match(copilot, new RegExp(`data-copy="${COPILOT}"`));
-  for (const text of ['copilot plugin marketplace add vensas/sparc', 'copilot plugin install sparc@sparc']) assert.ok(copilot.includes(text), text);
-  assert.match(tabs(head), /<button type="button" role="tab" id="tab-copilot" aria-controls="cmd-copilot" aria-selected="false" tabindex="-1">GitHub Copilot<\/button>/);
-  assert.match(page('assets/site.js'), /\.hidden = !on/);
+  const ui = runSwitch(header(page('index.html')));
+  assert.deepEqual(ui.shown(), ['cmd-claude']);
+  ui.tab('tab-copilot').fire('click');
+  assert.deepEqual(ui.shown(), ['cmd-copilot']);
+  assert.ok(panel(header(page('index.html')), 'cmd-copilot').includes('copilot plugin marketplace add vensas/sparc'));
+  ui.copy.fire('click');
+  assert.deepEqual(ui.clipboard, [COPILOT.replace(/&#10;/g, '\n')]);
 });
 
 test('First viewport of the landing page: Switch with the keyboard', () => {
-  const head = header(page('index.html'));
-  assert.match(tabs(head), /<button type="button" role="tab" id="tab-claude" aria-controls="cmd-claude" aria-selected="true">Claude Code<\/button>/);
-  for (const id of ['cmd-claude', 'cmd-copilot']) assert.match(head, new RegExp(`id="${id}" role="tabpanel" aria-labelledby="tab-`));
-  const js = page('assets/site.js');
-  assert.match(js, /ArrowRight/);
-  assert.match(js, /ArrowLeft/);
-  assert.match(js, /setAttribute\('aria-selected'/);
+  const ui = runSwitch(header(page('index.html')));
+  assert.equal(ui.list.hidden, false, 'the script shows the tab list');
+  for (const p of ui.panels) {
+    assert.equal(p.getAttribute('role'), 'tabpanel');
+    assert.equal(p.getAttribute('aria-labelledby'), p.attrs.id.replace('cmd-', 'tab-'));
+  }
+  ui.tab('tab-claude').fire('keydown', { key: 'ArrowRight' });
+  assert.equal(ui.tab('tab-copilot').getAttribute('aria-selected'), 'true');
+  assert.equal(ui.tab('tab-claude').getAttribute('aria-selected'), 'false');
+  assert.equal(ui.doc.activeElement, ui.tab('tab-copilot'));
+  assert.deepEqual([ui.tab('tab-claude').tabIndex, ui.tab('tab-copilot').tabIndex], [-1, 0]);
+  assert.deepEqual(ui.shown(), ['cmd-copilot']);
+  ui.tab('tab-copilot').fire('keydown', { key: 'ArrowLeft' });
+  assert.deepEqual(ui.shown(), ['cmd-claude']);
+  assert.equal(ui.doc.activeElement, ui.tab('tab-claude'));
 });
 
 test('First viewport of the landing page: Page without JavaScript', () => {
@@ -168,6 +212,7 @@ test('First viewport of the landing page: Page without JavaScript', () => {
     assert.match(tabs(head), /^<div class="agent-switch"[^>]*\shidden>/, `${lang}: the tab list is hidden`);
     for (const [id, name] of [['cmd-claude', 'Claude Code'], ['cmd-copilot', 'GitHub Copilot CLI']]) {
       assert.doesNotMatch(panel(head, id), /^<div[^>]*\shidden/, `${lang}: ${id} shows`);
+      assert.doesNotMatch(panel(head, id), /^<div[^>]*role="tabpanel"/, `${lang}: ${id} is no tab panel without the script`);
       assert.match(panel(head, id), new RegExp(`<p class="agent-name">${name}</p>`), `${lang}: ${name}`);
     }
   }
