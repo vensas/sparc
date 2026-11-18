@@ -95,7 +95,7 @@ The privacy policy SHALL name vensas GmbH as the controller with its address and
 
 ### Requirement: Privacy policy for the hosting
 
-The privacy policy SHALL name the hosting company with its address and link to its privacy policy. It SHALL list the data in the access log of the server, the purpose, the legal basis and the time for which the server keeps the log. It SHALL tell that the site sets no cookies and uses no analytics.
+The privacy policy SHALL name the hosting company with its address and link to its privacy policy. It SHALL list the data in the access log of the server, the purpose, the legal basis and the rule that decides how long the server keeps the log. It SHALL tell that the site sets no cookies and uses no analytics.
 
 #### Scenario: Hosting
 
