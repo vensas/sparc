@@ -2,7 +2,7 @@
 schema: spec-driven
 
 sparc:
-  version: 0.8.0
+  version: 0.9.0
   workflow: trunk
 
 # sparc:begin
