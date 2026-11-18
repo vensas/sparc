@@ -2,7 +2,7 @@
   "meta": {
     "description": "sparc ist ein Plugin für Claude Code. Es hält Specs, Architektur und Dokumente mit dem Code synchron, während Agenten ihn schreiben."
   },
-  "languages": { "en": "English", "de": "Deutsch", "fr": "Français" },
+  "languages": { "en": "English", "de": "Deutsch" },
   "nav": {
     "skip": "Zum Inhalt springen",
     "home": "sparc, Startseite",

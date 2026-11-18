@@ -78,8 +78,42 @@ test('Privacy policy for the hosting: Hosting', () => {
   }
 });
 
-test('Pages in three languages: Pages of the built site (English and German)', () => {
-  for (const name of ['index.html', 'imprint.html', 'privacy.html', 'de/index.html', 'de/imprint.html', 'de/privacy.html']) assert.ok(page(name).startsWith('<!doctype html>'), name);
+const LANGS = ['en', 'de'];
+
+test('Pages in two languages: Pages of the built site', () => {
+  for (const lang of LANGS) {
+    for (const name of ['index.html', 'imprint.html', 'privacy.html']) {
+      assert.ok(page(`${prefix(lang)}${name}`).startsWith('<!doctype html>'), `${lang}/${name}`);
+    }
+  }
+});
+
+test('Pages in two languages: Change the language', () => {
+  const switcher = header(page('de/imprint.html')).match(/<li class="lang">[\s\S]*?<\/li>/)?.[0] ?? '';
+  assert.match(switcher, /<a href="\/imprint\.html" lang="en"[^>]*>EN<\/a>/);
+  assert.match(switcher, /<a href="\/de\/imprint\.html" lang="de"[^>]*aria-current="true"[^>]*>DE<\/a>/);
+});
+
+test('Pages in two languages: Language of a page', () => {
+  const html = page('de/index.html');
+  assert.match(html, /<html lang="de">/);
+  for (const [lang, path] of [['en', '/'], ['de', '/de/']]) {
+    assert.ok(html.includes(`<link rel="alternate" hreflang="${lang}" href="https://sparc.apps.vensas.de${path}">`), lang);
+  }
+});
+
+test('Pages in two languages: Same keys in all language files', () => {
+  const shape = (value) => Array.isArray(value) ? value.map(shape)
+    : value && typeof value === 'object' ? Object.fromEntries(Object.keys(value).sort().map((k) => [k, shape(value[k])])) : typeof value;
+  const en = shape(JSON.parse(readFileSync(join(ROOT, 'website/i18n/en.json'), 'utf8')));
+  for (const lang of LANGS) assert.deepEqual(shape(JSON.parse(readFileSync(join(ROOT, `website/i18n/${lang}.json`), 'utf8'))), en, lang);
+});
+
+test('Footer: Footer of the German landing page', () => {
+  const foot = footer(page('de/index.html'));
+  const version = JSON.parse(readFileSync(join(ROOT, '.claude-plugin/plugin.json'), 'utf8')).version;
+  for (const href of ['https://vensas.de', '/de/imprint.html', '/de/privacy.html']) assert.ok(foot.includes(`href="${href}"`), href);
+  assert.ok(foot.includes(`sparc ${version}`), 'version');
 });
 
 test('First viewport of the landing page: First viewport', () => {

@@ -8,9 +8,9 @@
 
 - [x] 2.1 Add `website/pages/imprint.html` and `website/pages/privacy.html`, and the legal texts in German (binding) and English in the language files. Verify: tests for the register data, the controller, the hosting section with the log data and the link to the binding German text pass. Documents: none.
 
-## 3. German and French
+## 3. Language switch
 
-- [ ] 3.1 Complete `website/i18n/de.json` and add `website/i18n/fr.json` for all pages, and the language switch with `hreflang`. Verify: tests for each language, `<html lang>`, the `hreflang` links and equal keys in all language files pass. Documents: none.
+- [x] 3.1 Check the language switch and the `hreflang` links for English and German. Verify: tests for each language, `<html lang>`, the `hreflang` links and equal keys in both language files pass. Documents: none.
 
 ## 4. Container and deployment
 

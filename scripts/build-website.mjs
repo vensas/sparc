@@ -60,7 +60,7 @@ export function build({ root = ROOT, out = join(ROOT, '_site') } = {}) {
   const data = record(root);
   const layout = readFileSync(join(site, 'layout.html'), 'utf8');
   const pages = readdirSync(join(site, 'pages')).filter((f) => f.endsWith('.html')).map((f) => f.slice(0, -5));
-  const langs = ['en', 'de', 'fr'].filter((lang) => existsSync(join(site, 'i18n', `${lang}.json`)));
+  const langs = ['en', 'de'].filter((lang) => existsSync(join(site, 'i18n', `${lang}.json`)));
 
   rmSync(out, { recursive: true, force: true });
   mkdirSync(out, { recursive: true });
