@@ -5,6 +5,8 @@
 # Repository secrets (the repository names no server, see the change add-landing-page):
 #   DEPLOY_HOST       address of the server
 #   SSH_PRIVATE_KEY   key that Kamal uses to reach the server
+#   SSH_KNOWN_HOSTS   known_hosts line(s) of the server, so SSH trusts only its real host key
+# Third-party actions are pinned to a commit, because the deploy job has the SSH key and packages: write.
 name: Website
 
 on:
@@ -57,7 +59,6 @@ jobs:
     env:
       DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
       KAMAL_REGISTRY_USERNAME: ${{ github.repository_owner }}
-      KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       OUT_DIR: website/apphost/out
       IMAGE: ghcr.io/${{ github.repository_owner }}/sparc-web:${{ github.sha }}
     steps:
@@ -73,16 +74,19 @@ jobs:
         working-directory: website/apphost
         run: aspire publish -o ./out --non-interactive
 
-      - name: Add the server to known_hosts
+      - name: Add the host key of the server
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
+          test -n "$SSH_KNOWN_HOSTS" || { echo "::error::The secret SSH_KNOWN_HOSTS is missing"; exit 1; }
           mkdir -p ~/.ssh
-          ssh-keyscan -t ed25519,rsa,ecdsa "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          printf '%s\n' "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
 
-      - uses: webfactory/ssh-agent@v0.10.0
+      - uses: webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555 # v0.10.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@20eb24b0d509e2b9ed9b6d42ddfeb992915e0564 # v1.341.0
         with:
           ruby-version: "3.3"
 
@@ -91,6 +95,8 @@ jobs:
 
       - name: Build and push the image
         working-directory: ${{ env.OUT_DIR }}
+        env:
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: kamal build push -c config/deploy.yml --version "$GITHUB_SHA"
 
       # ghcr.io can need some seconds before a new manifest is readable.
@@ -104,7 +110,7 @@ jobs:
           exit 1
 
       - name: Scan the image
-        uses: aquasecurity/trivy-action@v0.36.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: ${{ env.IMAGE }}
           version: v0.74.0
@@ -120,4 +126,6 @@ jobs:
 
       - name: Deploy the site
         working-directory: ${{ env.OUT_DIR }}
+        env:
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: kamal deploy --skip-push -c config/deploy.yml --version "$GITHUB_SHA"
