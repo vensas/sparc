@@ -44,14 +44,15 @@
     "sheet": "Blatt 1",
     "facts": {
       "type": "Typ",
-      "typeValue": "Plugin für Claude Code",
+      "typeValue": "Plugin für Coding-Agenten",
       "builtOn": "Basiert auf",
       "formats": "Formate",
       "requires": "Benötigt",
       "version": "Version",
-      "license": "Lizenz"
+      "license": "Lizenz",
+      "requiresValue": "Claude Code oder GitHub Copilot CLI, OpenSpec, Node.js, git"
     },
-    "lede": "Ein Plugin für Claude Code auf Basis von OpenSpec. Fünf Rollen bringen jede Idee zu einer geprüften und getesteten Änderung.",
+    "lede": "Ein Plugin für Coding-Agenten auf Basis von OpenSpec. Fünf Rollen bringen jede Idee zu einer geprüften und getesteten Änderung.",
     "installLabel": "Installation",
     "copy": "Kopieren",
     "copied": "Kopiert",
@@ -184,8 +185,8 @@
     "heading": "Fragen",
     "items": [
       {
-        "q": "Funktioniert sparc mit anderen Coding-Agenten?",
-        "a": "Nein. sparc ist ein Plugin für Claude Code. Es nutzt die Skills und Hooks von Claude Code, in der CLI und in Claude Desktop."
+        "q": "Welche Coding-Agenten unterstützt sparc?",
+        "a": "Claude Code (CLI und Claude Desktop) und GitHub Copilot CLI. Das README nennt, was mit Copilot noch nicht getestet ist, zum Beispiel Copilot in VS Code und den Cloud-Agenten: <a href=\"https://github.com/vensas/sparc#supported-agents\">Supported Agents</a>."
       },
       {
         "q": "Kann ich sparc in einer bestehenden Codebasis nutzen?",

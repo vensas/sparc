@@ -14,7 +14,7 @@
 
 ## 4. Website
 
-- [ ] 4.1 Add the agent switch to the install block as in the mockup, and change the hero lede, the title block and the FAQ answer about other agents in `en.json` and `de.json`. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for the scenarios of "First viewport of the landing page" and "Supported agents on the website" (the built HTML has both panels with their names and a hidden tab list; the script switches with the arrow keys), `CONTAINER=podman website/test.sh` passes, and axe-core finds no violation on `/` and `/de/` at 1440 and 390 px in light and dark. Documents: DESIGN.md (the switch component).
+- [x] 4.1 Add the agent switch to the install block as in the mockup, and change the hero lede, the title block and the FAQ answer about other agents in `en.json` and `de.json`. Verify: `node --test 'scripts/*.test.mjs'` passes with tests for the scenarios of "First viewport of the landing page" and "Supported agents on the website" (the built HTML has both panels with their names and a hidden tab list; the script switches with the arrow keys), `CONTAINER=podman website/test.sh` passes, and axe-core finds no violation on `/` and `/de/` at 1440 and 390 px in light and dark. Documents: DESIGN.md (the switch component).
 
 ## Workflow follow-up
 

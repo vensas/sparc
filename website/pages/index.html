@@ -6,7 +6,7 @@
           <div><dt>{{t.index.facts.type}}</dt><dd>{{t.index.facts.typeValue}}</dd></div>
           <div><dt>{{t.index.facts.builtOn}}</dt><dd><a href="https://openspec.dev">OpenSpec</a></dd></div>
           <div><dt>{{t.index.facts.formats}}</dt><dd>C4, MADR, Keep a Changelog</dd></div>
-          <div><dt>{{t.index.facts.requires}}</dt><dd>Claude Code, OpenSpec, Node.js, git</dd></div>
+          <div><dt>{{t.index.facts.requires}}</dt><dd>{{t.index.facts.requiresValue}}</dd></div>
           <div><dt>{{t.index.facts.version}}</dt><dd>{{record.version}}</dd></div>
           <div><dt>{{t.index.facts.license}}</dt><dd>MIT</dd></div>
         </dl>
@@ -15,11 +15,24 @@
       <div class="install" role="group" aria-labelledby="install-label">
         <div class="install-head">
           <span id="install-label">{{t.index.installLabel}}</span>
-          <button class="copy" type="button" data-copy="npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc" data-copied="{{t.index.copied}}" data-failed="{{t.index.copyFailed}}">{{t.index.copy}}</button>
+          <div class="agent-switch" role="tablist" aria-labelledby="install-label" data-agents hidden>
+            <button type="button" role="tab" id="tab-claude" aria-controls="cmd-claude" aria-selected="true">Claude Code</button>
+            <button type="button" role="tab" id="tab-copilot" aria-controls="cmd-copilot" aria-selected="false" tabindex="-1">GitHub Copilot</button>
+          </div>
+          <button class="copy" type="button" data-copy-agent data-copied="{{t.index.copied}}" data-failed="{{t.index.copyFailed}}">{{t.index.copy}}</button>
         </div>
+        <div class="agent-cmd" id="cmd-claude" role="tabpanel" aria-labelledby="tab-claude" data-copy="npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc">
+          <p class="agent-name">Claude Code</p>
 <pre><code><span class="p">$ </span>npm install -g @fission-ai/openspec
 <span class="p">$ </span>claude plugin marketplace add vensas/sparc
 <span class="p">$ </span>claude plugin install sparc@sparc</code></pre>
+        </div>
+        <div class="agent-cmd" id="cmd-copilot" role="tabpanel" aria-labelledby="tab-copilot" data-copy="npm install -g @fission-ai/openspec&#10;copilot plugin marketplace add vensas/sparc&#10;copilot plugin install sparc@sparc">
+          <p class="agent-name">GitHub Copilot CLI</p>
+<pre><code><span class="p">$ </span>npm install -g @fission-ai/openspec
+<span class="p">$ </span>copilot plugin marketplace add vensas/sparc
+<span class="p">$ </span>copilot plugin install sparc@sparc</code></pre>
+        </div>
       </div>
       <p class="hero-links">
         <a href="{{record.repository}}">{{t.index.source}}</a>

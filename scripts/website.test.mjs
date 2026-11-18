@@ -120,21 +120,74 @@ test('Footer: Footer of the German landing page', () => {
   assert.ok(foot.includes(`sparc ${version}`), 'version');
 });
 
+const CLAUDE = 'npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc';
+const COPILOT = 'npm install -g @fission-ai/openspec&#10;copilot plugin marketplace add vensas/sparc&#10;copilot plugin install sparc@sparc';
+const panel = (html, id) => html.match(new RegExp(`<div class="agent-cmd" id="${id}"[^>]*>[\\s\\S]*?</pre>`))?.[0] ?? '';
+const tabs = (html) => html.match(/<div class="agent-switch"[^>]*>[\s\S]*?<\/div>/)?.[0] ?? '';
+
 test('First viewport of the landing page: First viewport', () => {
   const head = header(page('index.html'));
   assert.match(head, /class="brand"[\s\S]*?<svg/, 'logo');
   assert.match(head, /<h1>[^<]+<\/h1>/, 'heading');
-  assert.ok(head.includes('npm install -g @fission-ai/openspec'));
-  assert.ok(head.includes('claude plugin marketplace add vensas/sparc'));
-  assert.ok(head.includes('claude plugin install sparc@sparc'));
+  assert.match(tabs(head), /role="tablist"/, 'agent switch');
+  for (const text of ['npm install -g @fission-ai/openspec', 'claude plugin marketplace add vensas/sparc', 'claude plugin install sparc@sparc']) {
+    assert.ok(panel(head, 'cmd-claude').includes(text), text);
+  }
   assert.ok(head.includes('href="https://github.com/vensas/sparc"'));
 });
 
 test('First viewport of the landing page: Copy the install commands', () => {
-  const button = header(page('index.html')).match(/<button[^>]*data-copy="([^"]*)"/);
-  assert.ok(button, 'copy button');
-  assert.equal(button[1], 'npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc');
-  assert.match(page('assets/site.js'), /navigator\.clipboard\.writeText\(\w+\.dataset\.copy\)/);
+  const head = header(page('index.html'));
+  assert.match(head, /<button class="copy"[^>]*data-copy-agent/, 'copy button');
+  assert.match(panel(head, 'cmd-claude'), new RegExp(`data-copy="${CLAUDE}"`));
+  assert.match(page('assets/site.js'), /\.agent-cmd:not\(\[hidden\]\)[\s\S]*navigator\.clipboard\.writeText\(\w+\.dataset\.copy\)/);
+});
+
+test('First viewport of the landing page: Select GitHub Copilot', () => {
+  const head = header(page('index.html'));
+  const copilot = panel(head, 'cmd-copilot');
+  assert.match(copilot, new RegExp(`data-copy="${COPILOT}"`));
+  for (const text of ['copilot plugin marketplace add vensas/sparc', 'copilot plugin install sparc@sparc']) assert.ok(copilot.includes(text), text);
+  assert.match(tabs(head), /<button type="button" role="tab" id="tab-copilot" aria-controls="cmd-copilot" aria-selected="false" tabindex="-1">GitHub Copilot<\/button>/);
+  assert.match(page('assets/site.js'), /\.hidden = !on/);
+});
+
+test('First viewport of the landing page: Switch with the keyboard', () => {
+  const head = header(page('index.html'));
+  assert.match(tabs(head), /<button type="button" role="tab" id="tab-claude" aria-controls="cmd-claude" aria-selected="true">Claude Code<\/button>/);
+  for (const id of ['cmd-claude', 'cmd-copilot']) assert.match(head, new RegExp(`id="${id}" role="tabpanel" aria-labelledby="tab-`));
+  const js = page('assets/site.js');
+  assert.match(js, /ArrowRight/);
+  assert.match(js, /ArrowLeft/);
+  assert.match(js, /setAttribute\('aria-selected'/);
+});
+
+test('First viewport of the landing page: Page without JavaScript', () => {
+  for (const lang of ['en', 'de']) {
+    const head = header(page(`${prefix(lang)}index.html`));
+    assert.match(tabs(head), /^<div class="agent-switch"[^>]*\shidden>/, `${lang}: the tab list is hidden`);
+    for (const [id, name] of [['cmd-claude', 'Claude Code'], ['cmd-copilot', 'GitHub Copilot CLI']]) {
+      assert.doesNotMatch(panel(head, id), /^<div[^>]*\shidden/, `${lang}: ${id} shows`);
+      assert.match(panel(head, id), new RegExp(`<p class="agent-name">${name}</p>`), `${lang}: ${name}`);
+    }
+  }
+});
+
+test('Supported agents on the website: Title block', () => {
+  for (const [lang, type, requires] of [['en', /Plugin for coding agents/, /Claude Code or GitHub Copilot CLI/], ['de', /Plugin für Coding-Agenten/, /Claude Code oder GitHub Copilot CLI/]]) {
+    const block = header(page(`${prefix(lang)}index.html`)).match(/<div class="titleblock">[\s\S]*?<\/dl>/)?.[0] ?? '';
+    assert.match(block, type, `${lang}: type`);
+    assert.match(block, requires, `${lang}: requires`);
+  }
+});
+
+test('Supported agents on the website: FAQ about other agents', () => {
+  for (const lang of ['en', 'de']) {
+    const first = section(page(`${prefix(lang)}index.html`), 'faq').match(/<details>[\s\S]*?<\/details>/)?.[0] ?? '';
+    assert.match(first, /Claude Code/, lang);
+    assert.match(first, /GitHub Copilot CLI/, lang);
+    assert.match(first, /href="https:\/\/github\.com\/vensas\/sparc#supported-agents"/, lang);
+  }
 });
 
 test('Sections of the landing page: Order of the sections', () => {

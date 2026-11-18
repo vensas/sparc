@@ -1,8 +1,36 @@
-// Copy the install commands. The button holds the texts in the language of the page.
-document.querySelectorAll('[data-copy]').forEach(function (button) {
+// The agent switch: a tab list, the arrow keys move the selection. Without JavaScript, the tab list stays
+// hidden and both command blocks show with their names.
+document.documentElement.classList.add('js');
+(function () {
+  var list = document.querySelector('[data-agents]');
+  if (!list) return;
+  var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+  list.hidden = false;
+  function select(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tab.focus();
+  }
+  tabs.forEach(function (tab, n) {
+    tab.addEventListener('click', function () { select(tab); });
+    tab.addEventListener('keydown', function (e) {
+      var step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (step) { e.preventDefault(); select(tabs[(n + step + tabs.length) % tabs.length], true); }
+    });
+  });
+  select(tabs[0]);
+})();
+
+// Copy the install commands of the shown agent. The button holds the texts in the language of the page.
+document.querySelectorAll('[data-copy-agent]').forEach(function (button) {
   var label = button.textContent;
   button.addEventListener('click', function () {
-    navigator.clipboard.writeText(button.dataset.copy).then(function () {
+    var shown = document.querySelector('.agent-cmd:not([hidden])');
+    navigator.clipboard.writeText(shown.dataset.copy).then(function () {
       button.textContent = button.dataset.copied;
       setTimeout(function () { button.textContent = label; }, 1600);
     }, function () { button.textContent = button.dataset.failed; });

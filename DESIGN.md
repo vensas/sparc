@@ -201,6 +201,9 @@ All frames, buttons, code blocks and tables have square corners. The only curves
 
 ### Install block
 - A Code Paper block with a hairline frame. The head row has the uppercase label and the copy button. The commands show a purple `$` prompt that you cannot select.
+- The agent switch sits in the head row between the label and the copy button. It is a tab list with two tabs (Claude Code, GitHub Copilot) in a hairline frame. The selected tab is Ink with Sheet text. The arrow keys move the selection. Copy copies the commands of the shown agent.
+- Without JavaScript, the tab list stays hidden, and both command blocks show one after the other, each with the uppercase name of its agent.
+- At 560px or less, the switch takes its own row below the label, and each tab takes half of the width.
 
 ### Title block
 - A drawing title block with a 1px ink frame on the sheet. The head is a purple bar with "sparc" and the sheet number. Each row has an uppercase key and a 600-weight value, separated by hairlines.
