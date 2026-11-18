@@ -1,7 +1,7 @@
 {
   "name": "sparc",
   "displayName": "sparc",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Spec-driven harness for coding agents (Claude Code, GitHub Copilot CLI) on top of OpenSpec: product owner, architect, UX designer, software engineer and QA engineer roles, MADR ADRs, C4, architecture canvas, backlog and automatic document sync.",
   "author": { "name": "vensas", "email": "kontakt@vensas.de" },
   "repository": "https://github.com/vensas/sparc",

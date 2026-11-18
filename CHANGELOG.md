@@ -5,6 +5,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-11-18
+
 ### Added
 
 - sparc supports GitHub Copilot CLI as a second coding agent, next to Claude Code. Install it with `copilot plugin marketplace add vensas/sparc` and `copilot plugin install sparc@sparc`, and start the skills as `/sparc:<skill>`. The README section "Supported Agents" lists the limits with Copilot. Copilot in VS Code, the GitHub Copilot app and the cloud agent are not tested ([support-github-copilot](openspec/changes/archive/2026-11-18-support-github-copilot/proposal.md)).
