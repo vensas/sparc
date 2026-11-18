@@ -1,23 +1,23 @@
 ## ADDED Requirements
 
-### Requirement: Pages in three languages
+### Requirement: Pages in two languages
 
-The website SHALL have a landing page, an imprint and a privacy policy in English, German and French. English SHALL be at the root path. German SHALL be under `/de/` and French under `/fr/`. Each page SHALL set its language in `<html lang>`, link to the same page in the other two languages, and declare these links with `hreflang`.
+The website SHALL have a landing page, an imprint and a privacy policy in English and German. English SHALL be at the root path. German SHALL be under `/de/`. Each page SHALL set its language in `<html lang>`, link to the same page in the other language, and declare the links with `hreflang`.
 
 #### Scenario: Pages of the built site
 
 - **WHEN** the build of the website completes
-- **THEN** the output has `index.html`, `imprint.html`, `privacy.html` and `404.html` at the root, in `de/` and in `fr/`
+- **THEN** the output has `index.html`, `imprint.html`, `privacy.html` and `404.html` at the root and in `de/`
 
 #### Scenario: Change the language
 
-- **WHEN** a visitor opens `/de/imprint.html` and selects "FR"
-- **THEN** the browser opens `/fr/imprint.html`
+- **WHEN** a visitor opens `/de/imprint.html` and selects "EN"
+- **THEN** the browser opens `/imprint.html`
 
 #### Scenario: Language of a page
 
-- **WHEN** a visitor opens `/fr/index.html`
-- **THEN** the page has `<html lang="fr">` and `<link rel="alternate">` entries with `hreflang` `en`, `de` and `fr`
+- **WHEN** a visitor opens `/de/index.html`
+- **THEN** the page has `<html lang="de">` and `<link rel="alternate">` entries with `hreflang` `en` and `de`
 
 ### Requirement: First viewport of the landing page
 
@@ -72,7 +72,7 @@ The record on the landing page SHALL show the number of ADRs in `docs/adr/`, the
 
 ### Requirement: Imprint
 
-The imprint SHALL give the information that § 5 DDG requires for vensas GmbH: name and legal form, address, the managing directors, phone, e-mail, register court and number, and VAT ID. The data SHALL agree with the imprint at https://vensas.de/de/imprint. The English and French imprints SHALL tell that the German text is binding.
+The imprint SHALL give the information that § 5 DDG requires for vensas GmbH: name and legal form, address, the managing directors, phone, e-mail, register court and number, and VAT ID. The data SHALL agree with the imprint at https://vensas.de/de/imprint. The English imprint SHALL tell that the German text is binding.
 
 #### Scenario: Register data
 
@@ -81,12 +81,12 @@ The imprint SHALL give the information that § 5 DDG requires for vensas GmbH: n
 
 #### Scenario: Binding language
 
-- **WHEN** a visitor opens `/imprint.html` or `/fr/imprint.html`
+- **WHEN** a visitor opens `/imprint.html`
 - **THEN** the page tells that the German text is binding and links to `/de/imprint.html`
 
 ### Requirement: Privacy policy
 
-The privacy policy SHALL name vensas GmbH as the controller with its address and e-mail. It SHALL list the rights of the data subject and the right to complain to a supervisory authority. The English and French texts SHALL tell that the German text is binding.
+The privacy policy SHALL name vensas GmbH as the controller with its address and e-mail. It SHALL list the rights of the data subject and the right to complain to a supervisory authority. The English text SHALL tell that the German text is binding.
 
 #### Scenario: Controller and rights
 

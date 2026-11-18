@@ -4,7 +4,7 @@ sparc has no web page. The repository `vensas/sparc` becomes public, and tech le
 
 ## What Changes
 
-- A static website in `website/`: a landing page, an imprint and a privacy policy, each in English, German and French.
+- A static website in `website/`: a landing page, an imprint and a privacy policy, each in English and German.
 - The landing page follows the mockup [docs/mockups/add-landing-page/index.html](../../../docs/mockups/add-landing-page/index.html) (direction "Standards Manual", chosen by the user). It uses the sparc logo and colors from `docs/assets/`.
 - The landing page shows the loop of a change, the roles, the document set, the record of sparc (sparc is built with sparc) and the install steps. The record comes from the files of the repository, not from copied numbers.
 - The imprint uses the company data from the imprint of vensas (https://vensas.de/de/imprint). The privacy policy is minimal and covers the hosting and the server log.

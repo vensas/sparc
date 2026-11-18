@@ -8,7 +8,7 @@ related_targets: ["website/index.html"]
 Scope: sparc landing page with imprint and privacy policy (website/, mockup in docs/mockups/add-landing-page/). Mode: Persuade.
 Audience: tech leads and architects who choose how a team works with coding agents. Action: install sparc (commands), or read on GitHub.
 Proof: sparc's own repository history (ADRs, archived changes, releases). No invented claims.
-Constraints: minimal; logo and purple/gold pinned; EN/DE/FR; no cookies, no external requests; WCAG 2.2 AA.
+Constraints: minimal; logo and purple/gold pinned; EN/DE; no cookies, no external requests; WCAG 2.2 AA.
 
 ## Direction contract
 

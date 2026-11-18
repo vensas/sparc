@@ -33,7 +33,7 @@ Claude Code (CLI and Desktop), OpenSpec, git and GitHub. The repository `vensas/
 - Logo: `docs/assets/logo-light.svg`, `docs/assets/logo-dark.svg`, `docs/assets/icon.svg`.
 - Colors: purple `#552583` (light), `#b08be0` (dark), gold spark `#fdb927`.
 - Owner: vensas GmbH. The footer links to https://vensas.de.
-- Languages: English, German and French.
+- Languages: English and German.
 - The user asked for a minimal page.
 
 ## Evidence on Hand
