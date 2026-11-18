@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: lts/*
       - name: Verify the release
         run: node scripts/verify-release.mjs "$GITHUB_REF_NAME" "$RUNNER_TEMP/notes.md"
       - name: Create the GitHub release
