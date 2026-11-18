@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+### Changed
+
+- sparc recommends the latest Node.js LTS version and does not name a version number. `/sparc:init` stops only when Node.js is not installed. It does not stop because of the Node.js version ([use-node-lts](openspec/changes/use-node-lts/proposal.md)).
+
 ## [0.8.0] - 2026-11-16
 
 ### Added
