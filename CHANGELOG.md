@@ -5,6 +5,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-11-18
+
 ### Added
 
 - Each page of the website has a switch for the light and the dark color scheme, after the language switch. It starts with the system preference and applies to the current page only. The site stores nothing ([add-theme-switch](openspec/changes/archive/2026-11-18-add-theme-switch/proposal.md)).
