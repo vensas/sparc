@@ -72,6 +72,7 @@ See the [system context diagram](c4.md#system-context).
 - [ADR-0015](../adr/0015-use-roles-as-rules-with-a-fresh-context-code-review.md): Use roles as rules with a fresh-context code review.
 - [ADR-0016](../adr/0016-mark-current-adrs-through-a-rule-and-the-canvas-index.md): Mark current ADRs through a rule and the canvas index.
 - [ADR-0017](../adr/0017-keep-only-open-items-in-the-backlog.md): Keep only open items in the backlog.
+- [ADR-0018](../adr/0018-package-sparc-as-one-plugin-for-claude-code-and-github-copilot-cli.md) (proposed in the change support-github-copilot): Package sparc as one plugin for Claude Code and GitHub Copilot CLI.
 
 ## Technologies 🛠️
 
@@ -113,6 +114,9 @@ See the [container diagram](c4.md#containers).
 - The imprint and the privacy policy of the website (change add-landing-page) have no legal review yet. The English texts are translations, and the German text is binding.
 - The DNS record for `sparc.apps.vensas.de` and the repository secrets `DEPLOY_HOST`, `SSH_PRIVATE_KEY` and `SSH_KNOWN_HOSTS` do not exist yet. The operator of the server adds them. The deploy job of `.github/workflows/website.yml` has not run yet, so the QA scenario "Deploy after a change" is open.
 - The request log of kamal-proxy on the server has the IP address of the visitor. It has a size limit, not a time limit. The privacy policy of the website tells this rule. A time limit for all apps on the server is a decision of the operators of the server. The nginx log of the website has no IP address.
+- GitHub Copilot CLI reads sparc as a plugin in the legacy format (`.claude-plugin/`). GitHub can drop this format (ADR-0018, proposed).
+- Copilot in VS Code, the GitHub Copilot app and the Copilot cloud agent are not tested with sparc (change support-github-copilot).
+- Some parts of sparc are not checked yet in Copilot CLI (change support-github-copilot): the slash command form of a skill, `SubagentStop` and the warning of the check.
 - It is not known if vensas GmbH has a data protection officer. The privacy policy of vensas names none.
 - Mermaid C4 draws each relation as a straight line, so some lines cross boxes in the container diagram. Mermaid CLI 12.0.0 ignores `UpdateLayoutConfig`. Label offsets keep the labels apart. The render on GitHub is not checked yet.
 
