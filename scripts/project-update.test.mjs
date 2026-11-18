@@ -18,6 +18,6 @@ test('Update only to a newer version: Project is up to date', () => {
 
 test('Update only to a newer version: Project is newer than the plugin', () => {
   const skill = update();
-  assert.match(skill, /If the project version is higher, stop\. Tell the user to update the plugin with `\/plugin update`/);
+  assert.match(skill, /If the project version is higher, stop\. Tell the user to update the plugin in the agent: `claude plugin update sparc@sparc` in Claude Code or `copilot plugin update sparc` in GitHub Copilot CLI/);
   before(skill, 'If the project version is higher', '## 4. Apply');
 });

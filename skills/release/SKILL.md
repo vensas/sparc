@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 Make a release. Version from the user (optional): $ARGUMENTS
 
-If the text after the colon above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill.
+If the input in the line above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill.
 
 Paths that start with `../../` lead from the folder of this file to the root of the sparc plugin. Make them absolute before you use them in a command.
 

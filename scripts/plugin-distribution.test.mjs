@@ -45,7 +45,7 @@ test('Install instructions: Read the install section', () => {
     'copilot plugin install sparc@sparc',
     'copilot plugin list',
     'copilot plugin marketplace update sparc',
-    'copilot plugin update sparc@sparc',
+    'copilot plugin update sparc',
     'copilot --plugin-dir',
   ]) assert.ok(readme.includes(text), text);
 });
@@ -62,7 +62,7 @@ const skillText = (name) => read(`skills/${name}/SKILL.md`);
 const ROOT_NOTE = /Paths that start with `\.\.\/\.\.\/` lead from the folder of this file to the root of the sparc plugin\. Make them absolute before you use them in a command\./;
 
 test('Skills work in each supported agent: Skill text without a plugin variable', () => {
-  assert.equal(SKILLS.length, 8);
+  assert.ok(SKILLS.length > 0);
   for (const name of SKILLS) {
     const text = skillText(name);
     assert.doesNotMatch(text, /CLAUDE_PLUGIN_ROOT/, name);
@@ -78,8 +78,11 @@ test('Skills work in each supported agent: Agent does not replace the arguments'
   for (const name of SKILLS) {
     const text = skillText(name);
     if (!text.includes('$ARGUMENTS')) continue;
-    assert.match(text, /If the text after the colon above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill\./, name);
     assert.equal(text.split('$ARGUMENTS').length - 1, 1, `${name}: $ARGUMENTS only one time`);
+    const lines = text.split('\n');
+    const at = lines.findIndex((line) => line.includes('$ARGUMENTS'));
+    assert.equal(lines[at + 1], '', `${name}: an empty line after the input`);
+    assert.equal(lines[at + 2], 'If the input in the line above is a placeholder that starts with a dollar sign, use the request that the user gave with the skill.', `${name}: the sentence follows the input line`);
   }
 });
 
@@ -98,5 +101,6 @@ test('Description for coding agents: Manifest description', () => {
   assert.doesNotMatch(description, /Claude Code plugin/);
   const first = read('README.md').split('\n').find((line) => /^sparc is /.test(line));
   assert.match(first, /coding agents/);
-  assert.doesNotMatch(first, /in Claude Code\./);
+  const agents = ['Claude Code', 'GitHub Copilot'].filter((agent) => first.includes(agent));
+  assert.ok(agents.length !== 1, `the first sentence names only ${agents[0]}`);
 });

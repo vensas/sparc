@@ -17,7 +17,7 @@ Obey ../../rules/evidence.md, ../../rules/approval.md and ../../rules/release.md
 1. Installed version: `version` in `../../.claude-plugin/plugin.json`.
 2. Project version: `version` under `sparc:` in `openspec/config.yaml`. If the key does not exist, the project version is `0.1.0`.
 3. If the two versions are equal, stop. Tell the user that the project is up to date.
-4. If the project version is higher, stop. Tell the user to update the plugin with `/plugin update`.
+4. If the project version is higher, stop. Tell the user to update the plugin in the agent: `claude plugin update sparc@sparc` in Claude Code or `copilot plugin update sparc` in GitHub Copilot CLI.
 
 ## 2. Collect the work
 

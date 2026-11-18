@@ -30,6 +30,7 @@ None.
 
 - `plugin-distribution`: install instructions for both agents, a supported-agents section with limits, skills that work in each supported agent (paths relative to the skill folder, input without `$ARGUMENTS`), a manifest description without one agent name.
 - `team-roles`: the scenario "No custom agent types" names both agents.
+- `project-update`: `/sparc:update` names the update command of each agent (found in the code review).
 - `website`: first viewport with the agent switch, a FAQ answer about other agents.
 
 ## Impact
