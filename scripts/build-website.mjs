@@ -75,6 +75,8 @@ export function build({ root = ROOT, out = join(ROOT, '_site') } = {}) {
         t, lang, page, record: data, origin: ORIGIN,
         title: t[page].title,
         sections: page === 'index' ? t.nav.sections : [],
+        // The German legal texts are binding. The other languages link to them.
+        binding: lang === 'de' ? [] : [{}],
         languages: langs.map((code) => ({
           code, name: t.languages[code], short: code.toUpperCase(),
           href: href(code, page), url: `${ORIGIN}${href(code, page)}`,

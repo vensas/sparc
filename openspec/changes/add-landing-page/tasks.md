@@ -6,7 +6,7 @@
 
 ## 2. Legal pages
 
-- [ ] 2.1 Add `website/pages/imprint.html` and `website/pages/privacy.html`, and the legal texts in German (binding) and English in the language files. Verify: tests for the register data, the controller, the hosting section with the log data and the link to the binding German text pass. Documents: none.
+- [x] 2.1 Add `website/pages/imprint.html` and `website/pages/privacy.html`, and the legal texts in German (binding) and English in the language files. Verify: tests for the register data, the controller, the hosting section with the log data and the link to the binding German text pass. Documents: none.
 
 ## 3. German and French
 

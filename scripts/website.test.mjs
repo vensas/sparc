@@ -40,8 +40,46 @@ function fixture({ adrs = 0, archived = [], releases = ['0.8.0'] } = {}) {
   return root;
 }
 
-test('Pages in three languages: Pages of the built site (English)', () => {
-  for (const name of ['index.html']) assert.ok(page(name).startsWith('<!doctype html>'), name);
+const LEGAL = {
+  en: { directors: /Managing directors: \p{Lu}/u, ip: 'IP address', basis: 'Art. 6 (1) (f) GDPR', rights: /Art\. 15\b[\s\S]*Art\. 16\b[\s\S]*Art\. 17\b[\s\S]*Art\. 18\b[\s\S]*Art\. 20\b[\s\S]*Art\. 21\b/, complain: 'supervisory authority', log: ['date and time', 'requested page', 'browser'], none: ['no cookies', 'no analytics'] },
+  de: { directors: /Geschäftsführer: \p{Lu}/u, ip: 'IP-Adresse', basis: 'Art. 6 Abs. 1 lit. f DSGVO', rights: /Art\. 15\b[\s\S]*Art\. 16\b[\s\S]*Art\. 17\b[\s\S]*Art\. 18\b[\s\S]*Art\. 20\b[\s\S]*Art\. 21\b/, complain: 'Aufsichtsbehörde', log: ['Datum und Uhrzeit', 'aufgerufene Seite', 'Browser'], none: ['keine Cookies', 'keine Analyse'] },
+};
+const prefix = (lang) => (lang === 'en' ? '' : `${lang}/`);
+const main = (html) => html.match(/<main[\s\S]*?<\/main>/)?.[0] ?? '';
+
+test('Imprint: Register data', () => {
+  for (const lang of Object.keys(LEGAL)) {
+    const text = main(page(`${prefix(lang)}imprint.html`));
+    for (const value of ['vensas GmbH', 'Bahnhofstraße 31', '66111 Saarbrücken', 'Amtsgericht Saarbrücken', 'HRB 110062', 'DE366043924', 'kontakt@vensas.de', '+49 681 30984780']) {
+      assert.ok(text.includes(value), `${lang}: ${value}`);
+    }
+    assert.match(text, LEGAL[lang].directors, `${lang}: managing directors`);
+  }
+});
+
+test('Imprint: Binding language', () => {
+  assert.match(main(page('imprint.html')), /German text is binding[\s\S]*?href="\/de\/imprint\.html"/);
+  assert.doesNotMatch(main(page('de/imprint.html')), /class="binding"/);
+});
+
+test('Privacy policy: Controller and rights', () => {
+  for (const [lang, want] of Object.entries(LEGAL)) {
+    const text = main(page(`${prefix(lang)}privacy.html`));
+    for (const value of ['vensas GmbH', 'Bahnhofstraße 31', '66111 Saarbrücken', 'kontakt@vensas.de', want.complain]) assert.ok(text.includes(value), `${lang}: ${value}`);
+    assert.match(text, want.rights, `${lang}: rights`);
+  }
+  assert.match(main(page('privacy.html')), /German text is binding[\s\S]*?href="\/de\/privacy\.html"/);
+});
+
+test('Privacy policy for the hosting: Hosting', () => {
+  for (const [lang, want] of Object.entries(LEGAL)) {
+    const text = main(page(`${prefix(lang)}privacy.html`));
+    for (const value of ['Hetzner Online GmbH', want.ip, want.basis, ...want.log, ...want.none]) assert.ok(text.includes(value), `${lang}: ${value}`);
+  }
+});
+
+test('Pages in three languages: Pages of the built site (English and German)', () => {
+  for (const name of ['index.html', 'imprint.html', 'privacy.html', 'de/index.html', 'de/imprint.html', 'de/privacy.html']) assert.ok(page(name).startsWith('<!doctype html>'), name);
 });
 
 test('First viewport of the landing page: First viewport', () => {
