@@ -18,7 +18,7 @@
 
 ## 4. Integration
 
-- [ ] 4.1 Run all commands in `AGENTS.md` (Test, Check the documents, Validate the plugin, Lint, Test the website container). Verify: each command passes.
+- [x] 4.1 Run all commands in `AGENTS.md` (Test, Check the documents, Validate the plugin, Lint, Test the website container). Verify: each command passes.
 - [ ] 4.2 Ask the user to make a goal on Matomo site 9 for the event category `Install`, action `Copy`. Verify: the user confirms the goal, and `qa.md` records it as a manual check.
 
 ## Workflow follow-up
