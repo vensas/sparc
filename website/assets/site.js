@@ -46,6 +46,81 @@ document.documentElement.classList.add('js');
   show();
 })();
 
+// Matomo counts visits only with the consent of the visitor. Before consent, nothing of Matomo loads and the site
+// sets no cookie. The choice is kept for 365 days. Raise VERSION when what the site counts changes, so that each
+// visitor is asked again. Consent is given for each page (setConsentGiven), so Matomo sets no consent cookie of
+// its own. Do Not Track and Global Privacy Control hide the banner. Only the public host sends data.
+var analytics = (function () {
+  var MATOMO = {
+    host: 'sparc.apps.vensas.de',
+    site: '9',
+    tracker: 'https://vensas.matomo.cloud/matomo.php',
+    script: 'https://cdn.matomo.cloud/vensas.matomo.cloud/matomo.js',
+  };
+  var KEY = 'sparc-consent', VERSION = 1, MAX_AGE = 365 * 24 * 60 * 60 * 1000;
+  var banner = document.querySelector('[data-consent]');
+  var active = false;
+  if (!banner) return { event: function () {} };
+
+  function stored() {
+    try {
+      var entry = JSON.parse(localStorage.getItem(KEY));
+      var age = Date.now() - entry.at;
+      if (entry.v === VERSION && (entry.choice === 'granted' || entry.choice === 'denied') && age >= 0 && age <= MAX_AGE) return entry.choice;
+    } catch (e) { /* no entry, or no storage */ }
+    return null;
+  }
+  function store(choice) {
+    try { localStorage.setItem(KEY, JSON.stringify({ v: VERSION, choice: choice, at: Date.now() })); } catch (e) { /* the choice applies to this page only */ }
+  }
+  function start() {
+    if (active || location.hostname !== MATOMO.host) return;
+    active = true;
+    var queue = window._paq = window._paq || [];
+    queue.push(['requireConsent'], ['setConsentGiven'], ['setTrackerUrl', MATOMO.tracker], ['setSiteId', MATOMO.site],
+      ['setDomains', [MATOMO.host]], ['disableBrowserFeatureDetection'], ['trackPageView']);
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = MATOMO.script;
+    document.head.appendChild(script);
+  }
+  // Before matomo.js runs, _paq is the array of this script: empty it. After it ran, block it with requireConsent
+  // (forgetConsentGiven and optUserOut would set a cookie) and reload the page, so that matomo.js unloads.
+  function stop() {
+    var queue = window._paq;
+    if (Array.isArray(queue)) queue.length = 0;
+    else if (queue) queue.push(['requireConsent']);
+    var expired = '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+    document.cookie.split(';').forEach(function (cookie) {
+      var name = cookie.split('=')[0].trim();
+      if (!/^(_pk_|mtm_)/.test(name)) return;
+      document.cookie = name + expired;
+      document.cookie = name + expired + '; domain=' + location.hostname;
+    });
+    if (active) location.reload();
+    active = false;
+  }
+  function decide(choice) {
+    store(choice);
+    banner.hidden = true;
+    if (choice === 'granted') start(); else stop();
+  }
+  var choices = banner.querySelectorAll('[data-consent-choice]');
+  [].forEach.call(choices, function (button) {
+    button.addEventListener('click', function () { decide(button.dataset.consentChoice); });
+  });
+  [].forEach.call(document.querySelectorAll('[data-consent-open]'), function (button) {
+    button.parentNode.hidden = false;
+    button.addEventListener('click', function () { banner.hidden = false; choices[0].focus(); });
+  });
+  var choice = stored();
+  if (choice === 'granted') start();
+  else if (!choice && navigator.doNotTrack !== '1' && navigator.globalPrivacyControl !== true) banner.hidden = false;
+  return {
+    event: function (category, action, name) { if (active) window._paq.push(['trackEvent', category, action, name]); },
+  };
+})();
+
 // Copy the install commands of the shown agent. The button holds the texts in the language of the page.
 document.querySelectorAll('[data-copy-agent]').forEach(function (button) {
   var label = button.textContent;

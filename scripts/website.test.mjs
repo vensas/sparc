@@ -260,6 +260,192 @@ function runTheme(html, systemDark) {
   return { button, item, root, prefer };
 }
 
+// Runs the real site.js against a stand-in of the consent banner, the footer button, the copy button,
+// the browser storage, the cookies and the navigator of a built page. Matomo itself never runs: the tests
+// read the command queue `_paq` and the script elements that the page adds.
+const DAY = 24 * 60 * 60 * 1000;
+const MATOMO_JS = 'https://cdn.matomo.cloud/vensas.matomo.cloud/matomo.js';
+function runConsent({ file = 'index.html', host = 'sparc.apps.vensas.de', stored, storage = true, nav = {}, cookies = [], agent = 'claude' } = {}) {
+  const html = page(file);
+  const doc = { activeElement: null, documentElement: { classList: { add() {} } } };
+  const element = (props = {}) => ({
+    hidden: false, listeners: {}, dataset: {}, ...props,
+    addEventListener(type, fn) { (this.listeners[type] ??= []).push(fn); },
+    fire(type) { for (const fn of this.listeners[type] ?? []) fn({ preventDefault() {} }); },
+    focus() { doc.activeElement = this; },
+  });
+  const markup = consentBanner(html);
+  const choices = [...markup.matchAll(/data-consent-choice="(\w+)">([^<]*)</g)].map((m) => element({ dataset: { consentChoice: m[1] }, textContent: m[2] }));
+  const banner = element({ hidden: /^<section[^>]*\shidden[\s>]/.test(markup), querySelectorAll: (s) => (s === '[data-consent-choice]' ? choices : []) });
+  const item = { hidden: /^<li hidden>/.test(settingsItem(footer(html))) };
+  const settings = element({ parentNode: item });
+  const copy = element({ textContent: 'Copy', dataset: { copied: 'Copied' } });
+  const shown = { id: `cmd-${agent}`, dataset: { copy: `${agent} commands` } };
+  const scripts = [];
+  const jar = new Map(cookies.map((c) => c.split('=')));
+  Object.defineProperty(doc, 'cookie', {
+    get: () => [...jar].map(([k, v]) => `${k}=${v}`).join('; '),
+    set: (text) => { const [k, v] = text.split(';')[0].split('='); if (/expires=Thu, 01 Jan 1970/.test(text)) jar.delete(k.trim()); else jar.set(k.trim(), v); },
+  });
+  Object.assign(doc, {
+    head: { appendChild: (node) => scripts.push(node) },
+    createElement: (tag) => ({ tag }),
+    querySelector: (s) => ({ '[data-consent]': banner, '.agent-cmd:not([hidden])': shown })[s] ?? null,
+    querySelectorAll: (s) => ({ '[data-consent-open]': [settings], '[data-copy-agent]': [copy] })[s] ?? [],
+  });
+  const store = stored === undefined ? {} : { 'sparc-consent': JSON.stringify(stored) };
+  const localStorage = { getItem: (k) => store[k] ?? null, setItem: (k, v) => { store[k] = String(v); } };
+  const reloads = [];
+  const context = {
+    document: doc, matchMedia: () => ({ matches: false, addEventListener() {} }), setTimeout() {}, addEventListener() {}, requestAnimationFrame() {},
+    location: { hostname: host, reload: () => reloads.push(1) },
+    navigator: { ...nav, clipboard: { writeText: () => ({ then: (ok) => ok() }) } },
+  };
+  if (storage) context.localStorage = localStorage;
+  else Object.defineProperty(context, 'localStorage', { get() { throw new Error('SecurityError'); } });
+  context.window = context;
+  vm.runInNewContext(readFileSync(join(OUT, 'assets/site.js'), 'utf8'), context);
+  const choice = (name) => choices.find((c) => c.dataset.consentChoice === name);
+  // Arrays of the VM have another prototype: compare JSON copies.
+  const plain = (value) => (value === undefined ? undefined : JSON.parse(JSON.stringify(value)));
+  const queue = () => plain(context._paq);
+  const commands = () => (queue() ?? []).map((c) => c[0]);
+  const saved = () => (store['sparc-consent'] ? JSON.parse(store['sparc-consent']) : undefined);
+  // Stands in for matomo.js after it ran: it replaces the array with an object that takes commands.
+  const matomoRuns = () => { const got = []; context._paq = { push: (c) => got.push(plain(c)) }; return got; };
+  return { banner, choices, choice, item, settings, copy, scripts, jar, store, saved, reloads, queue, commands, matomoRuns, doc };
+}
+const granted = (age = 0) => ({ v: 1, choice: 'granted', at: Date.now() - age });
+const loadsMatomo = (ui) => ui.scripts.some((s) => s.src === MATOMO_JS && s.async === true);
+
+test('Consent to analytics: First visit', () => {
+  for (const file of ['index.html', 'de/privacy.html']) {
+    const ui = runConsent({ file });
+    assert.equal(ui.banner.hidden, false, `${file}: the banner shows`);
+    assert.deepEqual(ui.scripts, [], `${file}: nothing loads`);
+    assert.equal(ui.queue(), undefined, `${file}: no Matomo command`);
+  }
+});
+
+test('Consent to analytics: Allow', () => {
+  const ui = runConsent();
+  ui.choice('granted').fire('click');
+  assert.equal(ui.banner.hidden, true, 'the banner closes');
+  assert.ok(loadsMatomo(ui), 'the Matomo script loads');
+  const q = ui.queue();
+  assert.deepEqual(q.find((c) => c[0] === 'setSiteId'), ['setSiteId', '9']);
+  assert.deepEqual(q.find((c) => c[0] === 'setTrackerUrl'), ['setTrackerUrl', 'https://vensas.matomo.cloud/matomo.php']);
+  assert.deepEqual(q.find((c) => c[0] === 'setDomains'), ['setDomains', ['sparc.apps.vensas.de']]);
+  assert.deepEqual(ui.commands().slice(0, 2), ['requireConsent', 'setConsentGiven'], 'consent for this page only');
+  assert.ok(ui.commands().includes('trackPageView'), 'page view');
+  assert.equal(ui.saved().choice, 'granted');
+});
+
+test('Consent to analytics: Decline', () => {
+  const ui = runConsent();
+  ui.choice('denied').fire('click');
+  assert.equal(ui.banner.hidden, true, 'the banner closes');
+  assert.deepEqual(ui.scripts, []);
+  assert.deepEqual(ui.commands(), []);
+  assert.equal(ui.doc.cookie, '', 'no cookie');
+  assert.equal(ui.saved().choice, 'denied');
+});
+
+test('Consent to analytics: Banner with the keyboard', () => {
+  // Native buttons take the focus with Tab and fire click on Enter; the focus style is global.
+  // The keyboard itself is a manual check in qa.md.
+  assert.match(consentBanner(page('index.html')), /<button type="button" class="copy" data-consent-choice="denied">/);
+  assert.match(readFileSync(join(OUT, 'assets/site.css'), 'utf8'), /:focus-visible \{ outline: 2px solid/);
+  const ui = runConsent();
+  ui.choice('denied').fire('click');
+  assert.equal(ui.banner.hidden, true);
+});
+
+test('Stored consent choice: Next page after a choice', () => {
+  const allowed = runConsent({ file: 'de/index.html', stored: granted(30 * DAY) });
+  assert.equal(allowed.banner.hidden, true, 'no banner after "Allow"');
+  assert.ok(loadsMatomo(allowed) && allowed.commands().includes('trackPageView'), 'Matomo gets the page view');
+  const declined = runConsent({ file: 'de/index.html', stored: { v: 1, choice: 'denied', at: Date.now() } });
+  assert.equal(declined.banner.hidden, true, 'no banner after "Decline"');
+  assert.deepEqual(declined.scripts, []);
+});
+
+test('Stored consent choice: Choice older than one year', () => {
+  for (const stored of [granted(366 * DAY), { ...granted(), v: 2 }, { ...granted(), at: Date.now() + DAY }, { ...granted(), choice: 'maybe' }]) {
+    const ui = runConsent({ stored });
+    assert.equal(ui.banner.hidden, false, `asks again: ${JSON.stringify(stored)}`);
+    assert.deepEqual(ui.scripts, []);
+  }
+  const fresh = runConsent({ stored: granted(364 * DAY) });
+  assert.equal(fresh.banner.hidden, true, 'a choice of 364 days applies');
+});
+
+test('Stored consent choice: No storage before a choice', () => {
+  const ui = runConsent();
+  assert.deepEqual(ui.store, {});
+  assert.equal(ui.doc.cookie, '');
+});
+
+test('Stored consent choice: without browser storage, the choice applies to the current page', () => {
+  const ui = runConsent({ storage: false });
+  assert.equal(ui.banner.hidden, false);
+  ui.choice('granted').fire('click');
+  assert.ok(loadsMatomo(ui));
+});
+
+test('Do Not Track and Global Privacy Control: Global Privacy Control', () => {
+  for (const nav of [{ globalPrivacyControl: true }, { doNotTrack: '1' }]) {
+    const ui = runConsent({ nav });
+    assert.equal(ui.banner.hidden, true, JSON.stringify(nav));
+    assert.deepEqual(ui.scripts, []);
+    assert.equal(ui.queue(), undefined);
+  }
+});
+
+test('Do Not Track and Global Privacy Control: Allow through the cookie settings', () => {
+  const ui = runConsent({ nav: { doNotTrack: '1' } });
+  ui.settings.fire('click');
+  assert.equal(ui.banner.hidden, false);
+  ui.choice('granted').fire('click');
+  assert.ok(loadsMatomo(ui) && ui.commands().includes('trackPageView'));
+});
+
+test('Withdraw the consent: Open the cookie settings', () => {
+  const ui = runConsent({ stored: granted() });
+  assert.equal(ui.item.hidden, false, 'the script shows the button');
+  assert.equal(ui.banner.hidden, true);
+  ui.settings.fire('click');
+  assert.equal(ui.banner.hidden, false, 'the banner shows');
+  assert.equal(ui.doc.activeElement, ui.choices[0], 'the focus is on the first button');
+});
+
+test('Withdraw the consent: Withdraw', () => {
+  const cookies = ['_pk_id.9.1f2e=abc', '_pk_ses.9.1f2e=1', 'mtm_consent=1', 'other=keep'];
+  // After matomo.js ran: block it and reload the page so that it unloads.
+  const ran = runConsent({ stored: granted(), cookies });
+  const got = ran.matomoRuns();
+  ran.settings.fire('click');
+  ran.choice('denied').fire('click');
+  assert.equal(ran.doc.cookie, 'other=keep', 'the Matomo cookies are gone');
+  assert.deepEqual(got, [['requireConsent']], 'Matomo is blocked');
+  assert.equal(ran.reloads.length, 1, 'the page reloads');
+  assert.equal(ran.saved().choice, 'denied');
+  // Before matomo.js ran: nothing of the queue is left for it.
+  const early = runConsent({ stored: granted(), cookies });
+  early.settings.fire('click');
+  early.choice('denied').fire('click');
+  assert.deepEqual(early.queue(), []);
+  assert.equal(early.doc.cookie, 'other=keep');
+});
+
+test('Analytics data: Local run', () => {
+  const ui = runConsent({ host: 'localhost' });
+  assert.equal(ui.banner.hidden, false, 'the banner shows');
+  ui.choice('granted').fire('click');
+  assert.deepEqual(ui.scripts, []);
+  assert.equal(ui.queue(), undefined);
+});
+
 test('Color scheme switch: Select the dark scheme', () => {
   for (const file of ['index.html', 'de/imprint.html']) {
     const ui = runTheme(header(page(file)), false);
@@ -381,7 +567,7 @@ test('Footer: Footer of the English landing page', () => {
   assert.match(foot, /MIT/);
 });
 
-test('No cookies and no third-party requests: Resources of a page', () => {
+test('No cookies and no third-party requests without consent: Resources of a page', () => {
   const own = (url) => url.startsWith('/') && !url.startsWith('//') || url.startsWith('#')
     || url.startsWith('https://sparc.apps.vensas.de/') || !/^[a-z]+:|^\/\//i.test(url);
   for (const file of files(OUT).filter((f) => /\.(html|css|js)$/.test(f))) {
@@ -396,9 +582,17 @@ test('No cookies and no third-party requests: Resources of a page', () => {
   }
 });
 
-test('No cookies and no third-party requests: No cookies', () => {
+test('No cookies and no third-party requests without consent: No cookies', () => {
+  for (const file of ['index.html', 'de/imprint.html', '404.html']) {
+    const ui = runConsent({ file });
+    assert.equal(ui.doc.cookie, '', `${file}: no cookie`);
+    assert.deepEqual(ui.scripts, [], `${file}: no request to another origin`);
+    assert.deepEqual(ui.store, {}, `${file}: no storage`);
+  }
+  // Only the consent code of site.js uses the browser storage or the cookies.
   for (const file of files(OUT).filter((f) => /\.(html|js)$/.test(f))) {
-    assert.doesNotMatch(readFileSync(file, 'utf8'), /document\.cookie|localStorage|sessionStorage/, file);
+    const text = readFileSync(file, 'utf8').replace(/\nvar analytics = \(function \(\) \{[\s\S]*?\n\}\)\(\);\n/, '');
+    assert.doesNotMatch(text, /document\.cookie|localStorage|sessionStorage/, file);
   }
 });
 
