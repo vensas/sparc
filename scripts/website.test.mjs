@@ -46,8 +46,8 @@ function fixture({ adrs = 0, archived = [], releases = ['0.8.0'] } = {}) {
 }
 
 const LEGAL = {
-  en: { directors: /Managing directors: \p{Lu}/u, ip: 'IP address', basis: 'Art. 6 (1) (f) GDPR', rights: /Art\. 15\b[\s\S]*Art\. 16\b[\s\S]*Art\. 17\b[\s\S]*Art\. 18\b[\s\S]*Art\. 20\b[\s\S]*Art\. 21\b/, complain: 'supervisory authority', log: ['date and time', 'requested page', 'browser'], none: ['no cookies', 'no analytics'] },
-  de: { directors: /Geschäftsführer: \p{Lu}/u, ip: 'IP-Adresse', basis: 'Art. 6 Abs. 1 lit. f DSGVO', rights: /Art\. 15\b[\s\S]*Art\. 16\b[\s\S]*Art\. 17\b[\s\S]*Art\. 18\b[\s\S]*Art\. 20\b[\s\S]*Art\. 21\b/, complain: 'Aufsichtsbehörde', log: ['Datum und Uhrzeit', 'aufgerufene Seite', 'Browser'], none: ['keine Cookies', 'keine Analyse'] },
+  en: { directors: /Managing directors: \p{Lu}/u, ip: 'IP address', basis: 'Art. 6 (1) (f) GDPR', rights: /Art\. 15\b[\s\S]*Art\. 16\b[\s\S]*Art\. 17\b[\s\S]*Art\. 18\b[\s\S]*Art\. 20\b[\s\S]*Art\. 21\b/, complain: 'supervisory authority', log: ['date and time', 'requested page', 'browser'], none: ['sets no cookies', 'without your consent'], basisConsent: 'Art. 6 (1) (a) GDPR', tddg: '§ 25 (1) TDDDG', settings: 'Cookie settings', months: '12 months' },
+  de: { directors: /Geschäftsführer: \p{Lu}/u, ip: 'IP-Adresse', basis: 'Art. 6 Abs. 1 lit. f DSGVO', rights: /Art\. 15\b[\s\S]*Art\. 16\b[\s\S]*Art\. 17\b[\s\S]*Art\. 18\b[\s\S]*Art\. 20\b[\s\S]*Art\. 21\b/, complain: 'Aufsichtsbehörde', log: ['Datum und Uhrzeit', 'aufgerufene Seite', 'Browser'], none: ['keine Cookies', 'ohne deine Zustimmung'], basisConsent: 'Art. 6 Abs. 1 lit. a DSGVO', tddg: '§ 25 Abs. 1 TDDDG', settings: 'Cookie-Einstellungen', months: '12 Monate' },
 };
 const prefix = (lang) => (lang === 'en' ? '' : `${lang}/`);
 const main = (html) => html.match(/<main[\s\S]*?<\/main>/)?.[0] ?? '';
@@ -80,6 +80,15 @@ test('Privacy policy for the hosting: Hosting', () => {
   for (const [lang, want] of Object.entries(LEGAL)) {
     const text = main(page(`${prefix(lang)}privacy.html`));
     for (const value of ['Hetzner Online GmbH', want.ip, want.basis, ...want.log, ...want.none]) assert.ok(text.includes(value), `${lang}: ${value}`);
+  }
+});
+
+test('Privacy policy for analytics: Matomo in the privacy policy', () => {
+  for (const [lang, want] of Object.entries(LEGAL)) {
+    const text = main(page(`${prefix(lang)}privacy.html`));
+    for (const value of ['Matomo', 'InnoCraft', '_pk_id', '_pk_ses', '_pk_ref', 'sparc-consent', want.basisConsent, want.tddg, want.settings, want.months]) {
+      assert.ok(text.includes(value), `${lang}: ${value}`);
+    }
   }
 });
 
