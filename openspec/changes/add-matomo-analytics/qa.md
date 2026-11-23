@@ -54,7 +54,7 @@ Commands on 2026-11-23, after ebf5d83: `node --test 'scripts/*.test.mjs'`, 278 p
 - Reason: the goal is a setting in Matomo, not in the repository (task 4.2).
 - Steps: in Matomo, site 9, add a goal with the trigger "Send an event", condition "Event category" is exactly `Install`, case sensitive, once for each visit. A Matomo goal checks only one event field. `Install` is the only event category of the site, so the action `Copy` needs no condition.
 - Expected result: the goal exists.
-- Result: passed on 2026-11-23. The user made the goal "Install-Befehle kopiert" with the id 16 on site 9. Conversions show after the next release deploys the site.
+- Result: passed on 2026-11-23. The user made the goal with the id 16 on site 9. Conversions show after the next release deploys the site.
 
 ## Code review
 
