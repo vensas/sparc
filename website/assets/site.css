@@ -384,3 +384,21 @@ section.part { border-top: 1px solid var(--rule); padding-block: clamp(64px, 9vw
 @media (prefers-reduced-motion: reduce) {
   .loop li { transition: none; }
 }
+
+/* ---------- Consent banner ---------- */
+/* A card at the bottom right. It does not trap the focus. Below 560 px, it uses the full width at the bottom. */
+.consent {
+  position: fixed; right: 24px; bottom: 24px; z-index: 20; width: 22rem; max-width: calc(100% - 32px);
+  background: var(--sheet); color: var(--ink); border: 1px solid var(--ink); border-top: 4px solid var(--accent);
+  padding: 20px;
+}
+.consent h2 { margin: 0; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.consent p { margin: 8px 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
+.consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+.consent-actions .copy { padding-block: 8px; }
+/* "Cookie settings" in the footer: a button in the style of the footer links. */
+.link-button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+.link-button:hover { text-decoration-thickness: 2px; }
+@media (max-width: 560px) {
+  .consent { left: 16px; right: 16px; bottom: 16px; width: auto; max-width: none; }
+}

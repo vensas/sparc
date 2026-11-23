@@ -217,8 +217,7 @@
     "changelog": "Changelog",
     "license": "MIT-Lizenz",
     "legal": "Rechtliches",
-    "language": "Sprache",
-    "nocookies": "Keine Cookies, kein Tracking"
+    "language": "Sprache"
   },
   "legal": {
     "back": "Zurück zu sparc",
@@ -242,5 +241,12 @@
   "404": {
     "title": "Seite nicht gefunden",
     "text": "Diese Seite gibt es nicht."
+  },
+  "consent": {
+    "title": "Besuch zählen?",
+    "body": "Darf vensas deinen Besuch mit Matomo zählen? Wir sehen nur, welche Seiten helfen und wie oft die Installationsbefehle kopiert werden. Ohne deine Zustimmung wird nichts gezählt.",
+    "decline": "Ablehnen",
+    "allow": "Zustimmen",
+    "settings": "Cookie-Einstellungen"
   }
 }

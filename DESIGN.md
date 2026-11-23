@@ -211,7 +211,12 @@ All frames, buttons, code blocks and tables have square corners. The only curves
 ### Navigation
 - **Masthead index:** the section number in Second Ink, then the name, in ink. Hover underlines. The language switch is after a hairline. The current language has an ink fill.
 - **Color scheme switch:** the last item of the masthead index. An icon button of 32px without a frame, in ink: a moon in the light scheme, a sun in the dark scheme. Hover shows a hairline frame. Its name ("Dark mode") is in `aria-label` and `title`, and pressed means dark. It starts with the system preference and stores nothing. Without JavaScript, its list item stays hidden.
-- **Footer (billing block):** Code Paper, 12-column grid, uppercase column heads, ink links, and an agate line with version, license and owner.
+- **Footer (billing block):** Code Paper, 12-column grid, uppercase column heads, ink links, and an agate line with version, license and owner. "Cookie settings" is a button in the list "Legal" in the style of the links. Without JavaScript, its list item stays hidden.
+
+### Consent banner
+- A Sheet card of 22rem, fixed at the bottom right with 24px space, with a 1px ink frame and the 4px purple top rule of the page. No shadow. The head is in uppercase label type, the text in Second Ink, then a link to the privacy policy.
+- "Decline" and "Allow" are two copy buttons of the same size in a two-column grid. Neither is primary.
+- It does not trap the focus. "Cookie settings" opens it and moves the focus to "Decline". At 560px or less, it takes the full width with 16px space.
 
 ### Change loop (signature)
 - Seven ruled frames in one strip. Each frame has a purple number, the step name, the command, one line of text, a "Stops:" pain line and the role line on a hairline.
@@ -238,7 +243,7 @@ All frames, buttons, code blocks and tables have square corners. The only curves
 - **Do** use gold only for the logo spark and the active loop step bar.
 - **Do** show focus with the ink ring and the sheet gap.
 - **Do** remove motion and smooth scroll when the visitor prefers reduced motion.
-- **Do** self-host all assets. Send no external requests and set no cookies.
+- **Do** self-host all assets. Before the consent of the visitor, send no external requests and set no cookies. After consent, only Matomo loads.
 
 ### Don't:
 - **Don't** use drop shadows, gradients or glow.

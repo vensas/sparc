@@ -217,8 +217,7 @@
     "changelog": "Changelog",
     "license": "MIT license",
     "legal": "Legal",
-    "language": "Language",
-    "nocookies": "No cookies, no tracking"
+    "language": "Language"
   },
   "legal": {
     "back": "Back to sparc",
@@ -242,5 +241,12 @@
   "404": {
     "title": "Page not found",
     "text": "This page does not exist."
+  },
+  "consent": {
+    "title": "Count this visit?",
+    "body": "May vensas count your visit with Matomo? We see only which pages help and how often people copy the install commands. Nothing is counted without your consent.",
+    "decline": "Decline",
+    "allow": "Allow",
+    "settings": "Cookie settings"
   }
 }

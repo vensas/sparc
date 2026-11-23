@@ -49,15 +49,21 @@
     <nav aria-labelledby="f-legal"><h2 id="f-legal">{{t.footer.legal}}</h2><ul>
       <li><a href="{{links.imprint}}">{{t.imprint.title}}</a></li>
       <li><a href="{{links.privacy}}">{{t.privacy.title}}</a></li>
+      <li hidden><button type="button" class="link-button" data-consent-open>{{t.consent.settings}}</button></li>
     </ul></nav>
     <nav aria-labelledby="f-lang"><h2 id="f-lang">{{t.footer.language}}</h2><ul>
       {{#languages}}<li><a href="{{.href}}" lang="{{.code}}" hreflang="{{.code}}"{{.current}}>{{.name}}</a></li>
       {{/languages}}</ul></nav>
     <div class="agate">
       <span>sparc {{record.version}} · {{t.footer.license}}</span>
-      <span>© 2026 <a href="https://vensas.de">vensas GmbH</a> · {{t.footer.nocookies}}</span>
+      <span>© 2026 <a href="https://vensas.de">vensas GmbH</a></span>
     </div>
   </div>
 </footer>
+<section class="consent" data-consent aria-labelledby="consent-title" hidden>
+  <h2 id="consent-title">{{t.consent.title}}</h2>
+  <p>{{t.consent.body}} <a href="{{links.privacy}}">{{t.privacy.title}}</a></p>
+  <div class="consent-actions"><button type="button" class="copy" data-consent-choice="denied">{{t.consent.decline}}</button><button type="button" class="copy" data-consent-choice="granted">{{t.consent.allow}}</button></div>
+</section>
 </body>
 </html>

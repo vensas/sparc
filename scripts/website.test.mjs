@@ -119,6 +119,28 @@ test('Footer: Footer of the German landing page', () => {
   const version = JSON.parse(readFileSync(join(ROOT, '.claude-plugin/plugin.json'), 'utf8')).version;
   for (const href of ['https://vensas.de', '/de/imprint.html', '/de/privacy.html']) assert.ok(foot.includes(`href="${href}"`), href);
   assert.ok(foot.includes(`sparc ${version}`), 'version');
+  assert.match(settingsItem(foot), /<button type="button"[^>]*data-consent-open[^>]*>Cookie-Einstellungen<\/button>/, 'cookie settings');
+  assert.doesNotMatch(foot, /Keine Cookies, kein Tracking/, 'the old footer text is gone');
+});
+
+// The consent banner and the "Cookie settings" button of a built page.
+const consentBanner = (html) => html.match(/<section class="consent"[\s\S]*?<\/section>/)?.[0] ?? '';
+const settingsItem = (html) => html.match(/<li[^>]*><button type="button"[^>]*data-consent-open[\s\S]*?<\/li>/)?.[0] ?? '';
+
+test('Consent to analytics: Banner without JavaScript', () => {
+  for (const [file, privacy, words] of [['index.html', '/privacy.html', ['Allow', 'Decline']], ['de/imprint.html', '/de/privacy.html', ['Zustimmen', 'Ablehnen']]]) {
+    const banner = consentBanner(page(file));
+    assert.match(banner, /^<section class="consent"[^>]*\shidden[\s>]/, `${file}: the banner is hidden in the HTML`);
+    assert.match(banner, /aria-labelledby="consent-title"/, `${file}: the banner has a name`);
+    assert.ok(banner.includes(`href="${privacy}"`), `${file}: link to the privacy policy`);
+    for (const word of words) assert.match(banner, new RegExp(`<button type="button" class="copy" data-consent-choice="(granted|denied)">${word}</button>`), `${file}: ${word}`);
+    assert.doesNotMatch(page(file), /matomo\.cloud/, `${file}: no Matomo host in the HTML`);
+  }
+});
+
+test('Withdraw the consent: the cookie settings are hidden without JavaScript', () => {
+  for (const file of ['index.html', 'de/privacy.html']) assert.match(settingsItem(footer(page(file))), /^<li hidden>/, file);
+  assert.match(settingsItem(footer(page('index.html'))), />Cookie settings<\/button>/);
 });
 
 const CLAUDE = 'npm install -g @fission-ai/openspec&#10;claude plugin marketplace add vensas/sparc&#10;claude plugin install sparc@sparc';
