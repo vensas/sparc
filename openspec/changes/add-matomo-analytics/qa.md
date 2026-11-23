@@ -77,4 +77,8 @@ After the fixes: `node --test 'scripts/*.test.mjs'`, 278 passed, 0 failed. `node
 
 ## Open points
 
-- The requirement "Consent to analytics" says that the banner SHALL NOT cover the main content on a desktop width. At 1440 × 900 px, the card covers a part of the steps 6 and 7 of the loop strip below the first viewport. It does not cover the heading, the install commands or the title block. The approved mockup shows the same position. No scenario tests this sentence. The product owner must decide: accept the position and change the sentence at the archive (for example "on a desktop width, SHALL NOT cover the content of the first viewport"), or change the position.
+- Resolved on 2026-11-23: the requirement "Consent to analytics" said that the banner SHALL NOT cover the main content on a desktop width. At 1440 × 900 px, the card covers a part of the steps 6 and 7 of the loop strip below the first viewport, as in the approved mockup. The user decided to keep the position. The product owner changed the sentence in the spec delta to "On a desktop width, the banner SHALL NOT cover the content of the first viewport". The browser check shows the heading, the install commands and the title block free at 1440 × 900 px.
+
+## Acceptance
+
+Accepted on 2026-11-23 by the product owner role. 26 scenarios passed, no scenario failed, and each code review finding has a fix or a reason. The manual browser check passed. Two manual checks are open and need the user: the requests on the production host after the next release, and the Matomo goal for the copy event (task 4.2).

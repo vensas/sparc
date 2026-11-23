@@ -2,7 +2,7 @@
 
 ### Requirement: Consent to analytics
 
-On the first visit, each page SHALL show a banner that asks for consent to count the visit with Matomo. The banner SHALL have the buttons "Allow" and "Decline" with the same size and style, and a link to the privacy policy in the language of the page. The banner SHALL NOT cover the main content on a desktop width and SHALL NOT trap the focus. Without JavaScript, the banner SHALL NOT show.
+On the first visit, each page SHALL show a banner that asks for consent to count the visit with Matomo. The banner SHALL have the buttons "Allow" and "Decline" with the same size and style, and a link to the privacy policy in the language of the page. On a desktop width, the banner SHALL NOT cover the content of the first viewport. It SHALL NOT trap the focus. Without JavaScript, the banner SHALL NOT show.
 
 #### Scenario: First visit
 
