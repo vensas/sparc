@@ -8,7 +8,7 @@
 
 ## 2. Server and privacy
 
-- [ ] 2.1 Change the Content Security Policy in `website/nginx/security-headers.conf` (see design.md, "Content Security Policy"). Verify: `website/test.sh` passes with a check for "Web server: Content Security Policy for Matomo", and a test in `scripts/website.test.mjs` finds each Matomo host of `site.js` in the policy.
+- [x] 2.1 Change the Content Security Policy in `website/nginx/security-headers.conf` (see design.md, "Content Security Policy"). Verify: `website/test.sh` passes with a check for "Web server: Content Security Policy for Matomo", and a test in `scripts/website.test.mjs` finds each Matomo host of `site.js` in the policy.
 - [ ] 2.2 Rewrite the privacy policy in `website/i18n/de.json` (binding) and `website/i18n/en.json` (see design.md, "Privacy policy"). Verify: tests pass for "Privacy policy for analytics: Matomo in the privacy policy" and "Privacy policy for the hosting: Hosting", and the test "No cookies and no third-party requests without consent: No cookies" replaces the old text scan.
 
 ## 3. Documents

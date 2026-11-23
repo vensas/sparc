@@ -627,6 +627,27 @@ test('Web server: Security headers (no inline styles or scripts for the CSP)', (
   }
 });
 
+// The directives of the Content Security Policy in the nginx configuration, as { name: [sources] }.
+function csp() {
+  const conf = readFileSync(join(ROOT, 'website/nginx/security-headers.conf'), 'utf8');
+  const policy = conf.match(/add_header Content-Security-Policy "([^"]+)"/)[1];
+  return Object.fromEntries(policy.split(';').map((d) => d.trim().split(/\s+/)).map(([name, ...sources]) => [name, sources]));
+}
+
+test('Web server: Content Security Policy for Matomo', () => {
+  const policy = csp();
+  const others = Object.entries(policy).flatMap(([name, sources]) => sources.filter((s) => s.startsWith('https:')).map((s) => `${name} ${s}`));
+  assert.deepEqual(others.sort(), [
+    'connect-src https://vensas.matomo.cloud', 'img-src https://vensas.matomo.cloud', 'script-src https://cdn.matomo.cloud',
+  ]);
+  assert.deepEqual(policy['default-src'], ["'none'"]);
+  // Each Matomo address in site.js is permitted by the policy.
+  const script = readFileSync(join(ROOT, 'website/assets/site.js'), 'utf8');
+  const origin = (name) => new URL(script.match(new RegExp(`${name}: '([^']+)'`))[1]).origin;
+  assert.ok(policy['script-src'].includes(origin('script')), 'script');
+  for (const name of ['connect-src', 'img-src']) assert.ok(policy[name].includes(origin('tracker')), name);
+});
+
 // RFC 5737 documentation ranges: examples only, never a real server.
 const DOCUMENTATION = /^(192\.0\.2|198\.51\.100|203\.0\.113)\./;
 

@@ -56,6 +56,8 @@ check "nginx cannot change its configuration" "" "$("$CONTAINER" exec "$NAME" fi
 check "no Server header" "" "$(header server "$BASE/")"
 check "no Server header on errors" "" "$(header server "$BASE/missing.html")"
 check "CSP without unsafe-inline" "yes" "$(header content-security-policy "$BASE/" | grep -q "default-src 'none'" && ! header content-security-policy "$BASE/" | grep -q unsafe-inline && echo yes || echo no)"
+# Web server: Content Security Policy for Matomo
+check "CSP permits Matomo only" "script-src 'self' https://cdn.matomo.cloud|connect-src https://vensas.matomo.cloud|img-src 'self' https://vensas.matomo.cloud" "$(header content-security-policy "$BASE/" | tr ';' '\n' | sed 's/^ *//' | awk '{a[$1]=$0} END{printf "%s|%s|%s", a["script-src"], a["connect-src"], a["img-src"]}')"
 check "CSP on 404 pages" "yes" "$(header content-security-policy "$BASE/missing.html" | grep -q "default-src 'none'" && echo yes || echo no)"
 check "HSTS" "max-age=31536000" "$(header strict-transport-security "$BASE/")"
 check "nosniff" "nosniff" "$(header x-content-type-options "$BASE/")"
