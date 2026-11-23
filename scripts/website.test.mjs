@@ -322,7 +322,7 @@ function runConsent({ file = 'index.html', host = 'sparc.apps.vensas.de', stored
   const saved = () => (store['sparc-consent'] ? JSON.parse(store['sparc-consent']) : undefined);
   // Stands in for matomo.js after it ran: it replaces the array with an object that takes commands.
   const matomoRuns = () => { const got = []; context._paq = { push: (c) => got.push(plain(c)) }; return got; };
-  return { banner, choices, choice, item, settings, copy, scripts, jar, store, saved, reloads, queue, commands, matomoRuns, doc };
+  return { banner, choices, choice, item, settings, copy, scripts, jar, store, saved, reloads, queue, commands, matomoRuns, doc, raw: () => context._paq };
 }
 const granted = (age = 0) => ({ v: 1, choice: 'granted', at: Date.now() - age });
 const loadsMatomo = (ui) => ui.scripts.some((s) => s.src === MATOMO_JS && s.async === true);
@@ -475,8 +475,15 @@ test('Analytics data: Copy the install commands without consent', () => {
 test('Analytics data: no outbound links, heartbeat or browser features', () => {
   const ui = runConsent({ stored: granted() });
   const sent = ui.commands();
-  for (const command of ['enableLinkTracking', 'enableHeartBeatTimer']) assert.ok(!sent.includes(command), command);
-  assert.ok(sent.includes('disableBrowserFeatureDetection'));
+  for (const command of ['enableLinkTracking', 'enableHeartBeatTimer', 'disableBrowserFeatureDetection']) assert.ok(!sent.includes(command), command);
+  // matomo.js runs the named commands of its applyFirst list before the others, and setConsentGiven turns the
+  // feature detection on again. A function runs in the queue order, so it must turn it off before trackPageView.
+  const raw = ui.raw();
+  const at = raw.findIndex((c) => typeof c[0] === 'function');
+  assert.ok(at > sent.indexOf('setConsentGiven') && at < sent.indexOf('trackPageView'), 'the function is between setConsentGiven and trackPageView');
+  const calls = [];
+  raw[at][0].call({ disableBrowserFeatureDetection: () => calls.push('off') });
+  assert.deepEqual(calls, ['off']);
 });
 
 test('Color scheme switch: Select the dark scheme', () => {
@@ -645,7 +652,7 @@ function csp() {
 
 test('Web server: Content Security Policy for Matomo', () => {
   const policy = csp();
-  const others = Object.entries(policy).flatMap(([name, sources]) => sources.filter((s) => s.startsWith('https:')).map((s) => `${name} ${s}`));
+  const others = Object.entries(policy).flatMap(([name, sources]) => sources.filter((s) => s !== "'self'" && s !== "'none'").map((s) => `${name} ${s}`));
   assert.deepEqual(others.sort(), [
     'connect-src https://vensas.matomo.cloud', 'img-src https://vensas.matomo.cloud', 'script-src https://cdn.matomo.cloud',
   ]);

@@ -32,7 +32,7 @@ document.documentElement.classList.add('js');
 })();
 
 // The color scheme switch: pressed means dark. Without a selection, the system preference applies. A click
-// sets data-theme on the root for this page only: the site stores nothing. Without JavaScript, its list item stays hidden.
+// sets data-theme on the root for this page only: the switch stores nothing. Without JavaScript, its list item stays hidden.
 (function () {
   var button = document.querySelector('[data-theme-switch]');
   if (!button) return;
@@ -77,8 +77,10 @@ var analytics = (function () {
     if (active || location.hostname !== MATOMO.host) return;
     active = true;
     var queue = window._paq = window._paq || [];
+    // matomo.js runs named commands such as setConsentGiven first, and setConsentGiven turns the browser feature
+    // detection on again. A function runs in the queue order, so it turns the detection off before the page view.
     queue.push(['requireConsent'], ['setConsentGiven'], ['setTrackerUrl', MATOMO.tracker], ['setSiteId', MATOMO.site],
-      ['setDomains', [MATOMO.host]], ['disableBrowserFeatureDetection'], ['trackPageView']);
+      ['setDomains', [MATOMO.host]], [function () { this.disableBrowserFeatureDetection(); }], ['trackPageView']);
     var script = document.createElement('script');
     script.async = true;
     script.src = MATOMO.script;
