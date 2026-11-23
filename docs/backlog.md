@@ -16,3 +16,4 @@ The backlog holds only open items. The [changelog](../CHANGELOG.md) has the done
 - [ ] A "How we work" section in the README template for human contributors
 - [ ] A note in the templates that tells which documents can stay short in a small project
 - [ ] Decide if the README of a project must follow STE
+- [ ] Analytics with consent on the website (change: add-matomo-analytics)

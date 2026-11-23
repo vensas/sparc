@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sparc: consent banner</title>
+<!-- Mockup of the change add-matomo-analytics: the consent banner and the "Cookie settings" button in the footer,
+     in the light and the dark scheme, at a desktop width and at 360 px. Each frame is a stand-in of a viewport. -->
+<style>
+@font-face { font-family: "Archivo"; src: url("../add-landing-page/fonts/archivo.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+.light { --sheet: #ffffff; --ink: #16121c; --ink-2: #4a4354; --rule: #d9d3e0; --accent: #552583; --code-bg: #f4f0f8; color-scheme: light; }
+.dark { --sheet: #0f0c14; --ink: #ece8f2; --ink-2: #b4abc0; --rule: #2e2738; --accent: #b08be0; --code-bg: #1a1522; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 16px; font: 400 1.0625rem/1.6 "Archivo", system-ui, sans-serif; background: #3a3540; color: #fff; }
+h1 { font-size: 1rem; margin: 24px 0 8px; }
+h1:first-child { margin-top: 0; }
+.note { margin: 0 0 12px; font-size: 0.875rem; color: #d9d3e0; max-width: 60em; }
+
+/* A frame is the stand-in of a browser viewport. */
+.frame { position: relative; overflow: hidden; background: var(--sheet); color: var(--ink); border-top: 4px solid var(--accent); }
+.frame.desktop { width: 100%; max-width: 1240px; height: 420px; }
+.frame.phone { width: 360px; height: 640px; }
+.page { padding: 32px clamp(16px, 4vw, 48px); }
+.page .brand { font-weight: 650; font-size: 1.75rem; }
+.page p { color: var(--ink-2); max-width: 32em; }
+.ghost { height: 14px; background: var(--code-bg); margin: 12px 0; max-width: 520px; }
+
+/* The banner: a card at the bottom right. On a narrow screen, it uses the full width at the bottom. */
+.consent {
+  position: absolute; right: 24px; bottom: 24px; width: 22rem; max-width: calc(100% - 32px);
+  background: var(--sheet); color: var(--ink); border: 1px solid var(--ink); border-top: 4px solid var(--accent);
+  padding: 20px; box-shadow: 0 8px 24px rgb(0 0 0 / 0.18); z-index: 5;
+}
+.consent h2 { margin: 0; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.consent p { margin: 8px 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
+.consent a { color: var(--accent); text-underline-offset: 0.2em; }
+.consent .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+/* Both buttons have the same style: the style of the "Copy" button of the landing page. */
+.consent button, .settings {
+  font: inherit; font-size: 0.8125rem; letter-spacing: 0.04em; font-weight: 700;
+  background: transparent; color: var(--ink); border: 1px solid var(--ink-2); padding: 8px 14px; cursor: pointer;
+}
+.consent button:hover { background: var(--ink); color: var(--sheet); }
+.phone .consent { left: 16px; right: 16px; bottom: 16px; width: auto; max-width: none; }
+:focus-visible, .focus { outline: 2px solid var(--ink); outline-offset: 3px; box-shadow: 0 0 0 3px var(--sheet); border-radius: 2px; }
+
+/* Footer: "Cookie settings" is a button in the list "Legal", in the style of a link. */
+.billing { position: absolute; inset: auto 0 0 0; background: var(--code-bg); border-top: 1px solid var(--rule); padding: 24px clamp(16px, 4vw, 48px); font-size: 0.9375rem; }
+.billing .cols { display: flex; gap: 48px; }
+.billing h3 { font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 12px; color: var(--ink-2); font-weight: 600; }
+.billing ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.billing a { color: var(--ink); text-underline-offset: 0.2em; }
+.billing .settings { border: 0; padding: 0; font-size: inherit; font-weight: 400; letter-spacing: 0; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+.billing .settings:hover { text-decoration-thickness: 2px; }
+.agate { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 0.8125rem; color: var(--ink-2); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; }
+.agate a { color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<h1>1. First visit, desktop, light scheme</h1>
+<p class="note">The banner is a card at the bottom right. The page stays usable, and the focus is not trapped. "Decline" and "Allow" have the same size and style. Before a choice, nothing loads from Matomo.</p>
+<div class="frame desktop light">
+  <div class="page"><div class="brand">sparc</div><p>Spec-driven work with agents. The loop, the documents and the record stay in sync.</p><div class="ghost"></div><div class="ghost" style="max-width:380px"></div><div class="ghost" style="max-width:460px"></div></div>
+  <section class="consent" aria-labelledby="c1-title">
+    <h2 id="c1-title">Count this visit?</h2>
+    <p>May vensas count your visit with Matomo? We see only which pages help and how often people copy the install commands. Nothing is counted without your consent. <a href="#">Privacy policy</a></p>
+    <div class="actions"><button type="button">Decline</button><button type="button">Allow</button></div>
+  </section>
+</div>
+
+<h1>2. First visit, desktop, dark scheme, focus on "Decline"</h1>
+<p class="note">The focus ring is the same as on the rest of the site.</p>
+<div class="frame desktop dark">
+  <div class="page"><div class="brand">sparc</div><p>Spec-driven work with agents. The loop, the documents and the record stay in sync.</p><div class="ghost"></div><div class="ghost" style="max-width:380px"></div></div>
+  <section class="consent" aria-labelledby="c2-title">
+    <h2 id="c2-title">Count this visit?</h2>
+    <p>May vensas count your visit with Matomo? We see only which pages help and how often people copy the install commands. Nothing is counted without your consent. <a href="#">Privacy policy</a></p>
+    <div class="actions"><button type="button" class="focus">Decline</button><button type="button">Allow</button></div>
+  </section>
+</div>
+
+<h1>3. First visit, 360 px, German, light and dark scheme</h1>
+<p class="note">On a narrow screen, the card uses the full width at the bottom, with a 16 px margin.</p>
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+  <div class="frame phone light" lang="de">
+    <div class="page"><div class="brand">sparc</div><p>Spec-getriebene Arbeit mit Agenten.</p><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div></div>
+    <section class="consent" aria-labelledby="c3-title">
+      <h2 id="c3-title">Besuch zählen?</h2>
+      <p>Darf vensas deinen Besuch mit Matomo zählen? Wir sehen nur, welche Seiten helfen und wie oft die Installationsbefehle kopiert werden. Ohne deine Zustimmung wird nichts gezählt. <a href="#">Datenschutzerklärung</a></p>
+      <div class="actions"><button type="button">Ablehnen</button><button type="button">Zustimmen</button></div>
+    </section>
+  </div>
+  <div class="frame phone dark" lang="de">
+    <div class="page"><div class="brand">sparc</div><p>Spec-getriebene Arbeit mit Agenten.</p><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div></div>
+    <section class="consent" aria-labelledby="c4-title">
+      <h2 id="c4-title">Besuch zählen?</h2>
+      <p>Darf vensas deinen Besuch mit Matomo zählen? Wir sehen nur, welche Seiten helfen und wie oft die Installationsbefehle kopiert werden. Ohne deine Zustimmung wird nichts gezählt. <a href="#">Datenschutzerklärung</a></p>
+      <div class="actions"><button type="button">Ablehnen</button><button type="button">Zustimmen</button></div>
+    </section>
+  </div>
+</div>
+
+<h1>4. After a choice: footer with "Cookie settings"</h1>
+<p class="note">"Cookie settings" is a button in the list "Legal". It opens the banner again and moves the focus to "Decline". The text "No cookies, no tracking" goes away. Without JavaScript, the button does not show.</p>
+<div class="frame desktop light" style="height:260px">
+  <footer class="billing">
+    <div class="cols">
+      <div><h3>Project</h3><ul><li><a href="#">GitHub</a></li><li><a href="#">Changelog</a></li><li><a href="#">MIT license</a></li></ul></div>
+      <div><h3>Legal</h3><ul><li><a href="#">Imprint</a></li><li><a href="#">Privacy policy</a></li><li><button type="button" class="settings">Cookie settings</button></li></ul></div>
+      <div><h3>Language</h3><ul><li><a href="#">English</a></li><li><a href="#">Deutsch</a></li></ul></div>
+    </div>
+    <div class="agate"><span>sparc 0.9.1 · MIT license</span><span>© 2026 <a href="#">vensas GmbH</a></span></div>
+  </footer>
+</div>
+
+</body>
+</html>
