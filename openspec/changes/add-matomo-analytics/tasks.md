@@ -13,8 +13,8 @@
 
 ## 3. Documents
 
-- [ ] 3.1 Check that `docs/architecture/c4.md` shows Matomo Cloud and its relation as in design.md, "C4 impact". Add Matomo Cloud to the canvas section "Technologies", and the Matomo instance settings that the privacy policy depends on to "Core Risks and Missing Information". Verify: `node scripts/check.mjs` passes.
-- [ ] 3.2 Add the change to `CHANGELOG.md` under "Unreleased". Verify: `node scripts/check.mjs` passes.
+- [x] 3.1 Check that `docs/architecture/c4.md` shows Matomo Cloud and its relation as in design.md, "C4 impact". Add Matomo Cloud to the canvas section "Technologies", and the Matomo instance settings that the privacy policy depends on to "Core Risks and Missing Information". Verify: `node scripts/check.mjs` passes.
+- [x] 3.2 Add the change to `CHANGELOG.md` under "Unreleased". Verify: `node scripts/check.mjs` passes. Moved to `/sparc:archive`: `rules/release.md` tells that the product owner writes the entries of a change when the change is archived.
 
 ## 4. Integration
 

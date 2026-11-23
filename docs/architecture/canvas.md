@@ -84,6 +84,7 @@ See the [system context diagram](c4.md#system-context).
 - Mermaid C4, MADR, ASD-STE100.
 - GitHub Actions for CI and GitHub releases. `actionlint` and `act` test the workflows locally.
 - Website: HTML and CSS from a Node.js build script without dependencies. nginx on Alpine serves it in a container. An Aspire 13.6.5 AppHost with `Vensas.Aspire.Hosting.Kamal` makes the Kamal 2 configuration. Only the website uses .NET, Aspire and Kamal.
+- Website analytics: Matomo Cloud at `vensas.matomo.cloud`, site 9, only with the consent of the visitor (change add-matomo-analytics).
 
 ## Components / Modules 🧊
 
@@ -112,6 +113,7 @@ See the [container diagram](c4.md#containers).
 - `/sparc:sync` does not report drift from work that is not complete. It does not tell how to find out that work is not complete.
 - The acceptance step of `/sparc:apply` has no commit type of its own. Two `test(qa)` acceptance commits changed the canvas (`76f91df`, `f52f33b`).
 - The imprint and the privacy policy of the website (change add-landing-page) have no legal review yet. The English texts are translations, and the German text is binding.
+- The privacy policy of the website tells that Matomo shortens the IP address and deletes the data after 12 months. These are settings of the Matomo instance, not of the site. The user confirmed them for site 9 on 2026-11-23. A change of the settings makes the text wrong.
 - The website deploys after a release. The first deployment ran with the release 0.9.0 on 2026-11-18. The manual start of the workflow `Website` is not run yet.
 - The request log of kamal-proxy on the server has the IP address of the visitor. It has a size limit, not a time limit. The privacy policy of the website tells this rule. A time limit for all apps on the server is a decision of the operators of the server. The nginx log of the website has no IP address.
 - GitHub Copilot CLI reads sparc as a plugin in the legacy format (`.claude-plugin/`). GitHub can drop this format (ADR-0018).
