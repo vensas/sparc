@@ -472,10 +472,12 @@ test('Analytics data: Copy the install commands without consent', () => {
   }
 });
 
-test('Analytics data: no outbound links, heartbeat or browser features', () => {
+test('Analytics data: no outbound links, heartbeat, browser features, load times or heatmaps', () => {
   const ui = runConsent({ stored: granted() });
   const sent = ui.commands();
   for (const command of ['enableLinkTracking', 'enableHeartBeatTimer', 'disableBrowserFeatureDetection']) assert.ok(!sent.includes(command), command);
+  // No load times with the page view, and no request for the heatmap configuration of the Matomo instance.
+  for (const command of ['disablePerformanceTracking', 'HeatmapSessionRecording::disable']) assert.ok(sent.includes(command), command);
   // matomo.js runs the named commands of its applyFirst list before the others, and setConsentGiven turns the
   // feature detection on again. A function runs in the queue order, so it must turn it off before trackPageView.
   const raw = ui.raw();

@@ -80,7 +80,8 @@ var analytics = (function () {
     // matomo.js runs named commands such as setConsentGiven first, and setConsentGiven turns the browser feature
     // detection on again. A function runs in the queue order, so it turns the detection off before the page view.
     queue.push(['requireConsent'], ['setConsentGiven'], ['setTrackerUrl', MATOMO.tracker], ['setSiteId', MATOMO.site],
-      ['setDomains', [MATOMO.host]], [function () { this.disableBrowserFeatureDetection(); }], ['trackPageView']);
+      ['setDomains', [MATOMO.host]], ['disablePerformanceTracking'], ['HeatmapSessionRecording::disable'],
+      [function () { this.disableBrowserFeatureDetection(); }], ['trackPageView']);
     var script = document.createElement('script');
     script.async = true;
     script.src = MATOMO.script;
