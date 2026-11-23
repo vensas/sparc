@@ -19,7 +19,7 @@
 ## 4. Integration
 
 - [x] 4.1 Run all commands in `AGENTS.md` (Test, Check the documents, Validate the plugin, Lint, Test the website container). Verify: each command passes.
-- [x] 4.2 Ask the user to make a goal on Matomo site 9 for the event category `Install`, action `Copy`. Done: goal 16, condition event category is exactly `Install` (a Matomo goal checks only one event field). Verify: the user confirms the goal, and `qa.md` records it as a manual check.
+- [x] 4.2 Ask the user to make a goal on Matomo site 9 for the event category `Install`, action `Copy`. Done: goal 1 on site 9, condition event category is exactly `Install` (a Matomo goal checks only one event field). Verify: the user confirms the goal, and `qa.md` records it as a manual check.
 
 ## Workflow follow-up
 

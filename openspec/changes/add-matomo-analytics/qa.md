@@ -54,7 +54,7 @@ Commands on 2026-11-23, after ebf5d83: `node --test 'scripts/*.test.mjs'`, 278 p
 - Reason: the goal is a setting in Matomo, not in the repository (task 4.2).
 - Steps: in Matomo, site 9, add a goal with the trigger "Send an event", condition "Event category" is exactly `Install`, case sensitive, once for each visit. A Matomo goal checks only one event field. `Install` is the only event category of the site, so the action `Copy` needs no condition.
 - Expected result: the goal exists.
-- Result: passed on 2026-11-23. The user made the goal with the id 16 on site 9. Conversions show after the next release deploys the site.
+- Result: passed on 2026-11-23. The first goal (id 16) was on site 1 (vensas.de), not on site 9: goal ids count for each site. A check through the Matomo MCP server found it. With the approval of the user, the goal "Install commands copied" was made on site 9 (id 1: event category is exactly `Install`, case sensitive, once for each visit), and goal 16 on site 1 was deleted. `Goals.getGoal` confirms both. Conversions show after the next release deploys the site.
 
 ## Code review
 
@@ -81,4 +81,4 @@ After the fixes: `node --test 'scripts/*.test.mjs'`, 278 passed, 0 failed. `node
 
 ## Acceptance
 
-Accepted on 2026-11-23 by the product owner role. 26 scenarios passed, no scenario failed, and each code review finding has a fix or a reason. The manual browser check passed. One manual check is open and needs the user: the requests on the production host after the next release. The Matomo goal for the copy event (task 4.2) is goal 16 on site 9.
+Accepted on 2026-11-23 by the product owner role. 26 scenarios passed, no scenario failed, and each code review finding has a fix or a reason. The manual browser check passed. One manual check is open and needs the user: the requests on the production host after the next release. The Matomo goal for the copy event (task 4.2) is goal 1 on site 9.
