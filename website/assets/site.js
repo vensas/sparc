@@ -121,11 +121,13 @@ var analytics = (function () {
   };
 })();
 
-// Copy the install commands of the shown agent. The button holds the texts in the language of the page.
+// Copy the install commands of the shown agent, and count the copy with consent. The button holds the texts in the
+// language of the page.
 document.querySelectorAll('[data-copy-agent]').forEach(function (button) {
   var label = button.textContent;
   button.addEventListener('click', function () {
     var shown = document.querySelector('.agent-cmd:not([hidden])');
+    analytics.event('Install', 'Copy', shown.id.replace('cmd-', ''));
     navigator.clipboard.writeText(shown.dataset.copy).then(function () {
       button.textContent = button.dataset.copied;
       setTimeout(function () { button.textContent = label; }, 1600);

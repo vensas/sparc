@@ -446,6 +446,30 @@ test('Analytics data: Local run', () => {
   assert.equal(ui.queue(), undefined);
 });
 
+test('Analytics data: Copy the install commands with consent', () => {
+  for (const agent of ['claude', 'copilot']) {
+    const ui = runConsent({ stored: granted(), agent });
+    ui.copy.fire('click');
+    assert.deepEqual(ui.queue().filter((c) => c[0] === 'trackEvent'), [['trackEvent', 'Install', 'Copy', agent]], agent);
+  }
+});
+
+test('Analytics data: Copy the install commands without consent', () => {
+  for (const stored of [undefined, { v: 1, choice: 'denied', at: Date.now() }]) {
+    const ui = runConsent({ stored });
+    ui.copy.fire('click');
+    assert.equal(ui.queue(), undefined);
+    assert.deepEqual(ui.scripts, []);
+  }
+});
+
+test('Analytics data: no outbound links, heartbeat or browser features', () => {
+  const ui = runConsent({ stored: granted() });
+  const sent = ui.commands();
+  for (const command of ['enableLinkTracking', 'enableHeartBeatTimer']) assert.ok(!sent.includes(command), command);
+  assert.ok(sent.includes('disableBrowserFeatureDetection'));
+});
+
 test('Color scheme switch: Select the dark scheme', () => {
   for (const file of ['index.html', 'de/imprint.html']) {
     const ui = runTheme(header(page(file)), false);
