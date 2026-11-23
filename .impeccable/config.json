@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-11-18T07:53:08.577Z",
         "reason": "Claude triage: same as the mockup; the flagged border is the hairline masthead divider (24px block padding), not a container; 1440 and 360 screenshots show no cramped text"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "docs/mockups/add-matomo-analytics/index.html"
+        ],
+        "createdAt": "2026-11-23T20:01:44.097Z",
+        "reason": "Claude: component mockup; banner heading reuses the site's small uppercase label style (.billing h2, 0.8125rem) from website/assets/site.css, no page-level heading by design"
       }
     ]
   }
