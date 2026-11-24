@@ -5,6 +5,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-11-24
+
 ### Added
 
 - The website counts visits with Matomo, only with the consent of the visitor. A banner asks on the first visit, with "Allow" and "Decline" of the same weight. Before consent, nothing loads from Matomo and the site sets no cookie. With consent, Matomo gets only the page views and the copy of the install commands. "Cookie settings" in the footer opens the banner again, and "Decline" deletes the Matomo cookies. Browsers with "Do Not Track" or "Global Privacy Control" do not see the banner ([add-matomo-analytics](openspec/changes/archive/2026-11-24-add-matomo-analytics/proposal.md)).
